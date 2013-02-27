@@ -1,0 +1,9 @@
+- _args, _order
+- other types: arrayOfBool, arrayOfString, int, number, arrayOf*, others?
+- being able to add types: i.e. a validator
+
+
+# someday/maybe
+
+- make check
+

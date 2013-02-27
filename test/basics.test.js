@@ -41,21 +41,21 @@ var cases = [
         options: [],
         argv: 'node tool.js',
         expect: {
-            _: []
+            _args: []
         }
     },
     {
         options: [],
         argv: 'node tool.js a b c',
         expect: {
-            _: ['a', 'b', 'c']
+            _args: ['a', 'b', 'c']
         }
     },
     {
         options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a b',
         expect: {
-            _: ['a', 'b']
+            _args: ['a', 'b']
         }
     },
 
@@ -64,21 +64,21 @@ var cases = [
         options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js -- a',
         expect: {
-            _: ['a']
+            _args: ['a']
         }
     },
     {
         options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a -- b',
         expect: {
-            _: ['a', 'b']
+            _args: ['a', 'b']
         }
     },
     {
         options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a -- --help',
         expect: {
-            _: ['a', '--help']
+            _args: ['a', '--help']
         }
     },
 
@@ -88,7 +88,7 @@ var cases = [
         argv: 'node tool.js --help',
         expect: {
             help: true,
-            _: []
+            _args: []
         }
     },
     {
@@ -96,7 +96,7 @@ var cases = [
         argv: 'node tool.js --help a b',
         expect: {
             help: true,
-            _: ['a', 'b']
+            _args: ['a', 'b']
         }
     },
     {
@@ -104,7 +104,7 @@ var cases = [
         argv: 'node tool.js a --help b',
         expect: {
             help: true,
-            _: ['a', 'b']
+            _args: ['a', 'b']
         }
     },
     {
@@ -113,7 +113,7 @@ var cases = [
         interspersed: true,
         expect: {
             help: true,
-            _: ['a', 'b']
+            _args: ['a', 'b']
         }
     },
     {
@@ -121,7 +121,7 @@ var cases = [
         argv: 'node tool.js a --help b',
         interspersed: false,
         expect: {
-            _: ['a', '--help', 'b']
+            _args: ['a', '--help', 'b']
         }
     },
     {
@@ -139,7 +139,7 @@ var cases = [
         argv: 'node tool.js',
         expect: {
             file: '/dev/null',
-            _: []
+            _args: []
         }
     },
     {
@@ -147,7 +147,7 @@ var cases = [
         argv: 'node tool.js --file foo.txt',
         expect: {
             file: 'foo.txt',
-            _: []
+            _args: []
         }
     },
     {
@@ -155,7 +155,7 @@ var cases = [
         argv: 'node tool.js --file=foo.txt',
         expect: {
             file: 'foo.txt',
-            _: []
+            _args: []
         }
     },
 
@@ -164,7 +164,7 @@ var cases = [
         options: [{name: 'h', type: 'bool'}],
         argv: 'node tool.js -',
         expect: {
-            _: ['-']
+            _args: ['-']
         }
     },
     {
@@ -172,7 +172,7 @@ var cases = [
         argv: 'node tool.js -h',
         expect: {
             h: true,
-            _: []
+            _args: []
         }
     },
     {
@@ -185,7 +185,7 @@ var cases = [
         argv: 'node tool.js -f foo.txt',
         expect: {
             f: 'foo.txt',
-            _: []
+            _args: []
         }
     },
     {
@@ -193,7 +193,7 @@ var cases = [
         argv: 'node tool.js -ffoo.txt',
         expect: {
             f: 'foo.txt',
-            _: []
+            _args: []
         }
     },
     {
@@ -203,7 +203,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _: ['dir']
+            _args: ['dir']
         }
     },
     {
@@ -213,7 +213,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _: ['dir']
+            _args: ['dir']
         }
     },
     {
@@ -223,7 +223,7 @@ var cases = [
         interspersed: false,
         expect: {
             l: true,
-            _: ['dir', '-a']
+            _args: ['dir', '-a']
         }
     },
     {
@@ -233,7 +233,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _: ['dir']
+            _args: ['dir']
         }
     },
 ];

@@ -36,7 +36,7 @@ Yet another node.js option parsing library.
     //      var parser = new dashdash.Parser({options: options});
     //      var opts = parser.parse(process.ARGV);
     console.log("given options:", opts);
-    console.log("given args:", opts._);
+    console.log("given args:", opts._args);
 
 
 
