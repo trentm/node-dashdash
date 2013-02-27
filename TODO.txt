@@ -1,5 +1,6 @@
-- other types: arrayOfBool, arrayOfString, int, number, arrayOf*, others?
+- other types: arrayOfBool, arrayOfString, int, arrayOf*, others?
 - being able to add types: i.e. a validator
+- publish
 
 
 # someday/maybe

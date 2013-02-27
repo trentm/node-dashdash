@@ -239,6 +239,32 @@ var cases = [
             _args: ['dir']
         }
     },
+
+    // type=number
+    {
+        options: [
+            {name: 'a', type: 'number'},
+            {name: 'b', type: 'number'},
+            {name: 'c', type: 'number'},
+            {name: 'd', type: 'number'},
+            {name: 'e', type: 'number'},
+            ],
+        argv: 'node tool.js -a 5 -b4 -c -1 -d -3.14159 -e 1.0e42 foo',
+        expect: {
+            a: 5,
+            b: 4,
+            c: -1,
+            d: -3.14159,
+            e: 1.0e42,
+            _args: ['foo']
+        }
+    },
+    {
+        options: [{names: ['timeout', 't'], type: 'number'}],
+        argv: 'node tool.js -t 5a',
+        expect: /arg for "-t" is not a number/
+    },
+
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
