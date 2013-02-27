@@ -203,6 +203,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
+            _order: [{l: true}, {all: true}],
             _args: ['dir']
         }
     },
@@ -213,6 +214,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
+            _order: [{l: true}, {all: true}],
             _args: ['dir']
         }
     },
@@ -223,6 +225,7 @@ var cases = [
         interspersed: false,
         expect: {
             l: true,
+            _order: [{l: true}],
             _args: ['dir', '-a']
         }
     },
@@ -260,6 +263,9 @@ cases.forEach(function (c, i) {
             t.ok(error, 'got an expected error');
         } else {
             opts = dashdash.parse(c);
+            if (!expect._order) {
+                delete opts._order; // don't test it, if not in case data
+            }
             debug('opts: %j', opts)
             t.deepEqual(opts, expect);
         }
