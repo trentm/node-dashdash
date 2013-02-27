@@ -10,22 +10,22 @@ Yet another node.js option parsing library.
         {
             name: '--version',              // `name` or `names`
             desc: 'Print tool version and exit.',
-            type: Boolean
+            type: 'bool'
         },
         {
             names: ['--help', '-h'],        // first name is opts key
             desc: 'Print this help and exit.',
-            type: Boolean
+            type: 'bool'
         },
         {
             names: ['--verbose', '-v'],
             desc: 'Verbose output. Use multiple times for more verbose.',
-            type: Boolean
+            type: 'bool'
         },
         {
             names: ['--file', '-f'],
             desc: 'File to process',
-            type: String
+            type: 'string'
         }
     ];
 
