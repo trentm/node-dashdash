@@ -1,0 +1,21 @@
+{
+    "name": "dashdash",
+    "description": "Yet another node.js option parsing library",
+    "version": "1.0.0",
+    "author": "Trent Mick (trentm.com)",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/trentm/node-dashdash.git"
+    },
+    "main": "./lib/dashdash.js",
+    "dependencies": {
+        "assert-plus": "0.1.2"
+    },
+    "devDependencies": {
+        "jshint": "0.5",
+        "nodeunit": "0.7.4"
+    },
+    "engines": {
+        "node": ">=0.8"
+    }
+}
