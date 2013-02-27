@@ -2,7 +2,13 @@
  * dashdash tests
  */
 
-var p = console.log;
+var DEBUG = false;
+if (DEBUG) {
+    var debug = console.warn;
+} else {
+    var debug = function () {};
+}
+
 var format = require('util').format;
 
 
@@ -238,8 +244,8 @@ cases.forEach(function (c, i) {
         c.argv = c.argv.split(/\s+/);
     }
     test(format('case %d: %s', i, c.argv.join(' ')), function (t) {
-        p('--', i)
-        p('c: %j', c)
+        debug('--', i)
+        debug('c: %j', c)
         var opts;
         if (expect instanceof RegExp) {
             var error = null;
@@ -254,7 +260,7 @@ cases.forEach(function (c, i) {
             t.ok(error, 'got an expected error');
         } else {
             opts = dashdash.parse(c);
-            p('opts: %j', opts)
+            debug('opts: %j', opts)
             t.deepEqual(opts, expect);
         }
         t.end();
