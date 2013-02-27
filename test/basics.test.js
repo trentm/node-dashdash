@@ -265,6 +265,39 @@ var cases = [
         expect: /arg for "-t" is not a number/
     },
 
+    // type: arrayOf*
+    {
+        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
+        argv: 'node tool.js -vvv foo bar',
+        expect: {
+            verbose: [true, true, true],
+            _args: ['foo', 'bar']
+        }
+    },
+    {
+        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
+        argv: 'node tool.js foo bar',
+        expect: {
+            // verbose: undefined,
+            _args: ['foo', 'bar']
+        }
+    },
+    {
+        options: [{names: ['weapon', 'w'], type: 'arrayOfString'}],
+        argv: 'node tool.js -w club --weapon mallet -w sword bang',
+        expect: {
+            weapon: ['club', 'mallet', 'sword'],
+            _args: ['bang']
+        }
+    },
+    {
+        options: [{names: ['split', 's'], type: 'arrayOfNumber'}],
+        argv: 'node tool.js --split 10 -s 5 -s 0.01 bang',
+        expect: {
+            split: [10, 5, 0.01],
+            _args: ['bang']
+        }
+    },
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;

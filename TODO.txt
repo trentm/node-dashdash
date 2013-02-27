@@ -1,9 +1,10 @@
-- other types: arrayOfBool, arrayOfString, int, arrayOf*, others?
 - being able to add types: i.e. a validator
+- parser.help
 - publish
 
 
 # someday/maybe
 
+- type 'int'
 - make check
 
