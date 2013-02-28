@@ -1,7 +1,7 @@
 {
     "name": "dashdash",
     "description": "Yet another node.js option parsing library",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Trent Mick (trentm.com)",
     "repository": {
         "type": "git",
