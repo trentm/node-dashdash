@@ -1,5 +1,10 @@
 Yet another node.js option parsing library.
-[Why? See below](#why).
+[Why? See below](#why). tl;dr: The others I've tried are one of
+too loosey goosey (not explicit), too big/too many deps, or ill specified.
+YMMV.
+
+Follow <a href="https://twitter.com/intent/user?screen_name=trentmick" target="_blank">@trentmick</a>
+for updates to node-dashdash.
 
 
 # Usage
