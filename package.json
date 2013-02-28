@@ -12,7 +12,6 @@
         "assert-plus": "0.1.2"
     },
     "devDependencies": {
-        "jshint": "0.5",
         "nodeunit": "0.7.4"
     },
     "engines": {

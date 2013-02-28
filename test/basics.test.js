@@ -298,21 +298,39 @@ var cases = [
             _args: ['bang']
         }
     },
+
+    // help
+    {
+        options: [
+            {names: ['help', 'h'], type: 'bool', help: 'Show help and exit.'}
+        ],
+        argv: 'node tool.js --help',
+        expectHelp: /-h, --help\s+Show help and exit./
+    },
+
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
     delete c.expect;
-    if (typeof c.argv === 'string') {
-        c.argv = c.argv.split(/\s+/);
+    var expectHelp = c.expectHelp;
+    if (typeof expectHelp === 'string') {
+        expectHelp = new RegExp(expectHelp);
     }
-    test(format('case %d: %s', i, c.argv.join(' ')), function (t) {
+    delete c.expectHelp;
+    var argv = c.argv;
+    delete c.argv;
+    if (typeof argv === 'string') {
+        argv = argv.split(/\s+/);
+    }
+    test(format('case %d: %s', i, argv.join(' ')), function (t) {
         debug('--', i)
         debug('c: %j', c)
+        var parser = new dashdash.Parser(c);
         var opts;
         if (expect instanceof RegExp) {
             var error = null;
             try {
-                opts = dashdash.parse(c);
+                opts = parser.parse(argv);
             } catch (e) {
                 error = e;
                 t.ok(expect.test(e.message), format(
@@ -320,13 +338,18 @@ cases.forEach(function (c, i) {
                     expect, e.message));
             }
             t.ok(error, 'got an expected error');
-        } else {
-            opts = dashdash.parse(c);
+        } else if (expect) {
+            opts = parser.parse(argv);
             if (!expect._order) {
                 delete opts._order; // don't test it, if not in case data
             }
             debug('opts: %j', opts)
             t.deepEqual(opts, expect);
+        }
+        if (expectHelp) {
+            var help = parser.help();
+            t.ok(expectHelp.test(help), format(
+                'help did not match %s: "%s"', expectHelp, help));
         }
         t.end();
     });
