@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.0.1 (not yet released)
+## 1.0.1
 
 - Fix not modifying the given option spec objects (which breaks creating
   a Parser with them more than once).
