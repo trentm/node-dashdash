@@ -32,8 +32,7 @@ test08:
 
 .PHONY: check-jsstyle
 check-jsstyle: $(JSSTYLE_FILES)
-	#./tools/jsstyle -o indent=4,doxygen,unparenthesized-return=0,blank-after-start-comment=0,leading-right-paren-ok $(JSSTYLE_FILES)
-	./tools/jsstyle -o indent=4,doxygen,unparenthesized-return=0,leading-right-paren-ok $(JSSTYLE_FILES)
+	./tools/jsstyle -o indent=4,doxygen,unparenthesized-return=0,blank-after-start-comment=0,leading-right-paren-ok $(JSSTYLE_FILES)
 
 .PHONY: check
 check: check-jsstyle

@@ -52,7 +52,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a b',
         expect: {
             _args: ['a', 'b']
@@ -61,21 +61,21 @@ var cases = [
 
     // '--'
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js -- a',
         expect: {
             _args: ['a']
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a -- b',
         expect: {
             _args: ['a', 'b']
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a -- --help',
         expect: {
             _args: ['a', '--help']
@@ -84,7 +84,7 @@ var cases = [
 
     // '--long-opt'
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js --help',
         expect: {
             help: true,
@@ -92,7 +92,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js --help a b',
         expect: {
             help: true,
@@ -100,7 +100,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a --help b',
         expect: {
             help: true,
@@ -108,7 +108,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a --help b',
         interspersed: true,
         expect: {
@@ -117,7 +117,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js a --help b',
         interspersed: false,
         expect: {
@@ -125,17 +125,17 @@ var cases = [
         }
     },
     {
-        options: [{name: 'help', type: 'bool'}],
+        options: [ {name: 'help', type: 'bool'} ],
         argv: 'node tool.js --help=foo',
         expect: /argument given to .* option that does not take one/,
     },
     {
-        options: [{name: 'file', type: 'string'}],
+        options: [ {name: 'file', type: 'string'} ],
         argv: 'node tool.js --file',
         expect: /do not have enough args/
     },
     {
-        options: [{name: 'file', type: 'string', default: '/dev/null'}],
+        options: [ {name: 'file', type: 'string', default: '/dev/null'} ],
         argv: 'node tool.js',
         expect: {
             file: '/dev/null',
@@ -143,7 +143,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'file', type: 'string'}],
+        options: [ {name: 'file', type: 'string'} ],
         argv: 'node tool.js --file foo.txt',
         expect: {
             file: 'foo.txt',
@@ -151,7 +151,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'file', type: 'string'}],
+        options: [ {name: 'file', type: 'string'} ],
         argv: 'node tool.js --file=foo.txt',
         expect: {
             file: 'foo.txt',
@@ -161,14 +161,14 @@ var cases = [
 
     // short opts
     {
-        options: [{name: 'h', type: 'bool'}],
+        options: [ {name: 'h', type: 'bool'} ],
         argv: 'node tool.js -',
         expect: {
             _args: ['-']
         }
     },
     {
-        options: [{name: 'h', type: 'bool'}],
+        options: [ {name: 'h', type: 'bool'} ],
         argv: 'node tool.js -h',
         expect: {
             h: true,
@@ -176,12 +176,12 @@ var cases = [
         }
     },
     {
-        options: [{name: 'f', type: 'string'}],
+        options: [ {name: 'f', type: 'string'} ],
         argv: 'node tool.js -f',
         expect: /do not have enough args/
     },
     {
-        options: [{name: 'f', type: 'string'}],
+        options: [ {name: 'f', type: 'string'} ],
         argv: 'node tool.js -f foo.txt',
         expect: {
             f: 'foo.txt',
@@ -189,7 +189,7 @@ var cases = [
         }
     },
     {
-        options: [{name: 'f', type: 'string'}],
+        options: [ {name: 'f', type: 'string'} ],
         argv: 'node tool.js -ffoo.txt',
         expect: {
             f: 'foo.txt',
@@ -197,41 +197,41 @@ var cases = [
         }
     },
     {
-        options: [{name: 'l', type: 'bool'},
-                  {names: ['all', 'a'], type: 'bool'}],
+        options: [ {name: 'l', type: 'bool'},
+                   {names: ['all', 'a'], type: 'bool'} ],
         argv: 'node ls.js -l -a dir',
         expect: {
             l: true,
             all: true,
-            _order: [{l: true}, {all: true}],
+            _order: [ {l: true}, {all: true} ],
             _args: ['dir']
         }
     },
     {
-        options: [{name: 'l', type: 'bool'},
-                  {names: ['all', 'a'], type: 'bool'}],
+        options: [ {name: 'l', type: 'bool'},
+                   {names: ['all', 'a'], type: 'bool'} ],
         argv: 'node ls.js -l dir -a',
         expect: {
             l: true,
             all: true,
-            _order: [{l: true}, {all: true}],
+            _order: [ {l: true}, {all: true} ],
             _args: ['dir']
         }
     },
     {
-        options: [{name: 'l', type: 'bool'},
-                  {names: ['all', 'a'], type: 'bool'}],
+        options: [ {name: 'l', type: 'bool'},
+                   {names: ['all', 'a'], type: 'bool'} ],
         argv: 'node ls.js -l dir -a',
         interspersed: false,
         expect: {
             l: true,
-            _order: [{l: true}],
+            _order: [ {l: true} ],
             _args: ['dir', '-a']
         }
     },
     {
-        options: [{name: 'l', type: 'bool'},
-                  {names: ['all', 'a'], type: 'bool'}],
+        options: [ {name: 'l', type: 'bool'},
+                   {names: ['all', 'a'], type: 'bool'} ],
         argv: 'node ls.js -la dir',
         expect: {
             l: true,
@@ -260,14 +260,15 @@ var cases = [
         }
     },
     {
-        options: [{names: ['timeout', 't'], type: 'number'}],
+        options: [ {names: ['timeout', 't'], type: 'number'} ],
         argv: 'node tool.js -t 5a',
+        /* JSSTYLED */
         expect: /arg for "-t" is not a number/
     },
 
     // type: arrayOf*
     {
-        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
+        options: [ {names: ['verbose', 'v'], type: 'arrayOfBool'} ],
         argv: 'node tool.js -vvv foo bar',
         expect: {
             verbose: [true, true, true],
@@ -275,7 +276,7 @@ var cases = [
         }
     },
     {
-        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
+        options: [ {names: ['verbose', 'v'], type: 'arrayOfBool'} ],
         argv: 'node tool.js foo bar',
         expect: {
             // verbose: undefined,
@@ -283,7 +284,7 @@ var cases = [
         }
     },
     {
-        options: [{names: ['weapon', 'w'], type: 'arrayOfString'}],
+        options: [ {names: ['weapon', 'w'], type: 'arrayOfString'} ],
         argv: 'node tool.js -w club --weapon mallet -w sword bang',
         expect: {
             weapon: ['club', 'mallet', 'sword'],
@@ -291,7 +292,7 @@ var cases = [
         }
     },
     {
-        options: [{names: ['split', 's'], type: 'arrayOfNumber'}],
+        options: [ {names: ['split', 's'], type: 'arrayOfNumber'} ],
         argv: 'node tool.js --split 10 -s 5 -s 0.01 bang',
         expect: {
             split: [10, 5, 0.01],
@@ -313,13 +314,13 @@ cases.forEach(function (c, i) {
     var expect = c.expect;
     delete c.expect;
     var expectHelp = c.expectHelp;
-    if (typeof expectHelp === 'string') {
+    if (typeof (expectHelp) === 'string') {
         expectHelp = new RegExp(expectHelp);
     }
     delete c.expectHelp;
     var argv = c.argv;
     delete c.argv;
-    if (typeof argv === 'string') {
+    if (typeof (argv) === 'string') {
         argv = argv.split(/\s+/);
     }
     test(format('case %d: %s', i, argv.join(' ')), function (t) {
