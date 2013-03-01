@@ -2,7 +2,9 @@
 
 ## 1.0.2 (not yet released)
 
-(nothing yet)
+- Add "integer" and "arrayOfInteger" option types that accepts only integers.
+  Note that, for better or worse, these do NOT accept: "0x42" (hex), "1e2"
+  (with exponent) or "1.", "3.0" (floats).
 
 
 ## 1.0.1

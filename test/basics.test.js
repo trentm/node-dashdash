@@ -309,6 +309,83 @@ var cases = [
         expectHelp: /-h, --help\s+Show help and exit./
     },
 
+    // integer
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 0',
+        expect: { t: 0, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 42',
+        expect: { t: 42, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t42',
+        expect: { t: 42, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t -5',
+        expect: { t: -5, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t-5',
+        expect: { t: -5, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 1e2',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 0x32',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 3.1',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 42.',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
+    {
+        options: [ {name: 't', type: 'integer'} ],
+        argv: 'node tool.js -t 1e-2',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        argv: 'node tool.js',
+        expect: { _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        argv: 'node tool.js -t 42',
+        expect: { t: [42], _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        argv: 'node tool.js -t 1 -t 2 -t -3',
+        expect: { t: [1, 2, -3], _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        argv: 'node tool.js -t 1 -t 1e2',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not an integer/
+    },
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
@@ -338,7 +415,7 @@ cases.forEach(function (c, i) {
                     'error message did not match %s: "%s"',
                     expect, e.message));
             }
-            t.ok(error, 'got an expected error');
+            t.ok(error, 'expected an error');
         } else if (expect) {
             opts = parser.parse(argv);
             if (!expect._order) {

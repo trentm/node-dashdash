@@ -147,9 +147,19 @@ Each option spec in the `options` array must/can have the following fields:
   and aliases. The first name (if more than one given) is the key for the
   parsed `opts` object.
 
-- `type` (String). Required. One of bool, string, number, arrayOfBool,
-  arrayOfString, arrayOfNumber. (FWIW, these names attempt to match with
-  asserts on [assert-plus](https://github.com/mcavage/node-assert-plus)).
+- `type` (String). Required. One of:
+
+    - bool
+    - string
+    - number
+    - integer
+    - arrayOfBool
+    - arrayOfString
+    - arrayOfNumber
+    - arrayOfInteger
+
+  FWIW, these names attempt to match with asserts on
+  [assert-plus](https://github.com/mcavage/node-assert-plus).
 
 - `help` (String). Optional. Used for `parser.help()` output.
 
