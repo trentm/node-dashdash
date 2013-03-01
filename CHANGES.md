@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.0.2 (not yet released)
+## 1.0.2
 
 - Add "positiveInteger" and "arrayOfPositiveInteger" option types that only
   accept positive integers.
