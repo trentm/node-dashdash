@@ -1,7 +1,5 @@
 
 # someday/maybe
 
-- type 'int'
 - being able to add types: i.e. a validator (easy to do, just haven't exposed)
-- make check
 

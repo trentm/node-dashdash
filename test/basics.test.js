@@ -386,6 +386,41 @@ var cases = [
         /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
+
+    // positiveInteger
+    {
+        options: [ {name: 't', type: 'positiveInteger'} ],
+        argv: 'node tool.js -t 0',
+        expect: { t: 0, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'positiveInteger'} ],
+        argv: 'node tool.js -t 42',
+        expect: { t: 42, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'positiveInteger'} ],
+        argv: 'node tool.js -t42',
+        expect: { t: 42, _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'positiveInteger'} ],
+        argv: 'node tool.js -t -5',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not a positive integer/
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfPositiveInteger'} ],
+        argv: 'node tool.js -t42',
+        expect: { t: [42], _args: [] }
+    },
+    {
+        options: [ {name: 't', type: 'arrayOfPositiveInteger'} ],
+        argv: 'node tool.js -t 42 -t -5',
+        /* JSSTYLED */
+        expect: /arg for "-t" is not a positive integer/
+    },
+
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;

@@ -153,10 +153,12 @@ Each option spec in the `options` array must/can have the following fields:
     - string
     - number
     - integer
+    - positiveInteger
     - arrayOfBool
     - arrayOfString
     - arrayOfNumber
     - arrayOfInteger
+    - arrayOfPositiveInteger
 
   FWIW, these names attempt to match with asserts on
   [assert-plus](https://github.com/mcavage/node-assert-plus).
