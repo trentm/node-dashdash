@@ -1,7 +1,7 @@
 # This is the MIT license
 
-Copyright (c) 2013 Trent Mick
-Copyright (c) 2013 Joyent Inc.
+Copyright (c) 2013 Trent Mick. All rights reserved.
+Copyright (c) 2013 Joyent Inc. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the

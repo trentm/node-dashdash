@@ -6,6 +6,10 @@ YMMV.
 Follow <a href="https://twitter.com/intent/user?screen_name=trentmick" target="_blank">@trentmick</a>
 for updates to node-dashdash.
 
+# Install
+
+    npm install dashdash
+
 
 # Usage
 
