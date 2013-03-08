@@ -170,12 +170,8 @@ variable can also be included in **help output**:
 
 # Parser config
 
-`dashdash.createParser` (a.k.a. `new dashdash.Parser`) supports the following
-configuration arguments:
-
-    dashdash.createParser({options: options, [...]});
-
-These are:
+Parser construction (i.e. `dashdash.createParser(CONFIG)`) takes the
+following fields:
 
 - `options` (Array of option specs). Required. See the
   [Option specs](#option-specs) section below.
