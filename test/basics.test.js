@@ -23,6 +23,11 @@ var test = tap4nodeunit.test;
 var dashdash = require('../lib/dashdash');
 
 
+// ---- globals
+
+var TEST_FILTER = process.env.TEST_FILTER;
+
+
 // ---- tests
 
 before(function (next) {
@@ -30,10 +35,58 @@ before(function (next) {
 });
 
 test('exports', function (t) {
+    t.ok(dashdash.createParser, 'dashdash.createParser');
     t.ok(dashdash.parse, 'dashdash.parse');
     t.ok(dashdash.Parser, 'dashdash.Parser');
     t.end();
 });
+
+test('createParser', function (t) {
+    var options = [{name: 'help', type: 'bool'}];
+    var parser = dashdash.createParser({options: options});
+    t.ok(parser);
+    t.end();
+});
+
+test('Parser', function (t) {
+    var options = [{name: 'help', type: 'bool'}];
+    var parser = new dashdash.Parser({options: options});
+    t.ok(parser);
+    t.end();
+});
+
+test('parse', function (t) {
+    var options = [{name: 'help', type: 'bool'}];
+    var argv = 'node tool.js --help'.split(/\s+/g);
+    var opts = dashdash.parse({options: options, argv: argv});
+    t.ok(opts);
+    t.end();
+});
+
+
+test('old Parser.parse() API', function (t) {
+    var options = [{name: 'v', type: 'bool'}];
+    var parser = new dashdash.Parser({options: options});
+    var opts = parser.parse('node tool.js -v'.split(/\s+/g));
+    t.ok(opts.v);
+    opts = parser.parse('-v'.split(/\s+/g), 0);
+    t.ok(opts.v);
+    t.end();
+});
+
+
+test('slice', function (t) {
+    var options = [{name: 'v', type: 'bool'}];
+    var parser = new dashdash.Parser({options: options});
+    var opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
+    t.ok(opts.v);
+    t.equal(opts._args.length, 0);
+    var opts = parser.parse({argv: '-v'.split(/\s+/g), slice: 0});
+    t.ok(opts.v);
+    t.equal(opts._args.length, 0);
+    t.end();
+});
+
 
 var cases = [
     // no opts
@@ -203,7 +256,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {l: true}, {all: true} ],
+            _order: [ {from: 'argv', l: true}, {from: 'argv', all: true} ],
             _args: ['dir']
         }
     },
@@ -214,7 +267,7 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {l: true}, {all: true} ],
+            _order: [ {from: 'argv', l: true}, {from: 'argv', all: true} ],
             _args: ['dir']
         }
     },
@@ -225,7 +278,7 @@ var cases = [
         interspersed: false,
         expect: {
             l: true,
-            _order: [ {l: true} ],
+            _order: [ {from: 'argv', l: true} ],
             _args: ['dir', '-a']
         }
     },
@@ -421,6 +474,105 @@ var cases = [
         expect: /arg for "-t" is not a positive integer/
     },
 
+    // env
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        argv: 'node foo.js -v',
+        /* JSSTYLED */
+        expect: { v: true, _args: [], _order: [{from: 'argv', v: true}] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        argv: 'node foo.js -v',
+        env: {FOO_VERBOSE: '1'},
+        /* JSSTYLED */
+        expect: { v: true, _args: [], _order: [{from: 'argv', v: true}] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        argv: 'node foo.js',
+        env: {FOO_VERBOSE: '1'},
+        /* JSSTYLED */
+        expect: { v: true, _args: [], _order: [{from: 'env', v: true}] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        argv: 'node foo.js',
+        // No '0' or 'false' interp, just empty string or not.
+        // TODO: still debatable behaviour
+        env: {FOO_VERBOSE: '0'},
+        /* JSSTYLED */
+        expect: { v: true, _args: [], _order: [{from: 'env', v: true}] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        argv: 'node foo.js',
+        env: {FOO_VERBOSE: ''},
+        /* JSSTYLED */
+        expect: { _args: [] }
+    },
+
+    // env (number)
+    {
+        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        argv: 'node foo.js -t 42',
+        env: {},
+        /* JSSTYLED */
+        expect: { timeout: 42, _args: [] }
+    },
+    {
+        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        argv: 'node foo.js',
+        env: {FOO_TIMEOUT: '32'},
+        /* JSSTYLED */
+        expect: { timeout: 32, _args: [] }
+    },
+    {
+        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        argv: 'node foo.js -t 52',
+        env: {FOO_TIMEOUT: '32'},
+        /* JSSTYLED */
+        expect: { timeout: 52, _args: [] }
+    },
+
+    // Test that a validation fail in env throws, but NOT if a valid
+    // value is given in CLI opts (i.e. when env is ignored).
+    {
+        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        argv: 'node foo.js -t 52',
+        env: {FOO_TIMEOUT: 'wallawalla'},
+        /* JSSTYLED */
+        expect: { timeout: 52, _args: [] }
+    },
+    {
+        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        argv: 'node foo.js',
+        env: {FOO_TIMEOUT: 'wallawalla'},
+        expect: /arg for "FOO_TIMEOUT" is not a number: "wallawalla"/
+    },
+
+    // env (arrayOfBool)
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        argv: 'node foo.js',
+        env: {FOO_VERBOSE: 'blah'},
+        /* JSSTYLED */
+        expect: { v: [true], _args: [] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        argv: 'node foo.js -v',
+        env: {FOO_VERBOSE: 'blah'},
+        /* JSSTYLED */
+        expect: { v: [true], _args: [] }
+    },
+    {
+        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        argv: 'node foo.js -vv',
+        env: {FOO_VERBOSE: 'blah'},
+        /* JSSTYLED */
+        expect: { v: [true, true], _args: [] }
+    },
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
@@ -435,7 +587,19 @@ cases.forEach(function (c, i) {
     if (typeof (argv) === 'string') {
         argv = argv.split(/\s+/);
     }
-    test(format('case %d: %s', i, argv.join(' ')), function (t) {
+    var env = c.env;
+    delete c.env;
+    var envStr = '';
+    if (env) {
+        Object.keys(env).forEach(function (e) {
+            envStr += format('%s=%s ', e, env[e]);
+        });
+    }
+    var testName = format('case %d: %s%s', i, envStr, argv.join(' '));
+    if (TEST_FILTER && !~testName.indexOf(TEST_FILTER)) {
+        return;
+    }
+    test(testName, function (t) {
         debug('--', i)
         debug('c: %j', c)
         var parser = new dashdash.Parser(c);
@@ -443,7 +607,7 @@ cases.forEach(function (c, i) {
         if (expect instanceof RegExp) {
             var error = null;
             try {
-                opts = parser.parse(argv);
+                opts = parser.parse({argv: argv, env: env});
             } catch (e) {
                 error = e;
                 t.ok(expect.test(e.message), format(
@@ -452,7 +616,7 @@ cases.forEach(function (c, i) {
             }
             t.ok(error, 'expected an error');
         } else if (expect) {
-            opts = parser.parse(argv);
+            opts = parser.parse({argv: argv, env: env});
             if (!expect._order) {
                 delete opts._order; // don't test it, if not in case data
             }

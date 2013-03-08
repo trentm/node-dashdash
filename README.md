@@ -1,5 +1,6 @@
-Yet another node.js option parsing library.
-[Why? See below](#why). tl;dr: The others I've tried are one of
+A light, featureful and explicit option parsing library for node.js.
+
+[Why another one? See below](#why). tl;dr: The others I've tried are one of
 too loosey goosey (not explicit), too big/too many deps, or ill specified.
 YMMV.
 
@@ -37,8 +38,8 @@ for updates to node-dashdash.
 
 # Longer Example
 
-A more realistic starter script is as follows. This also shows using
-`parser.help()` for formatted option help.
+A more realistic [starter script "foo.js"](./examples/foo.js) is as follows.
+This also shows using `parser.help()` for formatted option help.
 
     var dashdash = require('./lib/dashdash');
 
@@ -66,7 +67,7 @@ A more realistic starter script is as follows. This also shows using
         }
     ];
 
-    var parser = new dashdash.Parser({options: options});
+    var parser = dashdash.createParser({options: options});
     try {
         var opts = parser.parse(process.argv);
     } catch (e) {
@@ -79,9 +80,10 @@ A more realistic starter script is as follows. This also shows using
 
     // Use `parser.help()` for formatted options help.
     if (opts.help) {
+        var help = parser.help({includeEnv: true}).trimRight();
         console.log('usage: node foo.js [OPTIONS]\n'
                     + 'options:\n'
-                    + parser.help().trimRight());
+                    + help);
         process.exit(0);
     }
 
@@ -91,7 +93,9 @@ A more realistic starter script is as follows. This also shows using
 Some example output from this script (foo.js):
 
     $ node foo.js -h
-    # opts: { help: true, _order: [ { help: true } ], _args: [] }
+    # opts: { help: true,
+      _order: [ { name: 'help', value: true, from: 'argv' } ],
+      _args: [] }
     # args: []
     usage: node foo.js [OPTIONS]
     options:
@@ -101,49 +105,91 @@ Some example output from this script (foo.js):
         -f FILE, --file=FILE  File to process
 
     $ node foo.js -v
-    # opts: { verbose: [ true ], _order: [ { verbose: true } ], _args: [] }
+    # opts: { verbose: [ true ],
+      _order: [ { name: 'verbose', value: true, from: 'argv' } ],
+      _args: [] }
     # args: []
 
     $ node foo.js --version arg1
     # opts: { version: true,
-      _order: [ { version: true } ],
+      _order: [ { name: 'version', value: true, from: 'argv' } ],
       _args: [ 'arg1' ] }
     # args: [ 'arg1' ]
 
     $ node foo.js -f bar.txt
-    # opts: { file: 'bar.txt', _order: [ { file: 'bar.txt' } ], _args: [] }
+    # opts: { file: 'bar.txt',
+      _order: [ { name: 'file', value: 'bar.txt', from: 'argv' } ],
+      _args: [] }
     # args: []
 
     $ node foo.js -vvv --file=blah
     # opts: { verbose: [ true, true, true ],
       file: 'blah',
       _order:
-       [ { verbose: true },
-         { verbose: true },
-         { verbose: true },
-         { file: 'blah' } ],
+       [ { name: 'verbose', value: true, from: 'argv' },
+         { name: 'verbose', value: true, from: 'argv' },
+         { name: 'verbose', value: true, from: 'argv' },
+         { name: 'file', value: 'blah', from: 'argv' } ],
       _args: [] }
     # args: []
 
 
+# Environment variable integration
+
+If you want to allow environment variables to specify options to your tool,
+dashdash makes this easy. We can change the 'verbose' option in the example
+above to include an 'env' field:
+
+        {
+            names: ['verbose', 'v'],
+            type: 'arrayOfBool',
+            env: 'FOO_VERBOSE',         // <--- add this line
+            help: 'Verbose output. Use multiple times for more verbose.'
+        },
+
+then the **"FOO_VERBOSE" environment variable** can be used to set this
+option:
+
+    $ FOO_VERBOSE=1 node foo.js
+    # opts: { verbose: [ true ],
+      _order: [ { name: 'verbose', value: true, from: 'env' } ],
+      _args: [] }
+    # args: []
+
+With the `includeEnv: true` config to `parser.help()` the environment
+variable can also be included in **help output**:
+
+    usage: node foo.js [OPTIONS]
+    options:
+        --version             Print tool version and exit.
+        -h, --help            Print this help and exit.
+        -v, --verbose         Verbose output. Use multiple times for more verbose.
+                              Environment: FOO_VERBOSE=1
+        -f FILE, --file=FILE  File to process
+
+
 # Parser config
 
-The `dashdash.Parser` supports some configuration parameters on:
+`dashdash.createParser` (a.k.a. `new dashdash.Parser`) supports the following
+configuration arguments:
 
-    new dashdash.Parser({options: options, ...});
+    dashdash.createParser({options: options, [...]});
 
 These are:
 
-- `interspersed` (Boolean). If true this allows interspersed arguments and
-  options. I.e.:
+- `options` (Array of option specs). Required. See the
+  [Option specs](#option-specs) section below.
+
+- `interspersed` (Boolean). Option. Default is true. If true this allows
+  interspersed arguments and options. I.e.:
 
         node ./tool.js -v arg1 arg2 -h   # '-h' is after interspersed args
 
-  This is true by default. Set it to false to have '-h' **not** get parsed
-  as an option in the above example.
+  Set it to false to have '-h' **not** get parsed as an option in the above
+  example.
 
 
-# Option config
+# Option specs
 
 Each option spec in the `options` array must/can have the following fields:
 
@@ -166,6 +212,19 @@ Each option spec in the `options` array must/can have the following fields:
 
   FWIW, these names attempt to match with asserts on
   [assert-plus](https://github.com/mcavage/node-assert-plus).
+
+- `env` (String or Array of String). Optional. An environment variable name
+  (or names) that can be used as a fallback for this option. For example,
+  given a "foo.js" like this:
+
+        var options = [{names: ['dry-run', 'n'], env: 'FOO_DRY_RUN'}];
+        var opts = dashdash.parse({options: options});
+
+  Both `node foo.js --dry-run` and `FOO_DRY_RUN=1 node foo.js` would result
+  in `opts.dry_run = true`.
+
+  An environment variable is only used as a fallback, i.e. it is ignored if
+  the associated option is given in `argv`.
 
 - `help` (String). Optional. Used for `parser.help()` output.
 
@@ -193,12 +252,18 @@ The `parser.help(...)` function is configurable as follows:
 
 - `indent` (Number or String). Default 4. Set to a number (for that many
   spaces) or a string for the literal indent.
+- `nameSort` (String). Default is 'length'. By default the names are
+  sorted to put the short opts first (i.e. '-h, --help' preferred
+  to '--help, -h'). Set to 'none' to not do this sorting.
 - `maxCol` (Number). Default 80. Note that reflow is just done on whitespace
   so a long token in the option help can overflow maxCol.
 - `helpCol` (Number). If not set a reasonable value will be determined
   between `minHelpCol` and `maxHelpCol`.
 - `minHelpCol` (Number). Default 20.
 - `maxHelpCol` (Number). Default 40.
+- `includeEnv` (Boolean). Default false. If the option has associated
+  environment variables (via the `env` option spec attribute), then
+  append mentioned of those envvars to the help string.
 
 
 # Why

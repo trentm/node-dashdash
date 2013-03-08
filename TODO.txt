@@ -1,5 +1,44 @@
+- --dry-run -> opts.dry_run
 
 # someday/maybe
 
 - being able to add types: i.e. a validator (easy to do, just haven't exposed)
+- Maybe this later: var opts = parser.parse({argv: process.argv});
 
+
+# notes: supporting opts from env or from a file
+
+Say I have a 'foo' tool with a '-v' option for verbose. I also want
+FOO_VERBOSE envvar to set verbose:
+
+    $ foo -v
+    debug: blah blah
+    ...
+
+    $ FOO_VERBOSE=1 foo
+    debug: blah blah
+    ...
+
+foo.js:
+
+    var dashdash = require('dashdash')
+    var options = [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}];
+    var parser = new dashdash.Parser({options: options});
+    var opts = parser.parse(process.argv);
+
+Say, also a ~/.foorc file is supported (somewhat a la ~/.ackrc) where
+the file holds extra CLI opts:
+
+    $ cat ~/.foorc
+    -v -i
+    --file=foo.txt
+
+Parsing that would look like:
+
+    var options = [
+        {name: 'v', env: 'FOO_VERBOSE', type: 'bool'},
+        {name: 'i', type: 'bool'},
+        {name: 'file', env: 'FOO_FILE', type: 'string'}
+    ];
+    var parser = new dashdash.Parser({options: options});
+    var opts = parser.parse(process.argv);

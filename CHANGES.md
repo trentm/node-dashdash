@@ -1,8 +1,17 @@
 # node-dashdash changelog
 
-## 1.0.3 (not yet released)
+## 1.1.0 (not yet released)
 
-(nothing yet)
+- Environment variable integration. Envvars can be associated with an option,
+  then option processing will fallback to using that envvar if defined and
+  if the option isn't specified in argv. See the "Environment variable
+  integration" section in the README.
+
+- Change the `<parser>.parse()` signature to take a single object with keys
+  for arguments. The old signature is still supported.
+
+- `dashdash.createParser(CONFIG)` alternative to `new dashdash.Parser(CONFIG)`
+  a la many node-land APIs.
 
 
 ## 1.0.2
@@ -24,4 +33,3 @@
 ## 1.0.0
 
 First release.
-
