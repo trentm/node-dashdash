@@ -43,97 +43,101 @@ console.log("args:", opts._args);
 A more realistic [starter script "foo.js"](./examples/foo.js) is as follows.
 This also shows using `parser.help()` for formatted option help.
 
-    var dashdash = require('./lib/dashdash');
+```javascript
+var dashdash = require('./lib/dashdash');
 
-    var options = [
-        {
-            name: 'version',
-            type: 'bool',
-            help: 'Print tool version and exit.'
-        },
-        {
-            names: ['help', 'h'],
-            type: 'bool',
-            help: 'Print this help and exit.'
-        },
-        {
-            names: ['verbose', 'v'],
-            type: 'arrayOfBool',
-            help: 'Verbose output. Use multiple times for more verbose.'
-        },
-        {
-            names: ['file', 'f'],
-            type: 'string',
-            help: 'File to process',
-            helpArg: 'FILE'
-        }
-    ];
-
-    var parser = dashdash.createParser({options: options});
-    try {
-        var opts = parser.parse(process.argv);
-    } catch (e) {
-        console.error('foo: error: %s', e.message);
-        process.exit(1);
+var options = [
+    {
+        name: 'version',
+        type: 'bool',
+        help: 'Print tool version and exit.'
+    },
+    {
+        names: ['help', 'h'],
+        type: 'bool',
+        help: 'Print this help and exit.'
+    },
+    {
+        names: ['verbose', 'v'],
+        type: 'arrayOfBool',
+        help: 'Verbose output. Use multiple times for more verbose.'
+    },
+    {
+        names: ['file', 'f'],
+        type: 'string',
+        help: 'File to process',
+        helpArg: 'FILE'
     }
+];
 
-    console.log("# opts:", opts);
-    console.log("# args:", opts._args);
+var parser = dashdash.createParser({options: options});
+try {
+    var opts = parser.parse(process.argv);
+} catch (e) {
+    console.error('foo: error: %s', e.message);
+    process.exit(1);
+}
 
-    // Use `parser.help()` for formatted options help.
-    if (opts.help) {
-        var help = parser.help({includeEnv: true}).trimRight();
-        console.log('usage: node foo.js [OPTIONS]\n'
-                    + 'options:\n'
-                    + help);
-        process.exit(0);
-    }
+console.log("# opts:", opts);
+console.log("# args:", opts._args);
 
-    // ...
+// Use `parser.help()` for formatted options help.
+if (opts.help) {
+    var help = parser.help({includeEnv: true}).trimRight();
+    console.log('usage: node foo.js [OPTIONS]\n'
+                + 'options:\n'
+                + help);
+    process.exit(0);
+}
+
+// ...
+```
 
 
 Some example output from this script (foo.js):
 
-    $ node foo.js -h
-    # opts: { help: true,
-      _order: [ { name: 'help', value: true, from: 'argv' } ],
-      _args: [] }
-    # args: []
-    usage: node foo.js [OPTIONS]
-    options:
-        --version             Print tool version and exit.
-        -h, --help            Print this help and exit.
-        -v, --verbose         Verbose output. Use multiple times for more verbose.
-        -f FILE, --file=FILE  File to process
+```shell
+$ node foo.js -h
+# opts: { help: true,
+  _order: [ { name: 'help', value: true, from: 'argv' } ],
+  _args: [] }
+# args: []
+usage: node foo.js [OPTIONS]
+options:
+    --version             Print tool version and exit.
+    -h, --help            Print this help and exit.
+    -v, --verbose         Verbose output. Use multiple times for more verbose.
+    -f FILE, --file=FILE  File to process
 
-    $ node foo.js -v
-    # opts: { verbose: [ true ],
-      _order: [ { name: 'verbose', value: true, from: 'argv' } ],
-      _args: [] }
-    # args: []
+$ node foo.js -v
+# opts: { verbose: [ true ],
+  _order: [ { name: 'verbose', value: true, from: 'argv' } ],
+  _args: [] }
+# args: []
 
-    $ node foo.js --version arg1
-    # opts: { version: true,
-      _order: [ { name: 'version', value: true, from: 'argv' } ],
-      _args: [ 'arg1' ] }
-    # args: [ 'arg1' ]
+$ node foo.js --version arg1
+# opts: { version: true,
+  _order: [ { name: 'version', value: true, from: 'argv' } ],
+  _args: [ 'arg1' ] }
+# args: [ 'arg1' ]
 
-    $ node foo.js -f bar.txt
-    # opts: { file: 'bar.txt',
-      _order: [ { name: 'file', value: 'bar.txt', from: 'argv' } ],
-      _args: [] }
-    # args: []
+$ node foo.js -f bar.txt
+# opts: { file: 'bar.txt',
+  _order: [ { name: 'file', value: 'bar.txt', from: 'argv' } ],
+  _args: [] }
+# args: []
 
-    $ node foo.js -vvv --file=blah
-    # opts: { verbose: [ true, true, true ],
-      file: 'blah',
-      _order:
-       [ { name: 'verbose', value: true, from: 'argv' },
-         { name: 'verbose', value: true, from: 'argv' },
-         { name: 'verbose', value: true, from: 'argv' },
-         { name: 'file', value: 'blah', from: 'argv' } ],
-      _args: [] }
-    # args: []
+$ node foo.js -vvv --file=blah
+# opts: { verbose: [ true, true, true ],
+  file: 'blah',
+  _order:
+   [ { name: 'verbose', value: true, from: 'argv' },
+     { name: 'verbose', value: true, from: 'argv' },
+     { name: 'verbose', value: true, from: 'argv' },
+     { name: 'file', value: 'blah', from: 'argv' } ],
+  _args: [] }
+# args: []
+```
 
 
 # Environment variable integration
@@ -142,21 +146,25 @@ If you want to allow environment variables to specify options to your tool,
 dashdash makes this easy. We can change the 'verbose' option in the example
 above to include an 'env' field:
 
-        {
-            names: ['verbose', 'v'],
-            type: 'arrayOfBool',
-            env: 'FOO_VERBOSE',         // <--- add this line
-            help: 'Verbose output. Use multiple times for more verbose.'
-        },
+```javascript
+    {
+        names: ['verbose', 'v'],
+        type: 'arrayOfBool',
+        env: 'FOO_VERBOSE',         // <--- add this line
+        help: 'Verbose output. Use multiple times for more verbose.'
+    },
+```
 
 then the **"FOO_VERBOSE" environment variable** can be used to set this
 option:
 
-    $ FOO_VERBOSE=1 node foo.js
-    # opts: { verbose: [ true ],
-      _order: [ { name: 'verbose', value: true, from: 'env' } ],
-      _args: [] }
-    # args: []
+```shell
+$ FOO_VERBOSE=1 node foo.js
+# opts: { verbose: [ true ],
+  _order: [ { name: 'verbose', value: true, from: 'env' } ],
+  _args: [] }
+# args: []
+```
 
 With the `includeEnv: true` config to `parser.help()` the environment
 variable can also be included in **help output**:
@@ -191,14 +199,16 @@ following fields:
 
 Example using all fields:
 
-    {
-        names: ['file', 'f'],       // Required (or `name`).
-        type: 'string',             // Required.
-        env: 'MYTOOL_FILE',
-        help: 'Config file to load before running "mytool"',
-        helpArg: 'PATH',
-        default: path.resolve(process.env.HOME, '.mytoolrc')
-    }
+```javascript
+{
+    names: ['file', 'f'],       // Required (or `name`).
+    type: 'string',             // Required.
+    env: 'MYTOOL_FILE',
+    help: 'Config file to load before running "mytool"',
+    helpArg: 'PATH',
+    default: path.resolve(process.env.HOME, '.mytoolrc')
+}
+```
 
 Each option spec in the `options` array must/can have the following fields:
 
