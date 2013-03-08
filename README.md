@@ -14,26 +14,28 @@ for updates to node-dashdash.
 
 # Usage
 
-    var dashdash = require('dashdash');
+```javascript
+var dashdash = require('dashdash');
 
-    // Specify the options. Minimally `name` (or `names`) and `type`
-    // must be given for each.
-    var options = [
-        {
-            // `names` or a single `name`. First element is the `opts.KEY`.
-            names: ['help', 'h'],
-            // See "Option config" below for types.
-            type: 'bool',
-            help: 'Print this help and exit.'
-        }
-    ];
+// Specify the options. Minimally `name` (or `names`) and `type`
+// must be given for each.
+var options = [
+    {
+        // `names` or a single `name`. First element is the `opts.KEY`.
+        names: ['help', 'h'],
+        // See "Option config" below for types.
+        type: 'bool',
+        help: 'Print this help and exit.'
+    }
+];
 
-    // Shortcut form. As called it infers `process.argv`. See below for
-    // the longer form to use methods like `.help()` on the Parser object.
-    var opts = dashdash.parse({options: options});
+// Shortcut form. As called it infers `process.argv`. See below for
+// the longer form to use methods like `.help()` on the Parser object.
+var opts = dashdash.parse({options: options});
 
-    console.log("opts:", opts);
-    console.log("args:", opts._args);
+console.log("opts:", opts);
+console.log("args:", opts._args);
+```
 
 
 # Longer Example
