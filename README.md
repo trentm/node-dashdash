@@ -187,6 +187,17 @@ following fields:
 
 # Option specs
 
+Example using all fields:
+
+    {
+        names: ['file', 'f'],       // Required (or `name`).
+        type: 'string',             // Required.
+        env: 'MYTOOL_FILE',
+        help: 'Config file to load before running "mytool"',
+        helpArg: 'PATH',
+        default: path.resolve(process.env.HOME, '.mytoolrc')
+    }
+
 Each option spec in the `options` array must/can have the following fields:
 
 - `name` (String) or `names` (Array). Required. These give the option name
