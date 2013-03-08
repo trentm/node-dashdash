@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.1.0 (not yet released)
+## 1.1.0
 
 - Environment variable integration. Envvars can be associated with an option,
   then option processing will fallback to using that envvar if defined and
