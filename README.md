@@ -96,7 +96,7 @@ if (opts.help) {
 
 Some example output from this script (foo.js):
 
-```console
+```
 $ node foo.js -h
 # opts: { help: true,
   _order: [ { name: 'help', value: true, from: 'argv' } ],
