@@ -256,7 +256,8 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {from: 'argv', l: true}, {from: 'argv', all: true} ],
+            _order: [ {name: 'l', value: true, from: 'argv'},
+                {name: 'all', value: true, from: 'argv'} ],
             _args: ['dir']
         }
     },
@@ -267,7 +268,8 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {from: 'argv', l: true}, {from: 'argv', all: true} ],
+            _order: [ {name: 'l', value: true, from: 'argv'},
+                {name: 'all', value: true, from: 'argv'} ],
             _args: ['dir']
         }
     },
@@ -278,7 +280,7 @@ var cases = [
         interspersed: false,
         expect: {
             l: true,
-            _order: [ {from: 'argv', l: true} ],
+            _order: [ {name: 'l', value: true, from: 'argv'} ],
             _args: ['dir', '-a']
         }
     },
@@ -479,21 +481,32 @@ var cases = [
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
         argv: 'node foo.js -v',
         /* JSSTYLED */
-        expect: { v: true, _args: [], _order: [{from: 'argv', v: true}] }
+        expect: {
+            v: true,
+            _args: [],
+            _order: [ {name: 'v', value: true, from: 'argv'} ]
+        }
     },
     {
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: '1'},
         /* JSSTYLED */
-        expect: { v: true, _args: [], _order: [{from: 'argv', v: true}] }
+        expect: {
+            v: true,
+            _args: [],
+            _order: [ {name: 'v', value: true, from: 'argv'} ]
+        }
     },
     {
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: '1'},
-        /* JSSTYLED */
-        expect: { v: true, _args: [], _order: [{from: 'env', v: true}] }
+        expect: {
+            v: true,
+            _args: [],
+            _order: [ {name: 'v', value: true, from: 'env'} ]
+        }
     },
     {
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
@@ -501,8 +514,11 @@ var cases = [
         // No '0' or 'false' interp, just empty string or not.
         // TODO: still debatable behaviour
         env: {FOO_VERBOSE: '0'},
-        /* JSSTYLED */
-        expect: { v: true, _args: [], _order: [{from: 'env', v: true}] }
+        expect: {
+            v: true,
+            _args: [],
+            _order: [ {name: 'v', value: true, from: 'env'} ]
+        }
     },
     {
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
@@ -573,6 +589,14 @@ var cases = [
         /* JSSTYLED */
         expect: { v: [true, true], _args: [] }
     },
+
+    //// key name transformation
+    //{
+    //    options: [ {names: ['dry-run', 'n'], type: 'bool'} ],
+    //    argv: 'node foo.js -n',
+    //    /* JSSTYLED */
+    //    expect: { dry_run: true, _args: [] }
+    //},
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
