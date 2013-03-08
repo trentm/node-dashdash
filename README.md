@@ -277,20 +277,25 @@ The `parser.help(...)` function is configurable as follows:
 
 Why another node.js option parsing lib?
 
-`nopt` really is just for "tools like npm". Implicit opts (e.g. '--no-foo'
+- `nopt` really is just for "tools like npm". Implicit opts (e.g. '--no-foo'
 works for every '--foo'). Can't disable abbreviated opts. Can't do multiple
 usages of same opt, e.g. '-vvv' (I think). Can't do grouped short opts.
 
-`optimist` surprises. Implicit opts. `process.exit` calls.
+- `optimist` has surprise interpretation of options (at least to me).
+  Implicit opts mean ambiguities and poor error handling for fat-fingering.
+  `process.exit` calls makes it hard to use as a libary.
 
-`optparse` Incomplete docs. Is this an attempted clone of Python's `optparse`.
-Not clear. Some divergence. `parser.on("name", ...)` API is weird.
+- `optparse` Incomplete docs. Is this an attempted clone of Python's `optparse`.
+  Not clear. Some divergence. `parser.on("name", ...)` API is weird.
 
-`argparse` Dep on underscore. No thanks. `find lib | wc -l` -> `26`. Overkill.
-Argparse is a bit different anyway. Not sure I want that.
+- `argparse` Dep on underscore. No thanks just for option processing.
+  `find lib | wc -l` -> `26`. Overkill.
+  Argparse is a bit different anyway. Not sure I want that.
 
-`posix-getopt` No type validation. Though that isn't a killer. AFAIK can't
-have a long opt without a short alias. I.e. not `getopt_long` semantics.
+- `posix-getopt` No type validation. Though that isn't a killer. AFAIK can't
+  have a long opt without a short alias. I.e. no `getopt_long` semantics.
+  Also, no whizbang features like generated help output.
+
 
 # License
 
