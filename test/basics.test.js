@@ -256,8 +256,8 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {name: 'l', value: true, from: 'argv'},
-                {name: 'all', value: true, from: 'argv'} ],
+            _order: [ {key: 'l', value: true, from: 'argv'},
+                {key: 'all', value: true, from: 'argv'} ],
             _args: ['dir']
         }
     },
@@ -268,8 +268,8 @@ var cases = [
         expect: {
             l: true,
             all: true,
-            _order: [ {name: 'l', value: true, from: 'argv'},
-                {name: 'all', value: true, from: 'argv'} ],
+            _order: [ {key: 'l', value: true, from: 'argv'},
+                {key: 'all', value: true, from: 'argv'} ],
             _args: ['dir']
         }
     },
@@ -280,7 +280,7 @@ var cases = [
         interspersed: false,
         expect: {
             l: true,
-            _order: [ {name: 'l', value: true, from: 'argv'} ],
+            _order: [ {key: 'l', value: true, from: 'argv'} ],
             _args: ['dir', '-a']
         }
     },
@@ -484,7 +484,7 @@ var cases = [
         expect: {
             v: true,
             _args: [],
-            _order: [ {name: 'v', value: true, from: 'argv'} ]
+            _order: [ {key: 'v', value: true, from: 'argv'} ]
         }
     },
     {
@@ -495,7 +495,7 @@ var cases = [
         expect: {
             v: true,
             _args: [],
-            _order: [ {name: 'v', value: true, from: 'argv'} ]
+            _order: [ {key: 'v', value: true, from: 'argv'} ]
         }
     },
     {
@@ -505,7 +505,7 @@ var cases = [
         expect: {
             v: true,
             _args: [],
-            _order: [ {name: 'v', value: true, from: 'env'} ]
+            _order: [ {key: 'v', value: true, from: 'env'} ]
         }
     },
     {
@@ -517,7 +517,7 @@ var cases = [
         expect: {
             v: true,
             _args: [],
-            _order: [ {name: 'v', value: true, from: 'env'} ]
+            _order: [ {key: 'v', value: true, from: 'env'} ]
         }
     },
     {
@@ -590,13 +590,19 @@ var cases = [
         expect: { v: [true, true], _args: [] }
     },
 
-    //// key name transformation
-    //{
-    //    options: [ {names: ['dry-run', 'n'], type: 'bool'} ],
-    //    argv: 'node foo.js -n',
-    //    /* JSSTYLED */
-    //    expect: { dry_run: true, _args: [] }
-    //},
+    // key name transformation
+    {
+        options: [ {names: ['dry-run', 'n'], type: 'bool'} ],
+        argv: 'node foo.js --dry-run',
+        /* JSSTYLED */
+        expect: { dry_run: true, _args: [] }
+    },
+    {
+        options: [ {name: 'foo-bar-', type: 'bool'} ],
+        argv: 'node foo.js --foo-bar-',
+        /* JSSTYLED */
+        expect: { foo_bar_: true, _args: [] }
+    },
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;

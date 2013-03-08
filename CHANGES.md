@@ -1,8 +1,12 @@
 # node-dashdash changelog
 
-## 1.1.1 (not yet released)
+## 1.2.0
 
-(nothing yet)
+- Transform the option key on the `opts` object returned from
+  `<parser>.parse()` for convenience. Currently this is just
+  `s/-/_/g`, e.g. '--dry-run' -> `opts.dry_run`. This allow one to use hyphen
+  in option names (common) but not have to do silly things like
+  `opt["dry-run"]` to access the parsed results.
 
 
 ## 1.1.0
