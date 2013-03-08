@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.2.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.2.0
 
 - Transform the option key on the `opts` object returned from
