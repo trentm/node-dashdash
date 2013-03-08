@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.2.0
+## 1.2.0 (not yet released)
 
 - Transform the option key on the `opts` object returned from
   `<parser>.parse()` for convenience. Currently this is just
