@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.1.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.1.0
 
 - Environment variable integration. Envvars can be associated with an option,
