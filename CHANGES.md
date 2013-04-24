@@ -2,7 +2,15 @@
 
 ## 1.2.1 (not yet released)
 
-(nothing yet)
+- Fix for `parse.help({includeEnv: true, ...})` handling to ensure that an
+  option with an `env` **but no `help`** still has the "Environment: ..."
+  output. E.g.:
+
+        { names: ['foo'], type: 'string', env: 'FOO' }
+
+        ...
+
+        --foo=ARG      Environment: FOO=ARG
 
 
 ## 1.2.0
