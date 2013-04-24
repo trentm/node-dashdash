@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.2.1 (not yet released)
+## 1.2.1
 
 - Fix for `parse.help({includeEnv: true, ...})` handling to ensure that an
   option with an `env` **but no `help`** still has the "Environment: ..."
