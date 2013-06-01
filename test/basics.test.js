@@ -511,13 +511,11 @@ var cases = [
     {
         options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
         argv: 'node foo.js',
-        // No '0' or 'false' interp, just empty string or not.
-        // TODO: still debatable behaviour
         env: {FOO_VERBOSE: '0'},
         expect: {
-            v: true,
+            v: false,
             _args: [],
-            _order: [ {key: 'v', value: true, from: 'env'} ]
+            _order: [ {key: 'v', value: false, from: 'env'} ]
         }
     },
     {

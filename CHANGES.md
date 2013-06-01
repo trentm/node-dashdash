@@ -1,8 +1,17 @@
 # node-dashdash changelog
 
-## 1.2.2 (not yet released)
+## 1.3.0 (not yet released)
 
-(nothing yet)
+- [Backward incompatible change for boolean envvars] Change the
+  interpretation of environment variables for boolean options to consider '0'
+  to be false. Previous to this *any* value to the envvar was considered
+  true -- which was quite misleading. Example:
+
+        $ FOO_VERBOSE=0 node examples/foo.js
+        # opts: { verbose: [ false ],
+          _order: [ { key: 'verbose', value: false, from: 'env' } ],
+          _args: [] }
+        # args: []
 
 
 ## 1.2.1

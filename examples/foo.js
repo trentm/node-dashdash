@@ -22,8 +22,16 @@ var options = [
     {
         names: ['file', 'f'],
         type: 'string',
+        env: 'FOO_FILE',
         help: 'File to process',
         helpArg: 'FILE'
+    },
+    {
+        names: ['timeout', 't'],
+        type: 'positiveInteger',
+        env: 'FOO_TIMEOUT',
+        help: 'Processing timeout in milliseconds',
+        helpArg: 'MS'
     }
 ];
 
