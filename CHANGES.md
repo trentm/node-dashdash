@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.3.0 (not yet released)
+## 1.3.0
 
 - [Backward incompatible change for boolean envvars] Change the
   interpretation of environment variables for boolean options to consider '0'
