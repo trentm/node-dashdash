@@ -38,9 +38,13 @@ check-jsstyle: $(JSSTYLE_FILES)
 check: check-jsstyle
 	@echo "Check ok."
 
+# Ensure CHANGES.md and package.json have the same version.
+.PHONY: versioncheck
+versioncheck:
+	[[ `cat package.json | json version` == `grep '^## ' CHANGES.md | head -1 | awk '{print $$3}'` ]]
 
 .PHONY: cutarelease
-cutarelease:
+cutarelease: versioncheck
 	[[ `git status | tail -n1` == "nothing to commit (working directory clean)" ]]
 	./tools/cutarelease.py -p dashdash -f package.json
 
