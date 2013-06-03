@@ -661,8 +661,52 @@ var cases = [
         env: {FOO_FILE: 'env.file'},
         expect: { file: 'argv.file', _args: [] }
     },
+
+    {
+        options: [ {
+            names: ['verbose', 'v'],
+            env: 'FOO_VERBOSE',
+            'default': false,
+            type: 'bool'
+        } ],
+        argv: 'node foo.js',
+        expect: { verbose: false, _args: [] }
+    },
+    {
+        options: [ {
+            names: ['verbose', 'v'],
+            env: 'FOO_VERBOSE',
+            'default': false,
+            type: 'bool'
+        } ],
+        argv: 'node foo.js',
+        env: {FOO_VERBOSE: '1'},
+        expect: { verbose: true, _args: [] }
+    },
+    {
+        options: [ {
+            names: ['verbose', 'v'],
+            env: 'FOO_VERBOSE',
+            'default': false,
+            type: 'bool'
+        } ],
+        argv: 'node foo.js',
+        env: {FOO_VERBOSE: '0'},
+        expect: { verbose: false, _args: [] }
+    },
+    {
+        options: [ {
+            names: ['verbose', 'v'],
+            env: 'FOO_VERBOSE',
+            'default': false,
+            type: 'bool'
+        } ],
+        argv: 'node foo.js -v',
+        env: {FOO_VERBOSE: '0'},
+        expect: { verbose: true, _args: [] }
+    },
 ];
-cases.forEach(function (c, i) {
+cases.forEach(function (c, num) {
     var expect = c.expect;
     delete c.expect;
     var expectHelps = c.expectHelp;
@@ -690,12 +734,12 @@ cases.forEach(function (c, i) {
             envStr += format('%s=%s ', e, env[e]);
         });
     }
-    var testName = format('case %d: %s%s', i, envStr, argv.join(' '));
+    var testName = format('case %d: %s%s', num, envStr, argv.join(' '));
     if (TEST_FILTER && !~testName.indexOf(TEST_FILTER)) {
         return;
     }
     test(testName, function (t) {
-        debug('--', i)
+        debug('--', num)
         debug('c: %j', c)
         var parser = new dashdash.Parser(c);
         var opts;

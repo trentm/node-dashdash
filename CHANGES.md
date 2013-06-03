@@ -2,7 +2,19 @@
 
 ## 1.3.2 (not yet released)
 
-(nothing yet)
+- Fix a subtlety where a *bool* option using both `env` and `default` didn't
+  work exactly correctly. If `default: false` then all was fine (by luck).
+  However, if you had an option like this:
+
+        options: [ {
+            names: ['verbose', 'v'],
+            env: 'FOO_VERBOSE',
+            'default': true,    // <--- this
+            type: 'bool'
+        } ],
+
+  wanted `FOO_VERBOSE=0` to make the option false, then you need the fix
+  in this version of dashdash.
 
 
 ## 1.3.1
