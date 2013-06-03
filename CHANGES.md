@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.3.2 (not yet released)
+## 1.3.2
 
 - Fix a subtlety where a *bool* option using both `env` and `default` didn't
   work exactly correctly. If `default: false` then all was fine (by luck).
