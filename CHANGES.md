@@ -2,7 +2,16 @@
 
 ## 1.3.1 (not yet released)
 
-(nothing yet)
+- [issue #1] Fix an envvar not winning over an option 'default'. Previously
+  an option with both `default` and `env` would never take a value from the
+  environment variable. E.g. `FOO_FILE` would never work here:
+
+        options: [ {
+            names: ['file', 'f'],
+            env: 'FOO_FILE',
+            'default': 'default.file',
+            type: 'string'
+        } ],
 
 
 ## 1.3.0

@@ -627,6 +627,40 @@ var cases = [
         /* JSSTYLED */
         expect: { foo_bar_: true, _args: [] }
     },
+
+    // issue #1: 'env' not taking precendence over 'default'
+    {
+        options: [ {
+            names: ['file', 'f'],
+            env: 'FOO_FILE',
+            'default': 'default.file',
+            type: 'string'
+        } ],
+        argv: 'node foo.js',
+        expect: { file: 'default.file', _args: [] }
+    },
+    {
+        options: [ {
+            names: ['file', 'f'],
+            env: 'FOO_FILE',
+            'default': 'default.file',
+            type: 'string'
+        } ],
+        env: {FOO_FILE: 'env.file'},
+        argv: 'node foo.js',
+        expect: { file: 'env.file', _args: [] }
+    },
+    {
+        options: [ {
+            names: ['file', 'f'],
+            env: 'FOO_FILE',
+            'default': 'default.file',
+            type: 'string'
+        } ],
+        argv: 'node foo.js -f argv.file',
+        env: {FOO_FILE: 'env.file'},
+        expect: { file: 'argv.file', _args: [] }
+    },
 ];
 cases.forEach(function (c, i) {
     var expect = c.expect;
