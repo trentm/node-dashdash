@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.3.1 (not yet released)
+## 1.3.1
 
 - [issue #1] Fix an envvar not winning over an option 'default'. Previously
   an option with both `default` and `env` would never take a value from the
