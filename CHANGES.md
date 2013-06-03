@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.3.2 (not yet released)
+
+(nothing yet)
+
+
 ## 1.3.1
 
 - [issue #1] Fix an envvar not winning over an option 'default'. Previously
