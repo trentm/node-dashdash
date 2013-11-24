@@ -244,6 +244,14 @@ following fields:
   Set it to false to have '-h' **not** get parsed as an option in the above
   example.
 
+- `strict` (Boolean).  Option.  Default is true.  If true, this causes
+  unknown arguments to throw an error.  I.e.:
+
+        node ./tool.js -v arg1 --afe8asefksjefhas
+
+  Set it to false to treat the unknown option as a positional
+  argument.
+
 
 # Option specs
 
