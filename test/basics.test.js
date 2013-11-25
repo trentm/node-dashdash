@@ -705,7 +705,19 @@ var cases = [
         env: {FOO_VERBOSE: '0'},
         expect: { verbose: true, _args: [] }
     },
+
+    // unstrict
+    {
+        options: [ {name: 'help', type: 'bool'} ],
+        argv: 'node tool.js a --help -b --cheese',
+        strict: false,
+        expect: {
+            help: true,
+            _args: ['a', '-b', '--cheese']
+        }
+    },
 ];
+
 cases.forEach(function (c, num) {
     var expect = c.expect;
     delete c.expect;
