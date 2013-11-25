@@ -11,6 +11,8 @@
   allow unknown options to be passed through as `opts._args` instead of parsing
   throwing an exception (by https://github.com/isaacs).
 
+  See 'allowUnknown' in the README for a subtle caveat.
+
 
 ## 1.3.2
 
