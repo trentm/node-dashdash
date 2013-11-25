@@ -42,21 +42,21 @@ test('exports', function (t) {
 });
 
 test('createParser', function (t) {
-    var options = [{name: 'help', type: 'bool'}];
+    var options = [ {name: 'help', type: 'bool'} ];
     var parser = dashdash.createParser({options: options});
     t.ok(parser);
     t.end();
 });
 
 test('Parser', function (t) {
-    var options = [{name: 'help', type: 'bool'}];
+    var options = [ {name: 'help', type: 'bool'} ];
     var parser = new dashdash.Parser({options: options});
     t.ok(parser);
     t.end();
 });
 
 test('parse', function (t) {
-    var options = [{name: 'help', type: 'bool'}];
+    var options = [ {name: 'help', type: 'bool'} ];
     var argv = 'node tool.js --help'.split(/\s+/g);
     var opts = dashdash.parse({options: options, argv: argv});
     t.ok(opts);
@@ -65,7 +65,7 @@ test('parse', function (t) {
 
 
 test('old Parser.parse() API', function (t) {
-    var options = [{name: 'v', type: 'bool'}];
+    var options = [ {name: 'v', type: 'bool'} ];
     var parser = new dashdash.Parser({options: options});
     var opts = parser.parse('node tool.js -v'.split(/\s+/g));
     t.ok(opts.v);
@@ -76,7 +76,7 @@ test('old Parser.parse() API', function (t) {
 
 
 test('slice', function (t) {
-    var options = [{name: 'v', type: 'bool'}];
+    var options = [ {name: 'v', type: 'bool'} ];
     var parser = new dashdash.Parser({options: options});
     var opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
     t.ok(opts.v);
@@ -540,6 +540,7 @@ var cases = [
         ],
         argv: 'node tool.js --help',
         helpOptions: { includeEnv: true },
+        /* BEGIN JSSTYLED */
         expectHelp: [
             /-a ARG\s+Phrase. Environment: A=ARG/,
             /-b ARG\s+Sentence. Environment: B=ARG/,
@@ -550,25 +551,32 @@ var cases = [
             /-g ARG\s+Environment: G=ARG/,
             /-h\s+Environment: H=1/,
         ]
+        /* END JSSTYLED */
     },
 
     // env (number)
     {
-        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        options: [
+            {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'}
+        ],
         argv: 'node foo.js -t 42',
         env: {},
         /* JSSTYLED */
         expect: { timeout: 42, _args: [] }
     },
     {
-        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        options: [
+            {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'}
+        ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: '32'},
         /* JSSTYLED */
         expect: { timeout: 32, _args: [] }
     },
     {
-        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        options: [
+            {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'}
+        ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: '32'},
         /* JSSTYLED */
@@ -578,16 +586,21 @@ var cases = [
     // Test that a validation fail in env throws, but NOT if a valid
     // value is given in CLI opts (i.e. when env is ignored).
     {
-        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        options: [
+            {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'}
+        ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: 'wallawalla'},
         /* JSSTYLED */
         expect: { timeout: 52, _args: [] }
     },
     {
-        options: [ {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'} ],
+        options: [
+            {names: ['timeout', 't'], env: 'FOO_TIMEOUT', type: 'number'}
+        ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: 'wallawalla'},
+        /* JSSTYLED */
         expect: /arg for "FOO_TIMEOUT" is not a number: "wallawalla"/
     },
 
