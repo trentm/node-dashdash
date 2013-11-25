@@ -1,8 +1,10 @@
 # node-dashdash changelog
 
-## 1.3.3 (not yet released)
+## 1.4.0 (not yet released)
 
-(nothing yet)
+- [pull #2, pull #3] Add a `allowUnknown: true` option on `createParser` to
+  allow unknown options to be passed through as `opts._args` instead of parsing
+  throwing an exception (by https://github.com/isaacs).
 
 
 ## 1.3.2

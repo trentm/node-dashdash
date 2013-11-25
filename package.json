@@ -1,8 +1,8 @@
 {
     "name": "dashdash",
     "description": "A light, featureful and explicit option parsing library.",
-    "version": "1.3.3",
-    "author": "Trent Mick (trentm.com)",
+    "version": "1.4.0",
+    "author": "Trent Mick <trentm@gmail.com> (http://trentm.com)",
     "repository": {
         "type": "git",
         "url": "git://github.com/trentm/node-dashdash.git"
