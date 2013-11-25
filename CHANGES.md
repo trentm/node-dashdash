@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.4.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.4.0
 
 - [pull #2, pull #3] Add a `allowUnknown: true` option on `createParser` to
