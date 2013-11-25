@@ -716,6 +716,15 @@ var cases = [
             _args: ['a', '-b', '--cheese']
         }
     },
+    {
+        options: [ {name: 'help', type: 'bool'}, {name: 'd', type: 'bool'} ],
+        argv: 'node tool.js a -bcd --cheese --help',
+        strict: false,
+        expect: {
+            help: true,
+            _args: ['a', '-bcd', '--cheese']
+        }
+    },
 ];
 
 cases.forEach(function (c, num) {
