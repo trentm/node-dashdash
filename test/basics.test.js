@@ -730,9 +730,9 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'}, {name: 'd', type: 'bool'} ],
+        options: [ {name: 'help', type: 'bool'}, {name: 'c', type: 'bool'} ],
         argv: 'node tool.js a -bcd --cheese --help',
-        strict: false,
+        allowUnknown: true,
         expect: {
             help: true,
             _args: ['a', '-bcd', '--cheese']
