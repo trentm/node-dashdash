@@ -244,13 +244,34 @@ following fields:
   Set it to false to have '-h' **not** get parsed as an option in the above
   example.
 
-- `strict` (Boolean).  Option.  Default is true.  If true, this causes
+- `allowUnknown` (Boolean).  Option.  Default is false.  If false, this causes
   unknown arguments to throw an error.  I.e.:
 
         node ./tool.js -v arg1 --afe8asefksjefhas
 
-  Set it to false to treat the unknown option as a positional
+  Set it to true to treat the unknown option as a positional
   argument.
+
+  **Caveat**: When a shortopt group, such as `-xaz` contains a mix of
+  known and unknown options, the *entire* group is passed through
+  unmolested as a positional argument.
+
+  Consider if you have a known short option `-a`, and parse the
+  following command line:
+
+        node ./tool.js -xaz
+
+  where `-x` and `-z` are unknown.  There are multiple ways to
+  interpret this:
+
+    1. `-x` takes a value: `{x: 'az'}`
+    2. `-x` and `-z` are both booleans: `{x:true,a:true,z:true}`
+
+  Since dashdash does not know what `-x` and `-z` are, it can't know
+  if you'd prefer to receive `{a:true,_args:['-x','-z']}` or
+  `{x:'az'}`, or `{_args:['-xaz']}`.  Because leaving the positional
+  arg um-molested is the the easiest mistake for the user to recover
+  from.
 
 
 # Option specs
