@@ -23,7 +23,7 @@ var options = [
     {
         // `names` or a single `name`. First element is the `opts.KEY`.
         names: ['help', 'h'],
-        // See "Option config" below for types.
+        // See "Option specs" below for types.
         type: 'bool',
         help: 'Print this help and exit.'
     }
@@ -138,6 +138,10 @@ $ node foo.js -vvv --file=blah
   _args: [] }
 # args: []
 ```
+
+
+See the ["examples"](examples/) dir for a number of starter examples using
+some of dashdash's features.
 
 
 # Environment variable integration
@@ -312,6 +316,8 @@ Each option spec in the `options` array must/can have the following fields:
 
   FWIW, these names attempt to match with asserts on
   [assert-plus](https://github.com/mcavage/node-assert-plus).
+  You can add your own custom option types with `dashdash.addOptionType`.
+  See below.
 
 - `env` (String or Array of String). Optional. An environment variable name
   (or names) that can be used as a fallback for this option. For example,
@@ -366,13 +372,65 @@ The `parser.help(...)` function is configurable as follows:
   append mentioned of those envvars to the help string.
 
 
+# Custom option types
+
+Dashdash includes a good starter set of option types that it will parse for
+you. However you can add your own via:
+
+    var dashdash = require('dashdash');
+    dashdash.addOptionType({
+        name: '...',
+        takesArg: true,
+        helpArg: '...',
+        parseArg: function (option, optstr, arg) {
+            ...
+        }
+    });
+
+For example, a simple option type that accepts 'yes', 'y', 'no' or 'n' as
+a boolean argument would look like:
+
+    var dashdash = require('dashdash');
+
+    function parseYesNo(option, optstr, arg) {
+        var argLower = arg.toLowerCase()
+        if (~['yes', 'y'].indexOf(argLower)) {
+            return true;
+        } else if (~['no', 'n'].indexOf(argLower)) {
+            return false;
+        } else {
+            throw new Error(format(
+                'arg for "%s" is not "yes" or "no": "%s"',
+                optstr, arg));
+        }
+    }
+
+    dashdash.addOptionType({
+        name: 'yesno'
+        takesArg: true,
+        helpArg: '<yes|no>',
+        parseArg: parseYesNo
+    });
+
+    var options = {
+        {names: ['answer', 'a'], type: 'yesno'}
+    };
+    var opts = dashdash.parse({options: options});
+
+See "examples/custom-option-type.js" for another example adding a "duration"
+option type. Please let me know [on twitter](https://twitter.com/trentmick)
+or [with an issue](https://github.com/trentm/node-dashdash/issues/new) if you
+write a generally useful one.
+
+
+
 # Why
 
 Why another node.js option parsing lib?
 
 - `nopt` really is just for "tools like npm". Implicit opts (e.g. '--no-foo'
-works for every '--foo'). Can't disable abbreviated opts. Can't do multiple
-usages of same opt, e.g. '-vvv' (I think). Can't do grouped short opts.
+  works for every '--foo'). Can't disable abbreviated opts. Can't do multiple
+  usages of same opt, e.g. '-vvv' (I think). Can't do grouped short opts.
 
 - `optimist` has surprise interpretation of options (at least to me).
   Implicit opts mean ambiguities and poor error handling for fat-fingering.
@@ -388,6 +446,12 @@ usages of same opt, e.g. '-vvv' (I think). Can't do grouped short opts.
 - `posix-getopt` No type validation. Though that isn't a killer. AFAIK can't
   have a long opt without a short alias. I.e. no `getopt_long` semantics.
   Also, no whizbang features like generated help output.
+
+- ["commander.js"](https://github.com/visionmedia/commander.js): I wrote
+  [a critique](http://trentm.com/2014/01/a-critique-of-commander-for-nodejs.html)
+  a while back. It seems fine, but last I checked had
+  [an outstanding bug](https://github.com/visionmedia/commander.js/pull/121)
+  that would prevent me from using it.
 
 
 # License

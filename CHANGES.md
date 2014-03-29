@@ -1,6 +1,30 @@
 # node-dashdash changelog
 
-## 1.4.1 (not yet released)
+## 1.5.0 (not yet released)
+
+- Add support for adding custom option types. "examples/custom-option-type.js"
+  shows an example adding a "duration" option type.
+
+        $ node custom-option-type.js -t 1h
+        duration: 3600000 ms
+        $ node custom-option-type.js -t 1s
+        duration: 1000 ms
+        $ node custom-option-type.js -t 5d
+        duration: 432000000 ms
+        $ node custom-option-type.js -t bogus
+        custom-option-type.js: error: arg for "-t" is not a valid duration: "bogus"
+
+  A custom option type is added via:
+
+        var dashdash = require('dashdash');
+        dashdash.addOptionType({
+            name: '...',
+            takesArg: true,
+            helpArg: '...',
+            parseArg: function (option, optstr, arg) {
+                ...
+            }
+        });
 
 - [issue #4] Add `date` and `arrayOfDate` option types. They accept these date
   formats: epoch second times (e.g. 1396031701) and ISO 8601 format:

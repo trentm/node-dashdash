@@ -28,6 +28,22 @@ var dashdash = require('../lib/dashdash');
 var TEST_FILTER = process.env.TEST_FILTER;
 
 
+// ---- support stuff
+
+function parseYesNo(option, optstr, arg) {
+    var argLower = arg.toLowerCase()
+    if (~['yes', 'y'].indexOf(argLower)) {
+        return true;
+    } else if (~['no', 'n'].indexOf(argLower)) {
+        return false;
+    } else {
+        throw new Error(format(
+            'arg for "%s" is not "yes" or "no": "%s"',
+            optstr, arg));
+    }
+}
+
+
 // ---- tests
 
 before(function (next) {
@@ -812,6 +828,38 @@ var cases = [
             _args: [] }
     },
 
+    {
+        optionTypes: [
+            {
+                name: 'yesno',
+                takesArg: true,
+                helpArg: '<yes/no>',
+                parseArg: parseYesNo
+            }
+        ],
+        options: [ {names: ['answer', 'a'], type: 'yesno'} ],
+        argv: 'node foo.js -a yes',
+        expect: {
+            answer: true,
+            _args: []
+        }
+    },
+    {
+        optionTypes: [
+            {
+                name: 'yesno',
+                takesArg: true,
+                helpArg: '<yes/no>',
+                parseArg: parseYesNo
+            }
+        ],
+        options: [ {names: ['answer', 'a'], type: 'yesno'} ],
+        argv: 'node foo.js -a no',
+        expect: {
+            answer: false,
+            _args: []
+        }
+    },
 ];
 
 cases.forEach(function (c, num) {
@@ -840,6 +888,15 @@ cases.forEach(function (c, num) {
     if (env) {
         Object.keys(env).forEach(function (e) {
             envStr += format('%s=%s ', e, env[e]);
+        });
+    }
+    var optionTypes = c.optionTypes;
+    delete c.optionTypes;
+    if (optionTypes) {
+        // WARNING: These are not removed for subsequent tests. That *could*
+        // theoretically cause conflicts.
+        optionTypes.forEach(function (ot) {
+            dashdash.addOptionType(ot);
         });
     }
     var testName = format('case %d: %s%s', num, envStr, argv.join(' '));
