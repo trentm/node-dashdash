@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.5.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.5.0
 
 - Add support for adding custom option types. "examples/custom-option-type.js"
