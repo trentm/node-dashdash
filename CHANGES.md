@@ -2,7 +2,14 @@
 
 ## 1.4.1 (not yet released)
 
-(nothing yet)
+- [issue #4] Add `date` and `arrayOfDate` option types. They accept these date
+  formats: epoch second times (e.g. 1396031701) and ISO 8601 format:
+  `YYYY-MM-DD[THH:MM:SS[.sss][Z]]` (e.g. "2014-03-28",
+  "2014-03-28T18:35:01.489Z"). See "examples/date.js" for an example usage.
+
+        $ node examples/date.js -s 2014-01-01 -e $(date +%s)
+        start at 2014-01-01T00:00:00.000Z
+        end at 2014-03-29T04:26:18.000Z
 
 
 ## 1.4.0

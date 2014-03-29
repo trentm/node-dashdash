@@ -269,9 +269,8 @@ following fields:
 
   Since dashdash does not know what `-x` and `-z` are, it can't know
   if you'd prefer to receive `{a:true,_args:['-x','-z']}` or
-  `{x:'az'}`, or `{_args:['-xaz']}`.  Because leaving the positional
-  arg um-molested is the the easiest mistake for the user to recover
-  from.
+  `{x:'az'}`, or `{_args:['-xaz']}`. Leaving the positional arg unprocessed
+  is the easiest mistake for the user to recover from.
 
 
 # Option specs
@@ -302,11 +301,14 @@ Each option spec in the `options` array must/can have the following fields:
     - number
     - integer
     - positiveInteger
+    - date (epoch seconds, e.g. 1396031701, or ISO 8601 format
+      `YYYY-MM-DD[THH:MM:SS[.sss][Z]]`, e.g. "2014-03-28T18:35:01.489Z")
     - arrayOfBool
     - arrayOfString
     - arrayOfNumber
     - arrayOfInteger
     - arrayOfPositiveInteger
+    - arrayOfDate
 
   FWIW, these names attempt to match with asserts on
   [assert-plus](https://github.com/mcavage/node-assert-plus).

@@ -1,3 +1,9 @@
+#!/usr/bin/env node
+/*
+ * An example using a sampling of dashdash's features. See "hello.js" and
+ * "help.js" for smaller examples.
+ */
+
 var dashdash = require('../lib/dashdash');
 
 // Specify the options. Minimally `name` (or `names`) and `type`

@@ -738,6 +738,80 @@ var cases = [
             _args: ['a', '-bcd', '--cheese']
         }
     },
+
+    // date
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s',
+        expect: /do not have enough args for "-s" option/
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s notadate',
+        expect: /arg for "-s" is not a valid date format: "notadate"/
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 0',
+        expect: { start: new Date(0), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 1',
+        expect: { start: new Date(1000), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 1396065084',
+        expect: { start: new Date(1396065084000), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01',
+        expect: { start: new Date('2014-04-01'), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01T',
+        expect: /arg for "-s" is not a valid date format: "2014-04-01T"/
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01T12:01:02',
+        expect: { start: new Date('2014-04-01T12:01:02Z'), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01T12:01:02Z',
+        expect: { start: new Date('2014-04-01T12:01:02Z'), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01T12:01:02.7',
+        expect: { start: new Date('2014-04-01T12:01:02.7Z'), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01T12:01:02.456Z',
+        expect: { start: new Date('2014-04-01T12:01:02.456Z'), _args: [] }
+    },
+    {
+        options: [ {names: ['start', 's'], type: 'date'} ],
+        argv: 'node foo.js -s 2014-04-01t12:01:02.456z',
+        expect: { start: new Date('2014-04-01T12:01:02.456Z'), _args: [] }
+    },
+    {
+        options: [ {names: ['times', 't'], type: 'arrayOfDate'} ],
+        argv: 'node foo.js --times 1 -t 2 -t 2014-04-01',
+        expect: {
+            times: [
+                new Date(1000),
+                new Date(2000),
+                new Date('2014-04-01T00:00:00Z')
+            ],
+            _args: [] }
+    },
+
 ];
 
 cases.forEach(function (c, num) {
