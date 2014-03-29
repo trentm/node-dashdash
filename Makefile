@@ -45,6 +45,6 @@ versioncheck:
 
 .PHONY: cutarelease
 cutarelease: versioncheck
-	[[ `git status | tail -n1` == "nothing to commit (working directory clean)" ]]
+	[[ `git status | tail -n1` == "nothing to commit, working directory clean" ]]
 	./tools/cutarelease.py -p dashdash -f package.json
 
