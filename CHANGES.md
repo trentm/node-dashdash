@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.5.0 (not yet released)
+## 1.5.0
 
 - Add support for adding custom option types. "examples/custom-option-type.js"
   shows an example adding a "duration" option type.
