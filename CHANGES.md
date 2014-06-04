@@ -2,7 +2,7 @@
 
 ## 1.6.0 (not yet released)
 
-- [pull #6] support headings between groups of options
+- [pull #6] Support headings between groups of options (by Joshua M. Clulow).
 
 
 ## 1.5.0
