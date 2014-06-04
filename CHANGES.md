@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.6.0 (not yet released)
+## 1.6.0
 
 - [pull #6] Support headings between groups of options (by Joshua M. Clulow).
 
