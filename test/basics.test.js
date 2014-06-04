@@ -381,6 +381,7 @@ var cases = [
     },
     {
         options: [
+            { names: ['help', 'h'], type: 'bool' },
             { group: 'first group' },
             { names: [ 'first-one', 'f' ], type: 'bool' },
             { names: [ 'first-two', 'F' ], type: 'bool' },
@@ -388,8 +389,9 @@ var cases = [
             { names: [ 'second-one', 's' ], type: 'bool' },
             { names: [ 'second-two', 'S' ], type: 'bool' },
         ],
-        argv: 'node tool.js --help',
+        argv: 'node option-groups-tool.js --help',
         expectHelp: [
+            /--help\n\n\s\sfirst group:/m,
             /^\s\sfirst group:\n\s\s\s\s-f, --first-one$/m,
             /first-two\n\n\s\ssecond group:\n\s\s\s\s-s, --second-one$/m,
         ]

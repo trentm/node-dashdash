@@ -12,7 +12,6 @@ var dashdash = require('../lib/dashdash');
 // Specify the options. Minimally `name` (or `names`) and `type`
 // must be given for each.
 var options = [
-    { names: [ 'help', 'h' ], type: 'bool' },
     { names: [ 'not-in-group', 'g' ], type: 'string' },
     { group: 'first group' },
     { names: [ 'first-one', 'f' ], type: 'bool' },
@@ -20,7 +19,7 @@ var options = [
     { group: 'empty group' },
     { group: 'second group' },
     { names: [ 'second-one', 's' ], type: 'bool' },
-    { names: [ 'second-two', 'S' ], type: 'string' },
+    { names: [ 'help', 'h' ], type: 'bool' },
 ];
 
 var parser = dashdash.createParser({options: options});
