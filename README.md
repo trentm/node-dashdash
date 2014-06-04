@@ -345,19 +345,51 @@ Each option spec in the `options` array must/can have the following fields:
   option isn't specified in argv.
 
 
+# Option group headings
+
+You can add headings between option specs in the `options` array.  To do so,
+simply add an object with only a `group` property -- the string to print as
+the heading for the subsequent options in the array.  For example:
+
+```javascript
+var options = [
+    {
+        group: 'Armament Options'
+    },
+    {
+        names: [ 'weapon', 'w' ],
+        type: 'string'
+    },
+    {
+        group: 'General Options'
+    },
+    {
+        names: [ 'help', 'h' ],
+        type: 'bool'
+    }
+];
+...
+```
+
 # Help config
 
 The `parser.help(...)` function is configurable as follows:
 
-    Options:
-        -w WEAPON, --weapon=WEAPON  Weapon with which to crush. One of: |
-                                    sword, spear, maul                  |
-        -h, --help                  Print this help and exit.           |
-    ^^^^                            ^                                   |
-        `-- indent                   `-- helpCol              maxCol ---'
+        Options:
+          Armament Options:
+        ^^  -w WEAPON, --weapon=WEAPON  Weapon with which to crush. One of: |
+       /                                sword, spear, maul                  |
+      /   General Options:                                                  |
+     /      -h, --help                  Print this help and exit.           |
+    /   ^^^^                            ^                                   |
+    \       `-- indent                   `-- helpCol              maxCol ---'
+     `-- headingIndent
 
 - `indent` (Number or String). Default 4. Set to a number (for that many
   spaces) or a string for the literal indent.
+- `headingIndent` (Number or String). Default half length of `indent`. Set to
+  a number (for that many spaces) or a string for the literal indent. This
+  indent applies to group heading lines, between normal option lines.
 - `nameSort` (String). Default is 'length'. By default the names are
   sorted to put the short opts first (i.e. '-h, --help' preferred
   to '--help, -h'). Set to 'none' to not do this sorting.
