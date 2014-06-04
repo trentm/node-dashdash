@@ -7,7 +7,26 @@
 
 ## 1.6.0
 
-- [pull #6] Support headings between groups of options (by Joshua M. Clulow).
+- [pull #6] Support headings between groups of options (by Joshua M. Clulow)
+  so that this code:
+
+        var options = [
+            { group: 'Armament Options' },
+            { names: [ 'weapon', 'w' ], type: 'string' },
+            { group: 'General Options' },
+            { names: [ 'help', 'h' ], type: 'bool' }
+        ];
+        ...
+
+  will give you this help output:
+
+        ...
+          Armament Options:
+            -w, --weapon
+
+          General Options:
+            -h, --help
+        ...
 
 
 ## 1.5.0
