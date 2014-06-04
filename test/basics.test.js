@@ -379,6 +379,21 @@ var cases = [
         argv: 'node tool.js --help',
         expectHelp: /-h, --help\s+Show help and exit./
     },
+    {
+        options: [
+            { group: 'first group' },
+            { names: [ 'first-one', 'f' ], type: 'bool' },
+            { names: [ 'first-two', 'F' ], type: 'bool' },
+            { group: 'second group' },
+            { names: [ 'second-one', 's' ], type: 'bool' },
+            { names: [ 'second-two', 'S' ], type: 'bool' },
+        ],
+        argv: 'node tool.js --help',
+        expectHelp: [
+            /^\s\sfirst group:\n\s\s\s\s-f, --first-one$/m,
+            /first-two\n\n\s\ssecond group:\n\s\s\s\s-s, --second-one$/m,
+        ]
+    },
 
     // integer
     {
