@@ -1,8 +1,8 @@
 # node-dashdash changelog
 
-## 1.5.1 (not yet released)
+## 1.6.0 (not yet released)
 
-(nothing yet)
+- [pull #6] support headings between groups of options
 
 
 ## 1.5.0

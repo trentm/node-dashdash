@@ -774,11 +774,13 @@ var cases = [
     {
         options: [ {names: ['start', 's'], type: 'date'} ],
         argv: 'node foo.js -s',
+        /* JSSTYLED */
         expect: /do not have enough args for "-s" option/
     },
     {
         options: [ {names: ['start', 's'], type: 'date'} ],
         argv: 'node foo.js -s notadate',
+        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "notadate"/
     },
     {
@@ -804,6 +806,7 @@ var cases = [
     {
         options: [ {names: ['start', 's'], type: 'date'} ],
         argv: 'node foo.js -s 2014-04-01T',
+        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "2014-04-01T"/
     },
     {
