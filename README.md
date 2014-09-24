@@ -240,7 +240,7 @@ following fields:
 - `options` (Array of option specs). Required. See the
   [Option specs](#option-specs) section below.
 
-- `interspersed` (Boolean). Option. Default is true. If true this allows
+- `interspersed` (Boolean). Optional. Default is true. If true this allows
   interspersed arguments and options. I.e.:
 
         node ./tool.js -v arg1 arg2 -h   # '-h' is after interspersed args
@@ -248,7 +248,7 @@ following fields:
   Set it to false to have '-h' **not** get parsed as an option in the above
   example.
 
-- `allowUnknown` (Boolean).  Option.  Default is false.  If false, this causes
+- `allowUnknown` (Boolean).  Optional.  Default is false.  If false, this causes
   unknown arguments to throw an error.  I.e.:
 
         node ./tool.js -v arg1 --afe8asefksjefhas
