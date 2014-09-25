@@ -880,6 +880,67 @@ var cases = [
             _args: []
         }
     },
+
+    // helpWrap option
+    {
+        options: [
+            {
+              names: ['opt', 'o'],
+              type: 'string',
+              env: ['ENVVARIABLE'],
+              help: 'long help with\n  newlines' +
+                '\n  spaces\n  and such\nwill not render correctly'
+            },
+            {
+              names: ['array', 'a'],
+              type: 'string',
+              helpWrap: false,
+              env: ['OTHERVARIABLE'],
+              help: 'long help with\n  newlines' +
+                '\n  spaces\n  and such\nwill render correctly'
+            },
+            {
+              names: ['foo'],
+              type: 'string',
+              helpWrap: false,
+              env: ['FOOVAR']
+            }
+        ],
+        argv: 'node helpWrapTool.js --help',
+        helpOptions: { includeEnv: true },
+        /* BEGIN JSSTYLED */
+        expectHelp: [
+            /long help with newlines spaces and such will not render/,
+            /\. Environment: ENVVARIABLE=ARG/,
+            // Without wrapping:
+            /long help with$/m,
+            /^ +newlines$/m,
+            /^ +Environment: OTHERVARIABLE=ARG/m,
+            // Ensure FOOVAR env is on *first* line and not after a blank.
+            /^ +--foo=ARG +Environment: FOOVAR=ARG$/m
+        ]
+        /* END JSSTYLED */
+    },
+    {
+        options: [
+            {
+              names: ['array', 'a'],
+              type: 'string',
+              env: ['OTHERVARIABLE'],
+              help: 'long help with\n  newlines' +
+                '\n  spaces\n  and such\nwill render correctly'
+            }
+        ],
+        argv: 'node helpWrapTool2.js --help',
+        helpOptions: { includeEnv: true, helpWrap: false },
+        /* BEGIN JSSTYLED */
+        expectHelp: [
+            /long help with$/m,
+            /^ +newlines$/m,
+            /^ +Environment: OTHERVARIABLE=ARG/m,
+        ]
+        /* END JSSTYLED */
+    },
 ];
 
 cases.forEach(function (c, num) {

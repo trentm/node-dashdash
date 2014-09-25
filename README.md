@@ -288,6 +288,7 @@ Example using all fields:
     env: 'MYTOOL_FILE',
     help: 'Config file to load before running "mytool"',
     helpArg: 'PATH',
+    helpWrap: false,
     default: path.resolve(process.env.HOME, '.mytoolrc')
 }
 ```
@@ -340,6 +341,9 @@ Each option spec in the `options` array must/can have the following fields:
         ...
         -f PATH, --file=PATH    File to process
         ...
+
+- `helpWrap` (Boolean). Optional, default true. Set this to `false` to have
+  that option's `help` *not* be text wrapped in `<parser>.help()` output.
 
 - `default`. Optional. A default value used for this option, if the
   option isn't specified in argv.
@@ -399,6 +403,8 @@ The `parser.help(...)` function is configurable as follows:
   between `minHelpCol` and `maxHelpCol`.
 - `minHelpCol` (Number). Default 20.
 - `maxHelpCol` (Number). Default 40.
+- `helpWrap` (Boolean). Default true. Set to `false` to have option `help`
+  strings *not* be textwrapped to the helpCol..maxCol range.
 - `includeEnv` (Boolean). Default false. If the option has associated
   environment variables (via the `env` option spec attribute), then
   append mentioned of those envvars to the help string.
