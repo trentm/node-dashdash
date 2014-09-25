@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.7.0 (not yet released)
+## 1.7.0
 
 - [pull #7] Support for `<parser>.help({helpWrap: false, ...})` option be able
   to fully control the formatting for option help (by Patrick Mooney) `helpWrap:
