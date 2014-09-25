@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.7.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.7.0
 
 - [pull #7] Support for `<parser>.help({helpWrap: false, ...})` option be able
