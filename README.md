@@ -375,6 +375,10 @@ var options = [
 ...
 ```
 
+Note: You can use an empty string, `{group: ''}`, to get a blank line in help
+output between groups of options.
+
+
 # Help config
 
 The `parser.help(...)` function is configurable as follows:

@@ -2,7 +2,14 @@
 
 ## 1.7.1 (not yet released)
 
-(nothing yet)
+- Support an option group *empty string* value:
+
+        ...
+        { group: '' },
+        ...
+
+  to render as a blank line in option help. This can help separate loosely
+  related sets of options without resorting to a title for option groups.
 
 
 ## 1.7.0
