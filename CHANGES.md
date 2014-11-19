@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.7.2 (not yet released)
+
+(nothing yet)
+
+
 ## 1.7.1
 
 - Support an option group *empty string* value:
