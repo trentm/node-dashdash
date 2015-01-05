@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.7.2 (not yet released)
+## 1.7.2
 
 - Exclude 'tools/' dir in packages published to npm.
 
