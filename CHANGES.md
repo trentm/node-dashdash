@@ -2,7 +2,7 @@
 
 ## 1.7.2 (not yet released)
 
-(nothing yet)
+- Exclude 'tools/' dir in packages published to npm.
 
 
 ## 1.7.1
