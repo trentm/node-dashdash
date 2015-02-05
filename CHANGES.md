@@ -2,7 +2,14 @@
 
 ## 1.7.3 (not yet released)
 
-(nothing yet)
+- [issue #8] Fix parsing of a short option group when one of the
+  option takes an argument. For example, consider `tail` with
+  a `-f` boolean option and a `-n` option that takes a number
+  argument. This should parse:
+
+        tail -fn5
+
+  Before this change, that would not parse correctly.
 
 
 ## 1.7.2

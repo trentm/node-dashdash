@@ -311,6 +311,60 @@ var cases = [
         }
     },
 
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {names: ['all', 'a'], type: 'bool'} ],
+        argv: 'node tool.js -af',
+        expect: /do not have enough args/
+    },
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {names: ['all', 'a'], type: 'bool'} ],
+        argv: 'node tool.js -af foo.txt',
+        expect: {
+            all: true,
+            f: 'foo.txt',
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {names: ['all', 'a'], type: 'bool'} ],
+        argv: 'node tool.js -affoo.txt',
+        expect: {
+            all: true,
+            f: 'foo.txt',
+            _args: []
+        }
+    },
+
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {name: 'v', type: 'arrayOfBool'} ],
+        argv: 'node tool.js -v -vvf',
+        expect: /do not have enough args/
+    },
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {name: 'v', type: 'arrayOfBool'} ],
+        argv: 'node tool.js -v -vvf foo.txt',
+        expect: {
+            v: [true, true, true],
+            f: 'foo.txt',
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'f', type: 'string'},
+                   {name: 'v', type: 'arrayOfBool'} ],
+        argv: 'node tool.js -v -vvffoo.txt',
+        expect: {
+            v: [true, true, true],
+            f: 'foo.txt',
+            _args: []
+        }
+    },
+
     // type=number
     {
         options: [

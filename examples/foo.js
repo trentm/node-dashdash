@@ -26,6 +26,11 @@ var options = [
         help: 'Verbose output. Use multiple times for more verbose.'
     },
     {
+        names: ['b'],
+        type: 'bool',
+        help: 'A boolean arg',
+    },
+    {
         names: ['file', 'f'],
         type: 'string',
         env: 'FOO_FILE',
