@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.7.3 (not yet released)
+## 1.7.3
 
 - [issue #8] Fix parsing of a short option group when one of the
   option takes an argument. For example, consider `tail` with
