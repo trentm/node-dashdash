@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.7.4 (not yet released)
+
+(nothing yet)
+
+
 ## 1.7.3
 
 - [issue #8] Fix parsing of a short option group when one of the
