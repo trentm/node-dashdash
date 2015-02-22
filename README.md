@@ -459,7 +459,7 @@ a boolean argument would look like:
     };
     var opts = dashdash.parse({options: options});
 
-See "examples/custom-option-type.js" for another example adding a "duration"
+See "examples/custom-option-duration.js" for another example adding a "duration"
 option type. Please let me know [on twitter](https://twitter.com/trentmick)
 or [with an issue](https://github.com/trentm/node-dashdash/issues/new) if you
 write a generally useful one.

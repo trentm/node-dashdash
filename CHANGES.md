@@ -78,17 +78,17 @@
 
 ## 1.5.0
 
-- Add support for adding custom option types. "examples/custom-option-type.js"
+- Add support for adding custom option types. "examples/custom-option-duration.js"
   shows an example adding a "duration" option type.
 
-        $ node custom-option-type.js -t 1h
+        $ node custom-option-duration.js -t 1h
         duration: 3600000 ms
-        $ node custom-option-type.js -t 1s
+        $ node custom-option-duration.js -t 1s
         duration: 1000 ms
-        $ node custom-option-type.js -t 5d
+        $ node custom-option-duration.js -t 5d
         duration: 432000000 ms
-        $ node custom-option-type.js -t bogus
-        custom-option-type.js: error: arg for "-t" is not a valid duration: "bogus"
+        $ node custom-option-duration.js -t bogus
+        custom-option-duration.js: error: arg for "-t" is not a valid duration: "bogus"
 
   A custom option type is added via:
 
