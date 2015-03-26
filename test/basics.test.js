@@ -995,6 +995,17 @@ var cases = [
         ]
         /* END JSSTYLED */
     },
+
+    // hidden
+    {
+        options: [
+            {names: ['help', 'h'], type: 'bool'},
+            {names: ['timeout', 't'], type: 'number', hidden: true},
+            {names: ['version'], type: 'bool'},
+        ],
+        argv: 'node hidden-opts.js --help',
+        expectHelp: /-h, --help\n\s+--version/m,
+    },
 ];
 
 cases.forEach(function (c, num) {

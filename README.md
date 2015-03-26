@@ -348,6 +348,9 @@ Each option spec in the `options` array must/can have the following fields:
 - `default`. Optional. A default value used for this option, if the
   option isn't specified in argv.
 
+- `hidden` (Boolean). Optional, default false. If true, help output will not
+  include this option.
+
 
 # Option group headings
 

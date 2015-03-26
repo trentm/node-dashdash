@@ -1,8 +1,9 @@
 # node-dashdash changelog
 
-## 1.7.4 (not yet released)
+## 1.8.0 (not yet released)
 
-(nothing yet)
+- Support `hidden: true` in an option spec to have help output exclude this
+  option.
 
 
 ## 1.7.3
@@ -36,7 +37,7 @@
 
 ## 1.7.0
 
-- [pull #7] Support for `<parser>.help({helpWrap: false, ...})` option be able
+- [pull #7] Support for `<parser>.help({helpWrap: false, ...})` option to be able
   to fully control the formatting for option help (by Patrick Mooney) `helpWrap:
   false` can also be set on individual options in the option objects, e.g.:
 
