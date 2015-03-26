@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.8.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.8.0
 
 - Support `hidden: true` in an option spec to have help output exclude this
