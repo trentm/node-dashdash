@@ -1,8 +1,9 @@
 # node-dashdash changelog
 
-## 1.8.1 (not yet released)
+## 1.9.0 (not yet released)
 
-(nothing yet)
+- [issue #10] Custom option types added with `addOptionType` can specify a
+  "default" value. See "examples/custom-option-fruit.js".
 
 
 ## 1.8.0

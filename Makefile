@@ -17,7 +17,12 @@ test: | $(NODEUNIT)
 	$(NODEUNIT) test/*.test.js
 
 .PHONY: testall
-testall: test10 test08
+testall: test12 test10 test08
+.PHONY: test12
+test12:
+	@echo "# Test node 0.12.x (with node `$(NODEOPT)/node-0.12/bin/node --version`)"
+	@$(NODEOPT)/node-0.12/bin/node --version
+	PATH="$(NODEOPT)/node-0.12/bin:$(PATH)" make test
 .PHONY: test10
 test10:
 	@echo "# Test node 0.10.x (with node `$(NODEOPT)/node-0.10/bin/node --version`)"

@@ -43,6 +43,21 @@ function parseYesNo(option, optstr, arg) {
     }
 }
 
+var fruits = [
+    'apple',
+    'pear',
+    'cherry',
+    'strawberry',
+    'banana'
+];
+function parseFruit(option, optstr, arg) {
+    if (fruits.indexOf(arg) === -1) {
+        throw new Error(format('arg for "%s" is not a known fruit: "%s"',
+            optstr, arg));
+    }
+    return arg;
+}
+
 
 // ---- tests
 
@@ -1005,6 +1020,42 @@ var cases = [
         ],
         argv: 'node hidden-opts.js --help',
         expectHelp: /-h, --help\n\s+--version/m,
+    },
+
+    // optionType.default
+    {
+        optionTypes: [
+            {
+                name: 'fruit',
+                takesArg: true,
+                helpArg: '<fruit>',
+                parseArg: parseFruit,
+                default: 'apple'
+            }
+        ],
+        options: [ {names: ['pie', 'p'], type: 'fruit'} ],
+        argv: 'node foo.js',
+        expect: {
+            pie: 'apple',
+            _args: []
+        }
+    },
+    {
+        optionTypes: [
+            {
+                name: 'fruit',
+                takesArg: true,
+                helpArg: '<fruit>',
+                parseArg: parseFruit,
+                default: 'apple'
+            }
+        ],
+        options: [ {names: ['pie', 'p'], type: 'fruit'} ],
+        argv: 'node foo.js -p pear',
+        expect: {
+            pie: 'pear',
+            _args: []
+        }
     },
 ];
 
