@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.9.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.9.0
 
 - [issue #10] Custom option types added with `addOptionType` can specify a
