@@ -429,7 +429,8 @@ you. However you can add your own via:
         helpArg: '...',
         parseArg: function (option, optstr, arg) {
             ...
-        }
+        },
+        default: ...   // optional
     });
 
 For example, a simple option type that accepts 'yes', 'y', 'no' or 'n' as
