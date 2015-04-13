@@ -1052,13 +1052,23 @@ var cases = [
         ],
         options: [
             {group: 'Filling'},
-            {names: ['pie', 'p'], type: 'fruit'}
+            {names: ['pie', 'p'], type: 'fruit', env: 'FRUIT'}
         ],
         argv: 'node foo.js -p pear',
         expect: {
             pie: 'pear',
             _args: []
-        }
+        },
+        helpOptions: {
+            includeEnv: true,
+            includeDefault: true
+        },
+        /* BEGIN JSSTYLED */
+        expectHelp: [
+            /^  Filling:$/m,
+            / +Environment: FRUIT=<fruit>\. Default: "apple"/m,
+        ]
+        /* END JSSTYLED */
     },
 ];
 

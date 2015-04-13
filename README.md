@@ -415,6 +415,9 @@ The `parser.help(...)` function is configurable as follows:
 - `includeEnv` (Boolean). Default false. If the option has associated
   environment variables (via the `env` option spec attribute), then
   append mentioned of those envvars to the help string.
+- `includeDefault` (Boolean). Default false. If the option has a default value
+  (via the `default` option spec attribute, or a default on the option's type),
+  then a "Default: VALUE" string will be appended to the help string.
 
 
 # Custom option types

@@ -1,7 +1,9 @@
 # node-dashdash changelog
 
-## 1.9.1 (not yet released)
+## 1.10.0 (not yet released)
 
+- [issue #9] Support `includeDefault` in help config (similar to `includeEnv`) to have a
+  note of an option's default value, if any, in help output.
 - [issue #11] Fix option group breakage introduced in v1.9.0.
 
 

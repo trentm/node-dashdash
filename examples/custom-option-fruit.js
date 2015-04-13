@@ -38,14 +38,31 @@ dashdash.addOptionType({
 
 
 var options = [
-    { names: ['pie', 'p'], type: 'fruit' }
+    {
+        names: ['help', 'h'],        // first name is opts key
+        type: 'bool',
+        help: 'Print this help and exit.'
+    },
+    { names: ['pie', 'p'], type: 'fruit', env: 'FRUIT' }
 ];
 
+var parser = dashdash.createParser({options: options});
 try {
-    var opts = dashdash.parse({options: options});
+    var opts = parser.parse(process.argv);
 } catch (e) {
     console.error('%s: error: %s', path.basename(process.argv[1]), e.message);
     process.exit(1);
+}
+
+if (opts.help) {
+    var help = parser.help({
+        includeEnv: true,
+        includeDefault: true
+    }).trimRight();
+    console.log('usage: node custom-option-fruit.js [OPTIONS]\n'
+                + 'options:\n'
+                + help);
+    process.exit(0);
 }
 
 console.log('pie fruit: %s', opts.pie);
