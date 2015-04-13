@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.10.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.10.0
 
 - [issue #9] Support `includeDefault` in help config (similar to `includeEnv`) to have a
