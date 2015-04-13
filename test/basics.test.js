@@ -1050,7 +1050,10 @@ var cases = [
                 default: 'apple'
             }
         ],
-        options: [ {names: ['pie', 'p'], type: 'fruit'} ],
+        options: [
+            {group: 'Filling'},
+            {names: ['pie', 'p'], type: 'fruit'}
+        ],
         argv: 'node foo.js -p pear',
         expect: {
             pie: 'pear',

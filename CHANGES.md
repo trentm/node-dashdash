@@ -2,7 +2,7 @@
 
 ## 1.9.1 (not yet released)
 
-(nothing yet)
+- [issue #11] Fix option group breakage introduced in v1.9.0.
 
 
 ## 1.9.0
