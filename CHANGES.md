@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.10.0 (not yet released)
+## 1.10.0
 
 - [issue #9] Support `includeDefault` in help config (similar to `includeEnv`) to have a
   note of an option's default value, if any, in help output.
