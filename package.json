@@ -20,5 +20,6 @@
     },
     "scripts": {
         "test": "nodeunit test/*.test.js"
-    }
+    },
+    "license": "MIT"
 }

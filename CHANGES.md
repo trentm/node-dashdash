@@ -2,7 +2,8 @@
 
 ## 1.10.1 (not yet released)
 
-(nothing yet)
+- Trim the published package to the minimal bits. Before: 24K tarball, 144K unpacked.
+  After: 12K tarball, 48K unpacked. `npm` won't let me drop the README.md. :)
 
 
 ## 1.10.0

@@ -1,4 +1,12 @@
+/.npmignore
+/*.tgz
 /tmp
 /node_modules
 /npm-debug.log
 /tools
+/test
+/examples
+/*.md
+/*.txt
+/AUTHORS
+/Makefile
