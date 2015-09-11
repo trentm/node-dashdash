@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.10.1 (not yet released)
+## 1.10.1
 
 - Trim the published package to the minimal bits. Before: 24K tarball, 144K unpacked.
   After: 12K tarball, 48K unpacked. `npm` won't let me drop the README.md. :)
