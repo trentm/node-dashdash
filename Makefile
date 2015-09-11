@@ -34,6 +34,9 @@ test08:
 	@$(NODEOPT)/node-0.8/bin/node --version
 	PATH="$(NODEOPT)/node-0.8/bin:$(PATH)" make test
 
+.PHONY: clean
+clean:
+	rm -f dashdash-*.tgz
 
 .PHONY: check-jsstyle
 check-jsstyle: $(JSSTYLE_FILES)
