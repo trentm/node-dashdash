@@ -242,6 +242,35 @@ var cases = [
             _args: []
         }
     },
+    {
+        options: [ {name: 'enable', type: 'bool'} ],
+        argv: 'node tool.js --enable',
+        expect: {
+            enable: true,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'enable', type: 'bool', default: true} ],
+        argv: 'node tool.js --no-enable',
+        expect: {
+            enable: false,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'enable', type: 'arrayOfBool', default: true} ],
+        argv: 'node tool.js --no-enable --no-enable',
+        expect: {
+            enable: [ false, false ],
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'file', type: 'string'} ],
+        argv: 'node tool.js --no-file',
+        expect: /cannot negate non-boolean option "--file"/
+    },
 
     // short opts
     {
