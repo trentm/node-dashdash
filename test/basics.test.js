@@ -504,6 +504,14 @@ var cases = [
     },
     {
         options: [
+            {names: ['help', 'h'], type: 'bool', help: 'Show help and exit.'}
+        ],
+        boolNegationPrefix: 'no-',
+        argv: 'node tool.js --help',
+        expectHelp: /-h, --\[no-\]help\s+Show help and exit./
+    },
+    {
+        options: [
             { names: ['help', 'h'], type: 'bool' },
             { group: 'first group' },
             { names: [ 'first-one', 'f' ], type: 'bool' },
