@@ -423,7 +423,7 @@ The `parser.help(...)` function is configurable as follows:
 # Custom option types
 
 Dashdash includes a good starter set of option types that it will parse for
-you. However you can add your own via:
+you. However, you can add your own via:
 
     var dashdash = require('dashdash');
     dashdash.addOptionType({
@@ -433,6 +433,8 @@ you. However you can add your own via:
         parseArg: function (option, optstr, arg) {
             ...
         },
+        array: false,  // optional
+        arrayFlatten: false,  // optional
         default: ...   // optional
     });
 
@@ -466,8 +468,9 @@ a boolean argument would look like:
     };
     var opts = dashdash.parse({options: options});
 
-See "examples/custom-option-duration.js" for another example adding a "duration"
-option type. Please let me know [on twitter](https://twitter.com/trentmick)
+See "examples/custom-option-\*.js" for other examples.
+See the `addOptionType` block comment in "lib/dashdash.js" for more details.
+Please let me know [on twitter](https://twitter.com/trentmick)
 or [with an issue](https://github.com/trentm/node-dashdash/issues/new) if you
 write a generally useful one.
 

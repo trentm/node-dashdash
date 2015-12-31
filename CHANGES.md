@@ -1,8 +1,17 @@
 # node-dashdash changelog
 
-## 1.10.2 (not yet released)
+## 1.11.0 (not yet released)
 
-(nothing yet)
+- Add the `arrayFlatten` boolean option to `dashdash.addOptionType` used for
+  custom option types. This allows one to create an `arrayOf...` option type
+  where each usage of the option can return multiple results. For example:
+
+        node mytool.js --foo a,b --foo c
+
+  We could define an option type for `--foo` such that
+  `opts.foo = ['a', 'b', 'c']`. See
+  "[examples/custom-option-arrayOfCommaSepString.js](examples/custom-option-arrayOfCommaSepString.js)"
+  for an example.
 
 
 ## 1.10.1

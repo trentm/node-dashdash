@@ -58,6 +58,13 @@ function parseFruit(option, optstr, arg) {
     return arg;
 }
 
+function parseCommaSepStringNoEmpties(option, optstr, arg) {
+    // JSSTYLED
+    return arg.trim().split(/\s*,\s*/g)
+        .filter(function (part) { return part; });
+}
+
+
 
 // ---- tests
 
@@ -1069,6 +1076,26 @@ var cases = [
             / +Environment: FRUIT=<fruit>\. Default: "apple"/m,
         ]
         /* END JSSTYLED */
+    },
+
+    // optionType.arrayFlatten
+    {
+        optionTypes: [
+            {
+                name: 'arrayOfCommaSepString',
+                takesArg: true,
+                helpArg: 'STRING',
+                parseArg: parseCommaSepStringNoEmpties,
+                array: true,
+                arrayFlatten: true
+            }
+        ],
+        options: [ {names: ['multi', 'm'], type: 'arrayOfCommaSepString'} ],
+        argv: 'node foo.js -m a,b -m c,d,,',
+        expect: {
+            multi: ['a', 'b', 'c', 'd'],
+            _args: []
+        }
     },
 ];
 

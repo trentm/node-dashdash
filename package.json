@@ -1,7 +1,7 @@
 {
     "name": "dashdash",
     "description": "A light, featureful and explicit option parsing library.",
-    "version": "1.10.2",
+    "version": "1.11.0",
     "author": "Trent Mick <trentm@gmail.com> (http://trentm.com)",
     "keywords": ["option", "parser", "parsing", "cli", "command", "args"],
     "repository": {
