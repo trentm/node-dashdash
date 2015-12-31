@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.11.0 (not yet released)
+## 1.11.0
 
 - Add the `arrayFlatten` boolean option to `dashdash.addOptionType` used for
   custom option types. This allows one to create an `arrayOf...` option type
