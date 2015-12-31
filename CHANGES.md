@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.11.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.11.0
 
 - Add the `arrayFlatten` boolean option to `dashdash.addOptionType` used for
