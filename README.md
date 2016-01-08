@@ -235,8 +235,17 @@ variable can also be included in **help output**:
 # Bash completion
 
 Dashdash provides a simple way to create a Bash completion file that you
-can place in your "bash_completion.d" directory -- sometimes that in
-"/usr/local/etc/bash_completion.d").
+can place in your "bash_completion.d" directory -- sometimes that is
+"/usr/local/etc/bash_completion.d/"). Features:
+
+- Support for short and long opts
+- Support for knowing which options take arguments
+- Support for subcommands (e.g. 'git log <TAB>' to show just options for the
+  log subcommand). See
+  [node-cmdln](https://github.com/trentm/node-cmdln#bash-completion) for
+  how to integrate that.
+- Does the right thing with "--" to stop options.
+- Custom optarg and arg types for custom completions.
 
 Dashdash will return bash completion file content given a parser instance:
 
@@ -253,6 +262,10 @@ or directly from a `options` array of options specs:
 Write that content to "/usr/local/etc/bash_completion.d/mycli" and you will
 have Bash completions for `mycli`. Alternatively you can write it to
 any file (e.g. "~/.bashrc") and source it.
+
+You could add a `--completion` hidden option to your tool that emits the
+completion content and document for your users to call that to install
+Bash completions.
 
 See [examples/ddcompletion.js](examples/ddcompletion.js) for a complete
 example, including how one can define bash functions for completion of custom

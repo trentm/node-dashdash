@@ -190,7 +190,7 @@ function _{{name}}_completer {
                 done
             elif [[ $i -lt $COMP_CWORD && -n "$arg" ]] && $(echo "$subcmds" | grep -w "$arg" >/dev/null); then
                 trace "    complete subcmd: recurse _dashdash_complete"
-                _dashdash_complete $(( $i + 1 )) "${context}__$arg"
+                _dashdash_complete $(( $i + 1 )) "${context}__${arg/-/_}"
                 return
             else
                 trace "    not an opt or a complete subcmd"
