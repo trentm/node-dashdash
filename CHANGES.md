@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.12.0 (not yet released)
+## 1.12.0
 
 - Support for generating Bash completion files. See the "Bash completion"
   section of the README.md and "examples/ddcompletion.js" for an example.
