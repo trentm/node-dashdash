@@ -43,7 +43,7 @@ check-jsstyle: $(JSSTYLE_FILES)
 	./tools/jsstyle -o indent=4,doxygen,unparenthesized-return=0,blank-after-start-comment=0,leading-right-paren-ok $(JSSTYLE_FILES)
 
 .PHONY: check
-check: check-jsstyle
+check:: check-jsstyle versioncheck
 	@echo "Check ok."
 
 # Ensure CHANGES.md and package.json have the same version.
