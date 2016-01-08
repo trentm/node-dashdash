@@ -232,6 +232,34 @@ variable can also be included in **help output**:
         -f FILE, --file=FILE  File to process
 
 
+# Bash completion
+
+Dashdash provides a simple way to create a Bash completion file that you
+can place in your "bash_completion.d" directory -- sometimes that in
+"/usr/local/etc/bash_completion.d").
+
+Dashdash will return bash completion file content given a parser instance:
+
+    var parser = dashdash.createParser({options: options});
+    console.log( parser.bashCompletion({name: 'mycli'}) );
+
+or directly from a `options` array of options specs:
+
+    var code = dashdash.bashCompletionFromOptions({
+        name: 'mycli',
+        options: OPTIONS
+    });
+
+Write that content to "/usr/local/etc/bash_completion.d/mycli" and you will
+have Bash completions for `mycli`. Alternatively you can write it to
+any file (e.g. "~/.bashrc") and source it.
+
+See [examples/ddcompletion.js](examples/ddcompletion.js) for a complete
+example, including how one can define bash functions for completion of custom
+option types. Also see [node-cmdln](https://github.com/trentm/node-cmdln) for
+how it uses this for Bash completion for full multi-subcommand tools.
+
+
 # Parser config
 
 Parser construction (i.e. `dashdash.createParser(CONFIG)`) takes the
