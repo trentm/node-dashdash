@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.12.1 (not yet released)
+## 1.12.1
 
 - Bash completion: Document `<option spec>.completionType`. Add `includeHidden`
   option to `bashCompletionSpecFromOptions()`. Add support for dealing with
