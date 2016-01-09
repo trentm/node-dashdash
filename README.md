@@ -272,6 +272,12 @@ example, including how one can define bash functions for completion of custom
 option types. Also see [node-cmdln](https://github.com/trentm/node-cmdln) for
 how it uses this for Bash completion for full multi-subcommand tools.
 
+<!--
+TODO: document specExtra
+TODO: document includeHidden
+TODO: document custom types, `function complete_FOO` guide, completionType
+-->
+
 
 # Parser config
 
@@ -320,12 +326,13 @@ following fields:
 
 # Option specs
 
-Example using all fields:
+Example using all fields (required fields are noted):
 
 ```javascript
 {
-    names: ['file', 'f'],       // Required (or `name`).
+    names: ['file', 'f'],       // Required (one of `names` or `name`).
     type: 'string',             // Required.
+    completionType: 'filename',
     env: 'MYTOOL_FILE',
     help: 'Config file to load before running "mytool"',
     helpArg: 'PATH',
@@ -361,6 +368,20 @@ Each option spec in the `options` array must/can have the following fields:
   You can add your own custom option types with `dashdash.addOptionType`.
   See below.
 
+- `completionType` (String). Optional. This is used for [Bash
+  completion](#bash-completion) for an option argument. If not specified,
+  then the value of `type` is used. Any string may be specified, but only the
+  following values have meaning:
+
+    - `none`: Provide no completions.
+    - `file`: Bash's default completion (i.e. `complete -o default`), which
+      includes filenames.
+    - *Any string FOO for which a `function complete_FOO` Bash function is
+      defined.* This is for custom completions for a given tool. Typically
+      these custom functions are provided in the `specExtra` argument to
+      `dashdash.bashCompletionFromOptions()`. See
+      ["examples/ddcompletion.js"](examples/ddcompletion.js) for an example.
+
 - `env` (String or Array of String). Optional. An environment variable name
   (or names) that can be used as a fallback for this option. For example,
   given a "foo.js" like this:
@@ -390,7 +411,8 @@ Each option spec in the `options` array must/can have the following fields:
   option isn't specified in argv.
 
 - `hidden` (Boolean). Optional, default false. If true, help output will not
-  include this option.
+  include this option. See also the `includeHidden` option to
+  `bashCompletionFromOptions()` for [Bash completion](#bash-completion).
 
 
 # Option group headings
@@ -476,7 +498,8 @@ you. However, you can add your own via:
         },
         array: false,  // optional
         arrayFlatten: false,  // optional
-        default: ...   // optional
+        default: ...,   // optional
+        completionType: ...  // optional
     });
 
 For example, a simple option type that accepts 'yes', 'y', 'no' or 'n' as
@@ -511,9 +534,9 @@ a boolean argument would look like:
 
 See "examples/custom-option-\*.js" for other examples.
 See the `addOptionType` block comment in "lib/dashdash.js" for more details.
-Please let me know [on twitter](https://twitter.com/trentmick)
-or [with an issue](https://github.com/trentm/node-dashdash/issues/new) if you
-write a generally useful one.
+Please let me know [with an
+issue](https://github.com/trentm/node-dashdash/issues/new) if you write a
+generally useful one.
 
 
 

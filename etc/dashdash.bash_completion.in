@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Bash completion generated for {{name}}
-# {{date}}
+# Bash completion generated for '{{name}}' at {{date}}.
 #
 # The original template lives here:
 # https://github.com/trentm/node-dashdash/blob/master/etc/dashdash.bash_completion.in
@@ -34,7 +33,7 @@
 #    the current word), then you'll get Bash's default completion. Most notably
 #    that means you get filename completion. E.g.:
 #       $ tool ./<TAB>
-#       $ tool Mak<TAB>
+#       $ tool READ<TAB>
 #
 # 2. all opts and subcmds:
 #       $ tool <TAB>
@@ -104,6 +103,7 @@ function _{{name}}_completer {
         local longopts="$(eval "echo \${cmd${context}_longopts}")"
         local optargs="$(eval "echo \${cmd${context}_optargs}")"
         local subcmds="$(eval "echo \${cmd${context}_subcmds}")"
+        local allsubcmds="$(eval "echo \${cmd${context}_allsubcmds}")"
 
         trace ""
         trace "_dashdash_complete(idx=$idx, context=$context)"
@@ -111,6 +111,7 @@ function _{{name}}_completer {
         trace "  longopts: $longopts"
         trace "  optargs: $optargs"
         trace "  subcmds: $subcmds"
+        trace "  allsubcmds: $allsubcmds"
 
         # Get 'state' of option parsing at this COMP_POINT.
         # Copying "dashdash.js#parse()" behaviour here.
@@ -188,7 +189,7 @@ function _{{name}}_completer {
 
                     j=$(( $j + 1 ))
                 done
-            elif [[ $i -lt $COMP_CWORD && -n "$arg" ]] && $(echo "$subcmds" | grep -w "$arg" >/dev/null); then
+            elif [[ $i -lt $COMP_CWORD && -n "$arg" ]] && $(echo "$allsubcmds" | grep -w "$arg" >/dev/null); then
                 trace "    complete subcmd: recurse _dashdash_complete"
                 _dashdash_complete $(( $i + 1 )) "${context}__${arg/-/_}"
                 return
@@ -350,3 +351,16 @@ elif type compctl &>/dev/null; then
     }
     compctl -K _{{name}}_completion {{name}}
 fi
+
+
+##
+## This is a Bash completion file for the '{{name}}' command. You can install
+## with either:
+##
+##     cp FILE /usr/local/etc/bash_completion.d/{{name}}
+##
+## or:
+##
+##     cp FILE > ~/.{{name}}.completion
+##     echo "source ~/.{{name}}.completion" >> ~/.bashrc
+##
