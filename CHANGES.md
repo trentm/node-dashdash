@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.12.2 (not yet released)
+
+(nothing yet)
+
+
 ## 1.12.1
 
 - Bash completion: Document `<option spec>.completionType`. Add `includeHidden`
