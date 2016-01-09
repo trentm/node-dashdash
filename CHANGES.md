@@ -2,7 +2,9 @@
 
 ## 1.12.1 (not yet released)
 
-(nothing yet)
+- Bash completion: Document `<option spec>.completionType`. Add `includeHidden`
+  option to `bashCompletionSpecFromOptions()`. Add support for dealing with
+  hidden subcmds.
 
 
 ## 1.12.0
