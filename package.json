@@ -11,7 +11,7 @@
     },
     "main": "./lib/dashdash.js",
     "dependencies": {
-        "assert-plus": "0.1.x"
+        "assert-plus": "^0.2.0"
     },
     "devDependencies": {
         "nodeunit": "0.9.x"
