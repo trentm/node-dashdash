@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.12.2 (not yet released)
+## 1.12.2
 
 - Bash completion: Add `argtypes` to specify the types of positional args.
   E.g. this would allow you to have an `ssh` command with `argtypes = ['host',
