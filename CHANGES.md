@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.12.3 (not yet released)
+
+(nothing yet)
+
+
 ## 1.12.2
 
 - Bash completion: Add `argtypes` to specify the types of positional args.
