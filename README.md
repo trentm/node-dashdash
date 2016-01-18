@@ -272,11 +272,10 @@ example, including how one can define bash functions for completion of custom
 option types. Also see [node-cmdln](https://github.com/trentm/node-cmdln) for
 how it uses this for Bash completion for full multi-subcommand tools.
 
-<!--
-TODO: document specExtra
-TODO: document includeHidden
-TODO: document custom types, `function complete_FOO` guide, completionType
--->
+- TODO: document specExtra
+- TODO: document includeHidden
+- TODO: document custom types, `function complete\_FOO` guide, completionType
+- TODO: document argtypes
 
 
 # Parser config

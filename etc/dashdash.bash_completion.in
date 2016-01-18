@@ -99,11 +99,13 @@ function _{{name}}_completer {
         idx=$1
         context=$2
 
-        local shortopts="$(eval "echo \${cmd${context}_shortopts}")"
-        local longopts="$(eval "echo \${cmd${context}_longopts}")"
-        local optargs="$(eval "echo \${cmd${context}_optargs}")"
-        local subcmds="$(eval "echo \${cmd${context}_subcmds}")"
-        local allsubcmds="$(eval "echo \${cmd${context}_allsubcmds}")"
+        local shortopts longopts optargs subcmds allsubcmds argtypes
+        shortopts="$(eval "echo \${cmd${context}_shortopts}")"
+        longopts="$(eval "echo \${cmd${context}_longopts}")"
+        optargs="$(eval "echo \${cmd${context}_optargs}")"
+        subcmds="$(eval "echo \${cmd${context}_subcmds}")"
+        allsubcmds="$(eval "echo \${cmd${context}_allsubcmds}")"
+        IFS=', ' read -r -a argtypes <<< "$(eval "echo \${cmd${context}_argtypes}")"
 
         trace ""
         trace "_dashdash_complete(idx=$idx, context=$context)"
@@ -198,6 +200,14 @@ function _{{name}}_completer {
                 state=arg
                 word=$arg
                 nargs=$(( $nargs + 1 ))
+                if [[ ${#argtypes[@]} -gt 0 ]]; then
+                    argtype="${argtypes[$(( $nargs - 1 ))]}"
+                    if [[ -z "$argtype" ]]; then
+                        # If we have more args than argtypes, we use the
+                        # last type.
+                        argtype="${argtypes[@]: -1:1}"
+                    fi
+                fi
             fi
 
             trace "    state=$state prefix='$prefix' word='$word'"
@@ -237,19 +247,24 @@ function _{{name}}_completer {
                 trace "  completing envvars"
                 compgen $compgen_opts -P '$' -A export -- "${word:1}"
             elif [[ -z "$argtype" ]]; then
-                if [[ -z "$dashdashseen" ]]; then
+                # Only include opts in completions if $word is not empty.
+                # This is to avoid completing the leading '-', which foils
+                # using 'default' completion.
+                if [[ -n "$dashdashseen" ]]; then
+                    trace "  completing subcmds, if any (no argtype, dashdash seen)"
+                    compgen $compgen_opts -W "$subcmds" -- "$word"
+                elif [[ -z "$word" ]]; then
+                    trace "  completing subcmds, if any (no argtype, empty word)"
+                    compgen $compgen_opts -W "$subcmds" -- "$word"
+                else
                     trace "  completing opts & subcmds (no argtype)"
                     compgen $compgen_opts -W "$shortopts $longopts $subcmds" -- "$word"
-                else
-                    trace "  completing subcmds (no argtype, dashdash seen)"
-                    compgen $compgen_opts -W "$subcmds" -- "$word"
                 fi
             elif [[ $argtype == "none" ]]; then
                 # We want *no* completions, i.e. some way to get the active
-                # 'complete -o default' to not do filename completion. Using
-                # a single-space at least works in Bash on Mac OSX 10.11.
-                trace "  completing 'none' (hack to attempt to get no completions)"
-                echo " "
+                # 'complete -o default' to not do filename completion.
+                trace "  completing 'none' (hack to imply no completions)"
+                echo "##-no completions-##"
             elif [[ $argtype == "file" ]]; then
                 # 'complete -o default' gives the best filename completion, at least
                 # on Mac.
@@ -260,8 +275,14 @@ function _{{name}}_completer {
                 echo ""
             else
                 trace "  completing custom '$argtype'"
-                potentials=$(complete_$argtype "$word")
-                compgen $compgen_opts -W "$potentials" -- "$word"
+                completions=$(complete_$argtype "$word")
+                if [[ -z "$completions" ]]; then
+                    trace "  no custom '$argtype' completions"
+                    # These are in alpha order so they show up correctly.
+                    echo "##-no -$argtype- completions-##"
+                else
+                    echo $completions
+                fi
             fi
             ;;
         *)
@@ -357,7 +378,8 @@ fi
 ## This is a Bash completion file for the '{{name}}' command. You can install
 ## with either:
 ##
-##     cp FILE /usr/local/etc/bash_completion.d/{{name}}
+##     cp FILE /usr/local/etc/bash_completion.d/{{name}}   # Mac
+##     cp FILE /etc/bash_completion.d/{{name}}             # Linux
 ##
 ## or:
 ##

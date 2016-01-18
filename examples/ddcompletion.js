@@ -10,8 +10,12 @@
  *      ddcompletion --completion > /usr/local/etc/bash_completion.d/ddcompletion
  *      source /usr/local/etc/bash_completion.d/ddcompletion
  *
- *      # Now use bash completion:
- *      ddcompletion <TAB>
+ *      # Now play with the bash completion:
+ *      ddcompletion -<TAB>             # complete options
+ *      ddcompletion --none <TAB>       # explicit "no completions"
+ *      ddcompletion -H <TAB>           # complete custom "knownhosts" type
+ *      ddcompletion <TAB>              # complete first positional arg type
+ *      ddcompletion banana <TAB>       # complete second position arg type
  */
 
 var dashdash = require('../lib/dashdash');
@@ -36,16 +40,29 @@ var options = [
         completionType: 'knownhosts',
         help: 'A known host (taken from ~/.ssh/known_hosts).'
     },
+    {
+        names: ['none', 'N'],
+        type: 'string',
+        // Show off the 'none' completion type, which uses somewhat of
+        // a hack to enforce no completions on <TAB>.
+        completionType: 'none',
+        help: 'Testing "none" argtype. Should be no completions on <TAB>.'
+    }
 ];
 
 
-// A 'knownhosts' completer function.
 var completionFuncs = [
+    // A 'knownhosts' completer function.
     'function complete_knownhosts {',
     '    local word="$1"',
     '    local candidates',
     '    candidates=$(cat ~/.ssh/known_hosts  | awk \'{print $1}\' | grep \'^[a-zA-Z]\' | cut -d, -f1)',
     '    compgen $compgen_opts -W "$candidates" -- "$word"',
+    '}',
+
+    // A 'fruit' completer function for the first positional arg.
+    'function complete_fruit {',
+    '    compgen $compgen_opts -W "apple banana orange" -- "$1"',
     '}'
 ].join('\n');
 
@@ -69,7 +86,10 @@ if (opts.help) {
     // completion file content, then just dump it.
     console.log( parser.bashCompletion({
         name: 'ddcompletion',
-        specExtra: completionFuncs
+        specExtra: completionFuncs,
+        // Define the first positional arg to be a fruit, and subsequent
+        // args to be 'file'.
+        argtypes: ['fruit', 'file']
     }) );
     process.exit(0);
 }

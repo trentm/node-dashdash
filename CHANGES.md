@@ -2,8 +2,36 @@
 
 ## 1.12.2 (not yet released)
 
-(nothing yet)
+- Bash completion: Add `argtypes` to specify the types of positional args.
+  E.g. this would allow you to have an `ssh` command with `argtypes = ['host',
+  'cmd']` for bash completion. You then have to provide Bash functions to
+  handle completing those types via the `specExtra` arg. See
+  "[examples/ddcompletion.js](examples/ddcompletion.js)" for an example.
 
+- Bash completion: Tweak so that options or only offered as completions when
+  there is a leading '-'. E.g. `mytool <TAB>` does NOT offer options, `mytool
+  -<TAB>` *does*. Without this, a tool with options would never be able to
+  fallback to Bash's "default" completion. For example `ls <TAB>` wouldn't
+  result in filename completion. Now it will.
+
+- Bash completion: A workaround for not being able to explicitly have *no*
+  completion results. Because dashdash's completion uses `complete -o default`,
+  we fallback to Bash's "default" completion (typically for filename
+  completion). Before this change, an attempt to explicitly say "there are
+  no completions that match" would unintentionally trigger filename completion.
+  Instead as a workaround we return:
+
+        $ ddcompletion --none <TAB>         # the 'none' argtype
+        ##-no           completions-##
+
+        $ ddcompletion                      # a custom 'fruit' argtype
+        apple   banana  orange
+        $ ddcompletion z
+        ##-no           -fruit-         completions-##
+
+  This is a bit of a hack, but IMO a better experience than the surprise
+  of matching a local filename beginning with 'z', which isn't, in this
+  case, a "fruit".
 
 ## 1.12.1
 
