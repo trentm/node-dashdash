@@ -555,7 +555,8 @@ var cases = [
     {
         options: [ {name: 't', type: 'positiveInteger'} ],
         argv: 'node tool.js -t 0',
-        expect: { t: 0, _args: [] }
+        /* JSSTYLED */
+        expect: /arg for "-t" is not a positive integer/
     },
     {
         options: [ {name: 't', type: 'positiveInteger'} ],
