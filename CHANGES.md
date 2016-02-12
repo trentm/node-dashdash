@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.13.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.13.0
 
 - Update assert-plus dep to 1.x to get recent fixes (particularly for
