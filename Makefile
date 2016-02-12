@@ -17,22 +17,27 @@ test: | $(NODEUNIT)
 	$(NODEUNIT) test/*.test.js
 
 .PHONY: testall
-testall: test12 test10 test08
-.PHONY: test12
-test12:
+testall: test5 test4 test012 test010
+.PHONY: test5
+test5:
+	@echo "# Test node 5.x (with node `$(NODEOPT)/node-5/bin/node --version`)"
+	@$(NODEOPT)/node-5/bin/node --version
+	PATH="$(NODEOPT)/node-5/bin:$(PATH)" make test
+.PHONY: test4
+test4:
+	@echo "# Test node 4.x (with node `$(NODEOPT)/node-4/bin/node --version`)"
+	@$(NODEOPT)/node-4/bin/node --version
+	PATH="$(NODEOPT)/node-4/bin:$(PATH)" make test
+.PHONY: test012
+test012:
 	@echo "# Test node 0.12.x (with node `$(NODEOPT)/node-0.12/bin/node --version`)"
 	@$(NODEOPT)/node-0.12/bin/node --version
 	PATH="$(NODEOPT)/node-0.12/bin:$(PATH)" make test
-.PHONY: test10
-test10:
+.PHONY: test010
+test010:
 	@echo "# Test node 0.10.x (with node `$(NODEOPT)/node-0.10/bin/node --version`)"
 	@$(NODEOPT)/node-0.10/bin/node --version
 	PATH="$(NODEOPT)/node-0.10/bin:$(PATH)" make test
-.PHONY: test08
-test08:
-	@echo "# Test node 0.8.x (with node `$(NODEOPT)/node-0.8/bin/node --version`)"
-	@$(NODEOPT)/node-0.8/bin/node --version
-	PATH="$(NODEOPT)/node-0.8/bin:$(PATH)" make test
 
 .PHONY: clean
 clean:

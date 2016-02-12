@@ -2,6 +2,12 @@
 
 ## 1.13.0 (not yet released)
 
+- Update assert-plus dep to 1.x to get recent fixes (particularly for
+  `assert.optional*`).
+
+- Drop testing (and official support in packages.json#engines) for node 0.8.x.
+  Add testing against node 5.x and 4.x with `make testall`.
+
 - [pull #16] Change the `positiveInteger` type to NOT accept zero (0). 
   For those who might need the old behaviour, see
   "examples/custom-option-intGteZero.js".  (By Dave Pacheco.)
