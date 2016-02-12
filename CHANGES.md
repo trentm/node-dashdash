@@ -1,8 +1,10 @@
 # node-dashdash changelog
 
-## 1.12.3 (not yet released)
+## 1.13.0 (not yet released)
 
-(nothing yet)
+- [pull #16] Change the `positiveInteger` type to NOT accept zero (0). 
+  For those who might need the old behaviour, see
+  "examples/custom-option-intGteZero.js".  (By Dave Pacheco.)
 
 
 ## 1.12.2
