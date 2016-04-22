@@ -2,7 +2,8 @@
 
 ## 1.13.1 (not yet released)
 
-(nothing yet)
+- [issue #20] `bashCompletionSpecFromOptions` breaks on an options array with
+  an empty-string group.
 
 
 ## 1.13.0
