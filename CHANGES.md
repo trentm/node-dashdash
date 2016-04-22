@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.13.1 (not yet released)
+## 1.13.1
 
 - [issue #20] `bashCompletionSpecFromOptions` breaks on an options array with
   an empty-string group.
