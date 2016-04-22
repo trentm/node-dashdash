@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.13.2 (not yet released)
+
+(nothing yet)
+
+
 ## 1.13.1
 
 - [issue #20] `bashCompletionSpecFromOptions` breaks on an options array with
