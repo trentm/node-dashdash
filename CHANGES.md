@@ -1,5 +1,10 @@
 # node-dashdash changelog
 
+## 1.14.1 (not yet released)
+
+(nothing yet)
+
+
 ## 1.14.0
 
 - New `synopsisFromOpt(<option spec>)` function. This will be used by
