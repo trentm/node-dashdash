@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.14.0 (not yet released)
+## 1.14.0
 
 - New `synopsisFromOpt(<option spec>)` function. This will be used by
   [node-cmdln](https://github.com/trentm/node-cmdln) to put together a synopsis
