@@ -126,6 +126,17 @@ test('slice', function (t) {
 });
 
 
+test('synopsisFromOpt', function (t) {
+    var synopsisFromOpt = dashdash.synopsisFromOpt;
+
+    t.equal(synopsisFromOpt({names: ['help', 'h'], type: 'bool'}),
+        '[ --help | -h ]');
+    t.equal(synopsisFromOpt({name: 'file', type: 'string', helpArg: 'FILE'}),
+        '[ --file=FILE ]');
+    t.end();
+});
+
+
 var cases = [
     // no opts
     {

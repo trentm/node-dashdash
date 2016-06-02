@@ -17,7 +17,12 @@ test: | $(NODEUNIT)
 	$(NODEUNIT) test/*.test.js
 
 .PHONY: testall
-testall: test5 test4 test012 test010
+testall: test6 test5 test4 test012 test010
+.PHONY: test6
+test6:
+	@echo "# Test node 6.x (with node `$(NODEOPT)/node-6/bin/node --version`)"
+	@$(NODEOPT)/node-6/bin/node --version
+	PATH="$(NODEOPT)/node-6/bin:$(PATH)" make test
 .PHONY: test5
 test5:
 	@echo "# Test node 5.x (with node `$(NODEOPT)/node-5/bin/node --version`)"
@@ -61,4 +66,3 @@ versioncheck:
 cutarelease: versioncheck
 	[[ `git status | tail -n1` == "nothing to commit, working directory clean" ]]
 	./tools/cutarelease.py -p dashdash -f package.json
-

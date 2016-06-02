@@ -1,8 +1,15 @@
 # node-dashdash changelog
 
-## 1.13.2 (not yet released)
+## 1.14.0 (not yet released)
 
-(nothing yet)
+- New `synopsisFromOpt(<option spec>)` function. This will be used by
+  [node-cmdln](https://github.com/trentm/node-cmdln) to put together a synopsis
+  of options for a command. Some examples:
+
+        > synopsisFromOpt({names: ['help', 'h'], type: 'bool'});
+        '[ --help | -h ]'
+        > synopsisFromOpt({name: 'file', type: 'string', helpArg: 'FILE'});
+        '[ --file=FILE ]'
 
 
 ## 1.13.1
@@ -19,7 +26,7 @@
 - Drop testing (and official support in packages.json#engines) for node 0.8.x.
   Add testing against node 5.x and 4.x with `make testall`.
 
-- [pull #16] Change the `positiveInteger` type to NOT accept zero (0). 
+- [pull #16] Change the `positiveInteger` type to NOT accept zero (0).
   For those who might need the old behaviour, see
   "examples/custom-option-intGteZero.js".  (By Dave Pacheco.)
 
