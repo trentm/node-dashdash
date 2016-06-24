@@ -131,14 +131,20 @@
         tail -fn5
 
   Before this change, that would not parse correctly.
+  It is suspected that this was introduced in version 1.4.0
+  (with commit 656fa8bc71c372ebddad0a7026bd71611e2ec99a).
 
 
 ## 1.7.2
+
+- Known issues: #8
 
 - Exclude 'tools/' dir in packages published to npm.
 
 
 ## 1.7.1
+
+- Known issues: #8
 
 - Support an option group *empty string* value:
 
@@ -151,6 +157,8 @@
 
 
 ## 1.7.0
+
+- Known issues: #8
 
 - [pull #7] Support for `<parser>.help({helpWrap: false, ...})` option to be able
   to fully control the formatting for option help (by Patrick Mooney) `helpWrap:
@@ -169,6 +177,8 @@
 
 
 ## 1.6.0
+
+- Known issues: #8
 
 - [pull #6] Support headings between groups of options (by Joshua M. Clulow)
   so that this code:
@@ -193,6 +203,8 @@
 
 
 ## 1.5.0
+
+- Known issues: #8
 
 - Add support for adding custom option types. "examples/custom-option-duration.js"
   shows an example adding a "duration" option type.
@@ -229,6 +241,8 @@
 
 
 ## 1.4.0
+
+- Known issues: #8
 
 - [pull #2, pull #3] Add a `allowUnknown: true` option on `createParser` to
   allow unknown options to be passed through as `opts._args` instead of parsing
