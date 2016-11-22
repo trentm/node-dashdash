@@ -2,8 +2,15 @@
 
 ## 1.14.1 (not yet released)
 
-(nothing yet)
+- [issue #30] Change the output used by dashdash's Bash completion support to
+  indicate "there are no completions for this argument" to cope with different
+  sorting rules on different Bash/platforms. For example:
 
+        $ triton -v -p test2 package get <TAB>          # before
+        ##-no -tritonpackage- completions-##
+
+        $ triton -v -p test2 package get <TAB>          # after
+        ##-no-completion- -results-##
 
 ## 1.14.0
 
