@@ -1,6 +1,6 @@
 # node-dashdash changelog
 
-## 1.14.1 (not yet released)
+## not yet released
 
 - [issue #30] Change the output used by dashdash's Bash completion support to
   indicate "there are no completions for this argument" to cope with different
