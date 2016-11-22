@@ -17,17 +17,17 @@ test: | $(NODEUNIT)
 	$(NODEUNIT) test/*.test.js
 
 .PHONY: testall
-testall: test6 test5 test4 test012 test010
+testall: test6 test7 test4 test012 test010
 .PHONY: test6
 test6:
 	@echo "# Test node 6.x (with node `$(NODEOPT)/node-6/bin/node --version`)"
 	@$(NODEOPT)/node-6/bin/node --version
 	PATH="$(NODEOPT)/node-6/bin:$(PATH)" make test
-.PHONY: test5
-test5:
-	@echo "# Test node 5.x (with node `$(NODEOPT)/node-5/bin/node --version`)"
-	@$(NODEOPT)/node-5/bin/node --version
-	PATH="$(NODEOPT)/node-5/bin:$(PATH)" make test
+.PHONY: test7
+test7:
+	@echo "# Test node 7.x (with node `$(NODEOPT)/node-7/bin/node --version`)"
+	@$(NODEOPT)/node-7/bin/node --version
+	PATH="$(NODEOPT)/node-7/bin:$(PATH)" make test
 .PHONY: test4
 test4:
 	@echo "# Test node 4.x (with node `$(NODEOPT)/node-4/bin/node --version`)"
