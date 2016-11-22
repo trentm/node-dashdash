@@ -2,6 +2,10 @@
 
 ## not yet released
 
+(nothing yet)
+
+## 1.14.1
+
 - [issue #30] Change the output used by dashdash's Bash completion support to
   indicate "there are no completions for this argument" to cope with different
   sorting rules on different Bash/platforms. For example:
