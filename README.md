@@ -44,7 +44,7 @@ A more realistic [starter script "foo.js"](./examples/foo.js) is as follows.
 This also shows using `parser.help()` for formatted option help.
 
 ```javascript
-var dashdash = require('./lib/dashdash');
+var dashdash = require('dashdash');
 
 var options = [
     {
