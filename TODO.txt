@@ -1,7 +1,6 @@
 
 # someday/maybe
 
-- being able to add types: i.e. a validator (easy to do, just haven't exposed)
 - Maybe this later: var opts = parser.parse({argv: process.argv});
 
 
