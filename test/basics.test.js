@@ -260,6 +260,60 @@ var cases = [
             _args: []
         }
     },
+    {
+        options: [ {name: 'enable', type: 'bool'} ],
+        argv: 'node tool.js --enable',
+        expect: {
+            enable: true,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'enable', type: 'bool', default: true} ],
+        boolNegationPrefix: 'no-',
+        argv: 'node tool.js --no-enable',
+        expect: {
+            enable: false,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'toast', type: 'bool', default: false} ],
+        boolNegationPrefix: 'enable-',
+        argv: 'node tool.js --enable-toast',
+        expect: {
+            toast: true,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'enable', type: 'arrayOfBool', default: true} ],
+        boolNegationPrefix: 'no-',
+        argv: 'node tool.js --no-enable --no-enable',
+        expect: {
+            enable: [ false, false ],
+            _args: []
+        }
+    },
+    {
+        options: [
+            {name: 'toast', type: 'bool', default: true, boolNegationPrefix: 'disable-'},
+            {name: 'enable', type: 'bool', default: true}
+        ],
+        boolNegationPrefix: 'no-',
+        argv: 'node tool.js --disable-toast --no-enable',
+        expect: {
+            toast: false,
+            enable: false,
+            _args: []
+        }
+    },
+    {
+        options: [ {name: 'file', type: 'string'} ],
+        boolNegationPrefix: 'off-',
+        argv: 'node tool.js --no-file',
+        expect: /unknown option: "--no-file"/
+    },
 
     // short opts
     {
@@ -465,6 +519,14 @@ var cases = [
         ],
         argv: 'node tool.js --help',
         expectHelp: /-h, --help\s+Show help and exit./
+    },
+    {
+        options: [
+            {names: ['help', 'h'], type: 'bool', help: 'Show help and exit.'}
+        ],
+        boolNegationPrefix: 'no-',
+        argv: 'node tool.js --help',
+        expectHelp: /-h, --\[no-\]help\s+Show help and exit./
     },
     {
         options: [
