@@ -80,4 +80,4 @@ cutarelease: versioncheck
 	    date=$(shell date -u "+%Y-%m-%d") && \
 	    git tag -a "$$ver" -m "version $$ver ($$date)" && \
 	    git push --tags origin && \
-	    npm publish
+	    npm publish --tag 1.x

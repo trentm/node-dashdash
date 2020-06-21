@@ -4,12 +4,20 @@ A light, featureful and explicit option parsing library for node.js.
 too loosey goosey (not explicit), too big/too many deps, or ill specified.
 YMMV.
 
-Follow <a href="https://twitter.com/intent/user?screen_name=trentmick" target="_blank">@trentmick</a>
-for updates to node-dashdash.
 
 # Install
 
     npm install dashdash
+
+
+# Active Versions
+
+- [2.x](https://github.com/trentm/node-dashdash/tree/master) - Version 2.x
+  dropped support for node versions earlier than node 10.x. While I don't
+  expect to actively break functionality, new changes are no longer tested
+  on earlier versions.
+- [1.x](https://github.com/trentm/node-dashdash/tree/1.x) - This version
+  supports back to node version 0.10.x.
 
 
 # Usage

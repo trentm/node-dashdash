@@ -6,16 +6,17 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '1.x' ]
   pull_request:
-    branches: [ master ]
+    branches: [ '1.x' ]
 
 jobs:
-  # Test once on every (available) plat, using LTS node version.
+  # Test once on most plats, using LTS node version.
+  # We don't test on Windows because `nodeunit test/*.test.js` breaks.
   test-plats:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
