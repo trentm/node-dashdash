@@ -7,7 +7,8 @@ YMMV.
 
 # Install
 
-    npm install dashdash
+    # This is dashdash 1.x -- *not* the latest version.
+    npm install dashdash@1.x
 
 
 # Active Versions
