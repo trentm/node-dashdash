@@ -27,6 +27,11 @@ var dashdash = require('../lib/dashdash');
 
 var TEST_FILTER = process.env.TEST_FILTER;
 
+// Some of the 'date' test cases below assume no timezone offset. If "TZ" is
+// set before any date functions are called, then node.js is meant to honour
+// the given TZ timezone.
+process.env.TZ = 'Etc/UTC';
+
 
 // ---- support stuff
 
