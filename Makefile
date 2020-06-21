@@ -1,7 +1,4 @@
 
-JSSTYLE_FILES := $(shell find lib test -name "*.js")
-
-
 all:
 	npm install
 
@@ -17,22 +14,31 @@ distclean: clean
 clean:
 	rm -f dashdash-*.tgz
 
-.PHONY: check-jsstyle
-check-jsstyle: $(JSSTYLE_FILES)
-	./tools/jsstyle -o indent=4,doxygen,unparenthesized-return=0,blank-after-start-comment=0,leading-right-paren-ok $(JSSTYLE_FILES)
+# Run just the lint-y parts of eslint (i.e. not "prettier" formatting).
+.PHONY: lint
+lint:
+	npm run lint
+
+.PHONY: fmt
+fmt:
+	npm run fmt
 
 .PHONY: check
-check:: check-jsstyle versioncheck
+check:: check-eslint check-version
 	@echo "Check ok."
 
+.PHONY: check-eslint
+check-eslint:
+	npm run check
+
 # Ensure CHANGES.md and package.json have the same version.
-.PHONY: versioncheck
-versioncheck:
+.PHONY: check-version
+check-version:
 	@echo version is: $(shell cat package.json | json version)
 	[[ `cat package.json | json version` == `grep '^## ' CHANGES.md | head -2 | tail -1 | awk '{print $$2}'` ]]
 
 .PHONY: cutarelease
-cutarelease: versioncheck
+cutarelease: check-version
 	[[ -z `git status --short` ]]  # If this fails, the working dir is dirty.
 	@which json 2>/dev/null 1>/dev/null && \
 	    ver=$(shell json -f package.json version) && \

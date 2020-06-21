@@ -18,17 +18,25 @@
         "url": "git://github.com/trentm/node-dashdash.git"
     },
     "main": "./lib/dashdash.js",
+    "files": ["lib", "etc"],
     "dependencies": {
         "assert-plus": "^1.0.0"
     },
     "devDependencies": {
+        "eslint": "^7.3.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "prettier": "^2.0.5",
         "tap": "^14.x"
     },
     "engines": {
         "node": ">=10.x"
     },
     "scripts": {
-        "test": "tap test/*.test.js"
+        "test": "tap test/*.test.js",
+        "check": "eslint lib test",
+        "lint": "eslint --rule 'prettier/prettier: off' lib test",
+        "fmt": "eslint --fix lib test"
     },
     "license": "MIT"
 }
