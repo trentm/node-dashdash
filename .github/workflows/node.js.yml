@@ -12,7 +12,7 @@ on:
 
 jobs:
   # Test once on every (available) plat, using LTS node version.
-  test-on-all-plats:
+  test-plats:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -27,7 +27,7 @@ jobs:
 
   # Test once for every supported node version. Only test on one
   # platform to not overkill the number of builds.
-  test-all-supported-versions:
+  test-vers:
     strategy:
       matrix:
         node: ['8.x', '10.x', '12.x', '14.x']
@@ -42,7 +42,7 @@ jobs:
 
   # This is a separate job because the npm in older node's doesn't have
   # "npm ci". Fallback to "npm install"
-  test-old-supported-versions:
+  test-old-vers:
     strategy:
       matrix:
         node: ['0.10.x', '4.x', '6.x']
