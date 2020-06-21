@@ -10,15 +10,7 @@ if (DEBUG) {
 }
 
 var format = require('util').format;
-
-
-// node-tap API
-if (require.cache[__dirname + '/tap4nodeunit.js'])
-    delete require.cache[__dirname + '/tap4nodeunit.js'];
-var tap4nodeunit = require('./tap4nodeunit.js');
-var after = tap4nodeunit.after;
-var before = tap4nodeunit.before;
-var test = tap4nodeunit.test;
+var test = require('tap').test;
 
 var dashdash = require('../lib/dashdash');
 
@@ -72,10 +64,6 @@ function parseCommaSepStringNoEmpties(option, optstr, arg) {
 
 
 // ---- tests
-
-before(function (next) {
-    next();
-});
 
 test('exports', function (t) {
     t.ok(dashdash.createParser, 'dashdash.createParser');

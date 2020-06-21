@@ -4,6 +4,17 @@
 
 (nothing yet)
 
+## 2.0.0
+
+- [Backward incompatible change] This version drops official support for
+  versions of node.js before 10.x. Dashdash 1.x supports back to node 0.10.x.
+  I've no direct intention of breaking compat, but new changes won't be tested
+  on older node versions. Moving to a newer node allows me to switch to a
+  modernish node-tap for better testing.
+
+  Dev changes:
+    - Switch from nodeunit to node-tap for testing.
+
 ## 1.14.1
 
 - [issue #30] Change the output used by dashdash's Bash completion support to

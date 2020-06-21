@@ -30,7 +30,7 @@ jobs:
   test-vers:
     strategy:
       matrix:
-        node: ['8.x', '10.x', '12.x', '14.x']
+        node: ['10.x', '12.x', '14.x']
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -38,19 +38,4 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm ci
-    - run: npm test
-
-  # This is a separate job because the npm in older node's doesn't have
-  # "npm ci". Fallback to "npm install"
-  test-old-vers:
-    strategy:
-      matrix:
-        node: ['0.10.x', '4.x', '6.x']
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
-    - run: npm install
     - run: npm test
