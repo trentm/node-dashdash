@@ -1,0 +1,56 @@
+# This workflow will do a clean install of node dependencies, build the source
+# code and run tests across different versions of node.
+# https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  # Test once on every (available) plat, using LTS node version.
+  test-plats:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm ci
+    - run: npm test
+
+  # Test once for every supported node version. Only test on one
+  # platform to not overkill the number of builds.
+  test-vers:
+    strategy:
+      matrix:
+        node: ['8.x', '10.x', '12.x', '14.x']
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm ci
+    - run: npm test
+
+  # This is a separate job because the npm in older node's doesn't have
+  # "npm ci". Fallback to "npm install"
+  test-old-vers:
+    strategy:
+      matrix:
+        node: ['0.10.x', '4.x', '6.x']
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm install
+    - run: npm test
