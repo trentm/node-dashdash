@@ -10,17 +10,30 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
-        node: ['8.x']
+        node: ['8.x', '14.x']
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Test node ${{ matrix.node }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
     - run: npm ci
+    - run: npm test
+
+  test-on-old:
+    strategy:
+      matrix:
+        node: ['4.x', '6.x']
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm install
     - run: npm test
