@@ -19,6 +19,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - run: npm ci
     - run: npm run check
 
   # Test once on every (available) plat, using LTS node version.
