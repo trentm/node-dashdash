@@ -50,7 +50,6 @@ function parseFruit(option, optstr, arg) {
 }
 
 function parseCommaSepStringNoEmpties(option, optstr, arg) {
-    // JSSTYLED
     return arg
         .trim()
         .split(/\s*,\s*/g)
@@ -436,7 +435,6 @@ var cases = [
     {
         options: [{names: ['timeout', 't'], type: 'number'}],
         argv: 'node tool.js -t 5a',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a number/
     },
 
@@ -529,31 +527,26 @@ var cases = [
     {
         options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 1e2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
         options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 0x32',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
         options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 3.1',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
         options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 42.',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
         options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 1e-2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
@@ -574,7 +567,6 @@ var cases = [
     {
         options: [{name: 't', type: 'arrayOfInteger'}],
         argv: 'node tool.js -t 1 -t 1e2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
 
@@ -582,7 +574,6 @@ var cases = [
     {
         options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t 0',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
     {
@@ -598,7 +589,6 @@ var cases = [
     {
         options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t -5',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
     {
@@ -609,7 +599,6 @@ var cases = [
     {
         options: [{name: 't', type: 'arrayOfPositiveInteger'}],
         argv: 'node tool.js -t 42 -t -5',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
 
@@ -617,7 +606,6 @@ var cases = [
     {
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js -v',
-        /* JSSTYLED */
         expect: {
             v: true,
             _args: [],
@@ -628,7 +616,6 @@ var cases = [
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: '1'},
-        /* JSSTYLED */
         expect: {
             v: true,
             _args: [],
@@ -659,7 +646,6 @@ var cases = [
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: ''},
-        /* JSSTYLED */
         expect: {_args: []}
     },
 
@@ -677,7 +663,6 @@ var cases = [
         ],
         argv: 'node tool.js --help',
         helpOptions: {includeEnv: true},
-        /* BEGIN JSSTYLED */
         expectHelp: [
             /-a ARG\s+Phrase. Environment: A=ARG/,
             /-b ARG\s+Sentence. Environment: B=ARG/,
@@ -688,7 +673,6 @@ var cases = [
             /-g ARG\s+Environment: G=ARG/,
             /-h\s+Environment: H=1/
         ]
-        /* END JSSTYLED */
     },
 
     // env (number)
@@ -698,7 +682,6 @@ var cases = [
         ],
         argv: 'node foo.js -t 42',
         env: {},
-        /* JSSTYLED */
         expect: {timeout: 42, _args: []}
     },
     {
@@ -707,7 +690,6 @@ var cases = [
         ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: '32'},
-        /* JSSTYLED */
         expect: {timeout: 32, _args: []}
     },
     {
@@ -716,7 +698,6 @@ var cases = [
         ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: '32'},
-        /* JSSTYLED */
         expect: {timeout: 52, _args: []}
     },
 
@@ -728,7 +709,6 @@ var cases = [
         ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: 'wallawalla'},
-        /* JSSTYLED */
         expect: {timeout: 52, _args: []}
     },
     {
@@ -737,7 +717,6 @@ var cases = [
         ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: 'wallawalla'},
-        /* JSSTYLED */
         expect: /arg for "FOO_TIMEOUT" is not a number: "wallawalla"/
     },
 
@@ -746,21 +725,18 @@ var cases = [
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
         expect: {v: [true], _args: []}
     },
     {
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
         expect: {v: [true], _args: []}
     },
     {
         options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js -vv',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
         expect: {v: [true, true], _args: []}
     },
 
@@ -768,13 +744,11 @@ var cases = [
     {
         options: [{names: ['dry-run', 'n'], type: 'bool'}],
         argv: 'node foo.js --dry-run',
-        /* JSSTYLED */
         expect: {dry_run: true, _args: []}
     },
     {
         options: [{name: 'foo-bar-', type: 'bool'}],
         argv: 'node foo.js --foo-bar-',
-        /* JSSTYLED */
         expect: {foo_bar_: true, _args: []}
     },
 
@@ -897,13 +871,11 @@ var cases = [
     {
         options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s',
-        /* JSSTYLED */
         expect: /do not have enough args for "-s" option/
     },
     {
         options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s notadate',
-        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "notadate"/
     },
     {
@@ -929,7 +901,6 @@ var cases = [
     {
         options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T',
-        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "2014-04-01T"/
     },
     {
@@ -1032,7 +1003,6 @@ var cases = [
         ],
         argv: 'node helpWrapTool.js --help',
         helpOptions: {includeEnv: true},
-        /* BEGIN JSSTYLED */
         expectHelp: [
             /long help with newlines spaces and such will not render/,
             /\. Environment: ENVVARIABLE=ARG/,
@@ -1043,7 +1013,6 @@ var cases = [
             // Ensure FOOVAR env is on *first* line and not after a blank.
             /^ +--foo=ARG +Environment: FOOVAR=ARG$/m
         ]
-        /* END JSSTYLED */
     },
     {
         options: [
@@ -1058,13 +1027,11 @@ var cases = [
         ],
         argv: 'node helpWrapTool2.js --help',
         helpOptions: {includeEnv: true, helpWrap: false},
-        /* BEGIN JSSTYLED */
         expectHelp: [
             /long help with$/m,
             /^ +newlines$/m,
             /^ +Environment: OTHERVARIABLE=ARG/m
         ]
-        /* END JSSTYLED */
     },
 
     // hidden
@@ -1119,12 +1086,10 @@ var cases = [
             includeEnv: true,
             includeDefault: true
         },
-        /* BEGIN JSSTYLED */
         expectHelp: [
             /^ {2}Filling:$/m,
             / +Environment: FRUIT=<fruit>\. Default: "apple"/m
         ]
-        /* END JSSTYLED */
     },
 
     // optionType.arrayFlatten
