@@ -3,10 +3,11 @@
  */
 
 var DEBUG = false;
+var debug;
 if (DEBUG) {
-    var debug = console.warn;
+    debug = console.warn;
 } else {
-    var debug = function () {};
+    debug = function debug() {};
 }
 
 var format = require('util').format;
@@ -53,35 +54,35 @@ function parseCommaSepStringNoEmpties(option, optstr, arg) {
     return arg
         .trim()
         .split(/\s*,\s*/g)
-        .filter(function (part) {
+        .filter(function onPart(part) {
             return part;
         });
 }
 
 // ---- tests
 
-test('exports', function (t) {
+test('exports', function onTest(t) {
     t.ok(dashdash.createParser, 'dashdash.createParser');
     t.ok(dashdash.parse, 'dashdash.parse');
     t.ok(dashdash.Parser, 'dashdash.Parser');
     t.end();
 });
 
-test('createParser', function (t) {
+test('createParser', function onTest(t) {
     var options = [{name: 'help', type: 'bool'}];
     var parser = dashdash.createParser({options: options});
     t.ok(parser);
     t.end();
 });
 
-test('Parser', function (t) {
+test('Parser', function onTest(t) {
     var options = [{name: 'help', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
     t.ok(parser);
     t.end();
 });
 
-test('parse', function (t) {
+test('parse', function onTest(t) {
     var options = [{name: 'help', type: 'bool'}];
     var argv = 'node tool.js --help'.split(/\s+/g);
     var opts = dashdash.parse({options: options, argv: argv});
@@ -89,7 +90,7 @@ test('parse', function (t) {
     t.end();
 });
 
-test('old Parser.parse() API', function (t) {
+test('old Parser.parse() API', function onTest(t) {
     var options = [{name: 'v', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
     var opts = parser.parse('node tool.js -v'.split(/\s+/g));
@@ -99,19 +100,22 @@ test('old Parser.parse() API', function (t) {
     t.end();
 });
 
-test('slice', function (t) {
+test('slice', function onTest(t) {
+    var opts;
+
     var options = [{name: 'v', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
-    var opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
+    opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
     t.ok(opts.v);
     t.equal(opts._args.length, 0);
-    var opts = parser.parse({argv: '-v'.split(/\s+/g), slice: 0});
+
+    opts = parser.parse({argv: '-v'.split(/\s+/g), slice: 0});
     t.ok(opts.v);
     t.equal(opts._args.length, 0);
     t.end();
 });
 
-test('synopsisFromOpt', function (t) {
+test('synopsisFromOpt', function onTest(t) {
     var synopsisFromOpt = dashdash.synopsisFromOpt;
 
     t.equal(
@@ -1144,7 +1148,7 @@ var cases = [
     }
 ];
 
-cases.forEach(function (c, num) {
+cases.forEach(function onTest(c, num) {
     var expect = c.expect;
     delete c.expect;
     var expectHelps = c.expectHelp;
@@ -1168,7 +1172,7 @@ cases.forEach(function (c, num) {
     delete c.env;
     var envStr = '';
     if (env) {
-        Object.keys(env).forEach(function (e) {
+        Object.keys(env).forEach(function onE(e) {
             envStr += format('%s=%s ', e, env[e]);
         });
     }
@@ -1177,7 +1181,7 @@ cases.forEach(function (c, num) {
     if (optionTypes) {
         // WARNING: These are not removed for subsequent tests. That *could*
         // theoretically cause conflicts.
-        optionTypes.forEach(function (ot) {
+        optionTypes.forEach(function onOT(ot) {
             dashdash.addOptionType(ot);
         });
     }
@@ -1185,7 +1189,7 @@ cases.forEach(function (c, num) {
     if (TEST_FILTER && !~testName.indexOf(TEST_FILTER)) {
         return;
     }
-    test(testName, function (t) {
+    test(testName, function onTest(t) {
         debug('--', num);
         debug('c: %j', c);
         var parser = new dashdash.Parser(c);
@@ -1216,7 +1220,7 @@ cases.forEach(function (c, num) {
         }
         if (expectHelps.length) {
             var help = parser.help(helpOptions);
-            expectHelps.forEach(function (eH) {
+            expectHelps.forEach(function onEH(eH) {
                 t.ok(
                     eH.test(help),
                     format('help did not match %s: "%s"', eH, help)
