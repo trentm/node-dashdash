@@ -11,6 +11,17 @@ on:
     branches: [ master ]
 
 jobs:
+  # Check lint and style.
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm ci
+    - run: npm run check
+
   # Test once on every (available) plat, using LTS node version.
   test-plats:
     strategy:

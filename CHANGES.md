@@ -14,6 +14,7 @@
 
   Dev changes:
     - Switch from nodeunit to node-tap for testing.
+    - Switch from jsstyle to eslint for linting, and prettier for formatting.
 
 ## 1.14.1
 

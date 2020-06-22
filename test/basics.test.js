@@ -3,17 +3,17 @@
  */
 
 var DEBUG = false;
+var debug;
 if (DEBUG) {
-    var debug = console.warn;
+    debug = console.warn;
 } else {
-    var debug = function () {};
+    debug = function debug() {};
 }
 
 var format = require('util').format;
 var test = require('tap').test;
 
 var dashdash = require('../lib/dashdash');
-
 
 // ---- globals
 
@@ -24,79 +24,73 @@ var TEST_FILTER = process.env.TEST_FILTER;
 // the given TZ timezone.
 process.env.TZ = 'Etc/UTC';
 
-
 // ---- support stuff
 
 function parseYesNo(option, optstr, arg) {
-    var argLower = arg.toLowerCase()
+    var argLower = arg.toLowerCase();
     if (~['yes', 'y'].indexOf(argLower)) {
         return true;
     } else if (~['no', 'n'].indexOf(argLower)) {
         return false;
     } else {
-        throw new Error(format(
-            'arg for "%s" is not "yes" or "no": "%s"',
-            optstr, arg));
+        throw new Error(
+            format('arg for "%s" is not "yes" or "no": "%s"', optstr, arg)
+        );
     }
 }
 
-var fruits = [
-    'apple',
-    'pear',
-    'cherry',
-    'strawberry',
-    'banana'
-];
+var fruits = ['apple', 'pear', 'cherry', 'strawberry', 'banana'];
 function parseFruit(option, optstr, arg) {
     if (fruits.indexOf(arg) === -1) {
-        throw new Error(format('arg for "%s" is not a known fruit: "%s"',
-            optstr, arg));
+        throw new Error(
+            format('arg for "%s" is not a known fruit: "%s"', optstr, arg)
+        );
     }
     return arg;
 }
 
 function parseCommaSepStringNoEmpties(option, optstr, arg) {
-    // JSSTYLED
-    return arg.trim().split(/\s*,\s*/g)
-        .filter(function (part) { return part; });
+    return arg
+        .trim()
+        .split(/\s*,\s*/g)
+        .filter(function onPart(part) {
+            return part;
+        });
 }
-
-
 
 // ---- tests
 
-test('exports', function (t) {
+test('exports', function onTest(t) {
     t.ok(dashdash.createParser, 'dashdash.createParser');
     t.ok(dashdash.parse, 'dashdash.parse');
     t.ok(dashdash.Parser, 'dashdash.Parser');
     t.end();
 });
 
-test('createParser', function (t) {
-    var options = [ {name: 'help', type: 'bool'} ];
+test('createParser', function onTest(t) {
+    var options = [{name: 'help', type: 'bool'}];
     var parser = dashdash.createParser({options: options});
     t.ok(parser);
     t.end();
 });
 
-test('Parser', function (t) {
-    var options = [ {name: 'help', type: 'bool'} ];
+test('Parser', function onTest(t) {
+    var options = [{name: 'help', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
     t.ok(parser);
     t.end();
 });
 
-test('parse', function (t) {
-    var options = [ {name: 'help', type: 'bool'} ];
+test('parse', function onTest(t) {
+    var options = [{name: 'help', type: 'bool'}];
     var argv = 'node tool.js --help'.split(/\s+/g);
     var opts = dashdash.parse({options: options, argv: argv});
     t.ok(opts);
     t.end();
 });
 
-
-test('old Parser.parse() API', function (t) {
-    var options = [ {name: 'v', type: 'bool'} ];
+test('old Parser.parse() API', function onTest(t) {
+    var options = [{name: 'v', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
     var opts = parser.parse('node tool.js -v'.split(/\s+/g));
     t.ok(opts.v);
@@ -105,30 +99,34 @@ test('old Parser.parse() API', function (t) {
     t.end();
 });
 
+test('slice', function onTest(t) {
+    var opts;
 
-test('slice', function (t) {
-    var options = [ {name: 'v', type: 'bool'} ];
+    var options = [{name: 'v', type: 'bool'}];
     var parser = new dashdash.Parser({options: options});
-    var opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
+    opts = parser.parse({argv: 'node tool.js -v'.split(/\s+/g)});
     t.ok(opts.v);
     t.equal(opts._args.length, 0);
-    var opts = parser.parse({argv: '-v'.split(/\s+/g), slice: 0});
+
+    opts = parser.parse({argv: '-v'.split(/\s+/g), slice: 0});
     t.ok(opts.v);
     t.equal(opts._args.length, 0);
     t.end();
 });
 
-
-test('synopsisFromOpt', function (t) {
+test('synopsisFromOpt', function onTest(t) {
     var synopsisFromOpt = dashdash.synopsisFromOpt;
 
-    t.equal(synopsisFromOpt({names: ['help', 'h'], type: 'bool'}),
-        '[ --help | -h ]');
-    t.equal(synopsisFromOpt({name: 'file', type: 'string', helpArg: 'FILE'}),
-        '[ --file=FILE ]');
+    t.equal(
+        synopsisFromOpt({names: ['help', 'h'], type: 'bool'}),
+        '[ --help | -h ]'
+    );
+    t.equal(
+        synopsisFromOpt({name: 'file', type: 'string', helpArg: 'FILE'}),
+        '[ --file=FILE ]'
+    );
     t.end();
 });
-
 
 var cases = [
     // no opts
@@ -147,7 +145,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a b',
         expect: {
             _args: ['a', 'b']
@@ -156,21 +154,21 @@ var cases = [
 
     // '--'
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js -- a',
         expect: {
             _args: ['a']
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a -- b',
         expect: {
             _args: ['a', 'b']
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a -- --help',
         expect: {
             _args: ['a', '--help']
@@ -179,7 +177,7 @@ var cases = [
 
     // '--long-opt'
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js --help',
         expect: {
             help: true,
@@ -187,7 +185,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js --help a b',
         expect: {
             help: true,
@@ -195,7 +193,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a --help b',
         expect: {
             help: true,
@@ -203,7 +201,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a --help b',
         interspersed: true,
         expect: {
@@ -212,7 +210,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a --help b',
         interspersed: false,
         expect: {
@@ -220,17 +218,17 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js --help=foo',
-        expect: /argument given to .* option that does not take one/,
+        expect: /argument given to .* option that does not take one/
     },
     {
-        options: [ {name: 'file', type: 'string'} ],
+        options: [{name: 'file', type: 'string'}],
         argv: 'node tool.js --file',
         expect: /do not have enough args/
     },
     {
-        options: [ {name: 'file', type: 'string', default: '/dev/null'} ],
+        options: [{name: 'file', type: 'string', default: '/dev/null'}],
         argv: 'node tool.js',
         expect: {
             file: '/dev/null',
@@ -238,7 +236,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'file', type: 'string'} ],
+        options: [{name: 'file', type: 'string'}],
         argv: 'node tool.js --file foo.txt',
         expect: {
             file: 'foo.txt',
@@ -246,7 +244,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'file', type: 'string'} ],
+        options: [{name: 'file', type: 'string'}],
         argv: 'node tool.js --file=foo.txt',
         expect: {
             file: 'foo.txt',
@@ -256,14 +254,14 @@ var cases = [
 
     // short opts
     {
-        options: [ {name: 'h', type: 'bool'} ],
+        options: [{name: 'h', type: 'bool'}],
         argv: 'node tool.js -',
         expect: {
             _args: ['-']
         }
     },
     {
-        options: [ {name: 'h', type: 'bool'} ],
+        options: [{name: 'h', type: 'bool'}],
         argv: 'node tool.js -h',
         expect: {
             h: true,
@@ -271,12 +269,12 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'f', type: 'string'} ],
+        options: [{name: 'f', type: 'string'}],
         argv: 'node tool.js -f',
         expect: /do not have enough args/
     },
     {
-        options: [ {name: 'f', type: 'string'} ],
+        options: [{name: 'f', type: 'string'}],
         argv: 'node tool.js -f foo.txt',
         expect: {
             f: 'foo.txt',
@@ -284,7 +282,7 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'f', type: 'string'} ],
+        options: [{name: 'f', type: 'string'}],
         argv: 'node tool.js -ffoo.txt',
         expect: {
             f: 'foo.txt',
@@ -292,43 +290,55 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'l', type: 'bool'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'l', type: 'bool'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node ls.js -l -a dir',
         expect: {
             l: true,
             all: true,
-            _order: [ {key: 'l', value: true, from: 'argv'},
-                {key: 'all', value: true, from: 'argv'} ],
+            _order: [
+                {key: 'l', value: true, from: 'argv'},
+                {key: 'all', value: true, from: 'argv'}
+            ],
             _args: ['dir']
         }
     },
     {
-        options: [ {name: 'l', type: 'bool'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'l', type: 'bool'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node ls.js -l dir -a',
         expect: {
             l: true,
             all: true,
-            _order: [ {key: 'l', value: true, from: 'argv'},
-                {key: 'all', value: true, from: 'argv'} ],
+            _order: [
+                {key: 'l', value: true, from: 'argv'},
+                {key: 'all', value: true, from: 'argv'}
+            ],
             _args: ['dir']
         }
     },
     {
-        options: [ {name: 'l', type: 'bool'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'l', type: 'bool'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node ls.js -l dir -a',
         interspersed: false,
         expect: {
             l: true,
-            _order: [ {key: 'l', value: true, from: 'argv'} ],
+            _order: [{key: 'l', value: true, from: 'argv'}],
             _args: ['dir', '-a']
         }
     },
     {
-        options: [ {name: 'l', type: 'bool'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'l', type: 'bool'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node ls.js -la dir',
         expect: {
             l: true,
@@ -338,14 +348,18 @@ var cases = [
     },
 
     {
-        options: [ {name: 'f', type: 'string'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node tool.js -af',
         expect: /do not have enough args/
     },
     {
-        options: [ {name: 'f', type: 'string'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node tool.js -af foo.txt',
         expect: {
             all: true,
@@ -354,8 +368,10 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'f', type: 'string'},
-                   {names: ['all', 'a'], type: 'bool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {names: ['all', 'a'], type: 'bool'}
+        ],
         argv: 'node tool.js -affoo.txt',
         expect: {
             all: true,
@@ -365,14 +381,18 @@ var cases = [
     },
 
     {
-        options: [ {name: 'f', type: 'string'},
-                   {name: 'v', type: 'arrayOfBool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {name: 'v', type: 'arrayOfBool'}
+        ],
         argv: 'node tool.js -v -vvf',
         expect: /do not have enough args/
     },
     {
-        options: [ {name: 'f', type: 'string'},
-                   {name: 'v', type: 'arrayOfBool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {name: 'v', type: 'arrayOfBool'}
+        ],
         argv: 'node tool.js -v -vvf foo.txt',
         expect: {
             v: [true, true, true],
@@ -381,8 +401,10 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'f', type: 'string'},
-                   {name: 'v', type: 'arrayOfBool'} ],
+        options: [
+            {name: 'f', type: 'string'},
+            {name: 'v', type: 'arrayOfBool'}
+        ],
         argv: 'node tool.js -v -vvffoo.txt',
         expect: {
             v: [true, true, true],
@@ -398,8 +420,8 @@ var cases = [
             {name: 'b', type: 'number'},
             {name: 'c', type: 'number'},
             {name: 'd', type: 'number'},
-            {name: 'e', type: 'number'},
-            ],
+            {name: 'e', type: 'number'}
+        ],
         argv: 'node tool.js -a 5 -b4 -c -1 -d -3.14159 -e 1.0e42 foo',
         expect: {
             a: 5,
@@ -411,15 +433,14 @@ var cases = [
         }
     },
     {
-        options: [ {names: ['timeout', 't'], type: 'number'} ],
+        options: [{names: ['timeout', 't'], type: 'number'}],
         argv: 'node tool.js -t 5a',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a number/
     },
 
     // type: arrayOf*
     {
-        options: [ {names: ['verbose', 'v'], type: 'arrayOfBool'} ],
+        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
         argv: 'node tool.js -vvv foo bar',
         expect: {
             verbose: [true, true, true],
@@ -427,7 +448,7 @@ var cases = [
         }
     },
     {
-        options: [ {names: ['verbose', 'v'], type: 'arrayOfBool'} ],
+        options: [{names: ['verbose', 'v'], type: 'arrayOfBool'}],
         argv: 'node tool.js foo bar',
         expect: {
             // verbose: undefined,
@@ -435,7 +456,7 @@ var cases = [
         }
     },
     {
-        options: [ {names: ['weapon', 'w'], type: 'arrayOfString'} ],
+        options: [{names: ['weapon', 'w'], type: 'arrayOfString'}],
         argv: 'node tool.js -w club --weapon mallet -w sword bang',
         expect: {
             weapon: ['club', 'mallet', 'sword'],
@@ -443,7 +464,7 @@ var cases = [
         }
     },
     {
-        options: [ {names: ['split', 's'], type: 'arrayOfNumber'} ],
+        options: [{names: ['split', 's'], type: 'arrayOfNumber'}],
         argv: 'node tool.js --split 10 -s 5 -s 0.01 bang',
         expect: {
             split: [10, 5, 0.01],
@@ -461,183 +482,171 @@ var cases = [
     },
     {
         options: [
-            { names: ['help', 'h'], type: 'bool' },
-            { group: 'first group' },
-            { names: [ 'first-one', 'f' ], type: 'bool' },
-            { names: [ 'first-two', 'F' ], type: 'bool' },
-            { group: 'second group' },
-            { names: [ 'second-one', 's' ], type: 'bool' },
-            { names: [ 'second-two', 'S' ], type: 'bool' },
+            {names: ['help', 'h'], type: 'bool'},
+            {group: 'first group'},
+            {names: ['first-one', 'f'], type: 'bool'},
+            {names: ['first-two', 'F'], type: 'bool'},
+            {group: 'second group'},
+            {names: ['second-one', 's'], type: 'bool'},
+            {names: ['second-two', 'S'], type: 'bool'}
         ],
         argv: 'node option-groups-tool.js --help',
         expectHelp: [
             /--help\n\n\s\sfirst group:/m,
             /^\s\sfirst group:\n\s\s\s\s-f, --first-one$/m,
-            /first-two\n\n\s\ssecond group:\n\s\s\s\s-s, --second-one$/m,
+            /first-two\n\n\s\ssecond group:\n\s\s\s\s-s, --second-one$/m
         ]
     },
 
     // integer
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 0',
-        expect: { t: 0, _args: [] }
+        expect: {t: 0, _args: []}
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 42',
-        expect: { t: 42, _args: [] }
+        expect: {t: 42, _args: []}
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t42',
-        expect: { t: 42, _args: [] }
+        expect: {t: 42, _args: []}
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t -5',
-        expect: { t: -5, _args: [] }
+        expect: {t: -5, _args: []}
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t-5',
-        expect: { t: -5, _args: [] }
+        expect: {t: -5, _args: []}
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 1e2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 0x32',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 3.1',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 42.',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
-        options: [ {name: 't', type: 'integer'} ],
+        options: [{name: 't', type: 'integer'}],
         argv: 'node tool.js -t 1e-2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
     {
-        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        options: [{name: 't', type: 'arrayOfInteger'}],
         argv: 'node tool.js',
-        expect: { _args: [] }
+        expect: {_args: []}
     },
     {
-        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        options: [{name: 't', type: 'arrayOfInteger'}],
         argv: 'node tool.js -t 42',
-        expect: { t: [42], _args: [] }
+        expect: {t: [42], _args: []}
     },
     {
-        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        options: [{name: 't', type: 'arrayOfInteger'}],
         argv: 'node tool.js -t 1 -t 2 -t -3',
-        expect: { t: [1, 2, -3], _args: [] }
+        expect: {t: [1, 2, -3], _args: []}
     },
     {
-        options: [ {name: 't', type: 'arrayOfInteger'} ],
+        options: [{name: 't', type: 'arrayOfInteger'}],
         argv: 'node tool.js -t 1 -t 1e2',
-        /* JSSTYLED */
         expect: /arg for "-t" is not an integer/
     },
 
     // positiveInteger
     {
-        options: [ {name: 't', type: 'positiveInteger'} ],
+        options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t 0',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
     {
-        options: [ {name: 't', type: 'positiveInteger'} ],
+        options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t 42',
-        expect: { t: 42, _args: [] }
+        expect: {t: 42, _args: []}
     },
     {
-        options: [ {name: 't', type: 'positiveInteger'} ],
+        options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t42',
-        expect: { t: 42, _args: [] }
+        expect: {t: 42, _args: []}
     },
     {
-        options: [ {name: 't', type: 'positiveInteger'} ],
+        options: [{name: 't', type: 'positiveInteger'}],
         argv: 'node tool.js -t -5',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
     {
-        options: [ {name: 't', type: 'arrayOfPositiveInteger'} ],
+        options: [{name: 't', type: 'arrayOfPositiveInteger'}],
         argv: 'node tool.js -t42',
-        expect: { t: [42], _args: [] }
+        expect: {t: [42], _args: []}
     },
     {
-        options: [ {name: 't', type: 'arrayOfPositiveInteger'} ],
+        options: [{name: 't', type: 'arrayOfPositiveInteger'}],
         argv: 'node tool.js -t 42 -t -5',
-        /* JSSTYLED */
         expect: /arg for "-t" is not a positive integer/
     },
 
     // env
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js -v',
-        /* JSSTYLED */
         expect: {
             v: true,
             _args: [],
-            _order: [ {key: 'v', value: true, from: 'argv'} ]
+            _order: [{key: 'v', value: true, from: 'argv'}]
         }
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: '1'},
-        /* JSSTYLED */
         expect: {
             v: true,
             _args: [],
-            _order: [ {key: 'v', value: true, from: 'argv'} ]
+            _order: [{key: 'v', value: true, from: 'argv'}]
         }
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: '1'},
         expect: {
             v: true,
             _args: [],
-            _order: [ {key: 'v', value: true, from: 'env'} ]
+            _order: [{key: 'v', value: true, from: 'env'}]
         }
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: '0'},
         expect: {
             v: false,
             _args: [],
-            _order: [ {key: 'v', value: false, from: 'env'} ]
+            _order: [{key: 'v', value: false, from: 'env'}]
         }
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'bool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'bool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: ''},
-        /* JSSTYLED */
-        expect: { _args: [] }
+        expect: {_args: []}
     },
 
     // env help
@@ -650,11 +659,10 @@ var cases = [
             {names: ['e'], type: 'string', env: 'E', help: ' '},
             {names: ['f'], type: 'string', env: 'F', help: ''},
             {names: ['g'], type: 'string', env: 'G'},
-            {names: ['h'], type: 'bool', env: 'H'},
+            {names: ['h'], type: 'bool', env: 'H'}
         ],
         argv: 'node tool.js --help',
-        helpOptions: { includeEnv: true },
-        /* BEGIN JSSTYLED */
+        helpOptions: {includeEnv: true},
         expectHelp: [
             /-a ARG\s+Phrase. Environment: A=ARG/,
             /-b ARG\s+Sentence. Environment: B=ARG/,
@@ -663,9 +671,8 @@ var cases = [
             /-e ARG\s+Environment: E=ARG/,
             /-f ARG\s+Environment: F=ARG/,
             /-g ARG\s+Environment: G=ARG/,
-            /-h\s+Environment: H=1/,
+            /-h\s+Environment: H=1/
         ]
-        /* END JSSTYLED */
     },
 
     // env (number)
@@ -675,8 +682,7 @@ var cases = [
         ],
         argv: 'node foo.js -t 42',
         env: {},
-        /* JSSTYLED */
-        expect: { timeout: 42, _args: [] }
+        expect: {timeout: 42, _args: []}
     },
     {
         options: [
@@ -684,8 +690,7 @@ var cases = [
         ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: '32'},
-        /* JSSTYLED */
-        expect: { timeout: 32, _args: [] }
+        expect: {timeout: 32, _args: []}
     },
     {
         options: [
@@ -693,8 +698,7 @@ var cases = [
         ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: '32'},
-        /* JSSTYLED */
-        expect: { timeout: 52, _args: [] }
+        expect: {timeout: 52, _args: []}
     },
 
     // Test that a validation fail in env throws, but NOT if a valid
@@ -705,8 +709,7 @@ var cases = [
         ],
         argv: 'node foo.js -t 52',
         env: {FOO_TIMEOUT: 'wallawalla'},
-        /* JSSTYLED */
-        expect: { timeout: 52, _args: [] }
+        expect: {timeout: 52, _args: []}
     },
     {
         options: [
@@ -714,128 +717,136 @@ var cases = [
         ],
         argv: 'node foo.js',
         env: {FOO_TIMEOUT: 'wallawalla'},
-        /* JSSTYLED */
         expect: /arg for "FOO_TIMEOUT" is not a number: "wallawalla"/
     },
 
     // env (arrayOfBool)
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
-        expect: { v: [true], _args: [] }
+        expect: {v: [true], _args: []}
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
-        expect: { v: [true], _args: [] }
+        expect: {v: [true], _args: []}
     },
     {
-        options: [ {name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'} ],
+        options: [{name: 'v', env: 'FOO_VERBOSE', type: 'arrayOfBool'}],
         argv: 'node foo.js -vv',
         env: {FOO_VERBOSE: 'blah'},
-        /* JSSTYLED */
-        expect: { v: [true, true], _args: [] }
+        expect: {v: [true, true], _args: []}
     },
 
     // key name transformation
     {
-        options: [ {names: ['dry-run', 'n'], type: 'bool'} ],
+        options: [{names: ['dry-run', 'n'], type: 'bool'}],
         argv: 'node foo.js --dry-run',
-        /* JSSTYLED */
-        expect: { dry_run: true, _args: [] }
+        expect: {dry_run: true, _args: []}
     },
     {
-        options: [ {name: 'foo-bar-', type: 'bool'} ],
+        options: [{name: 'foo-bar-', type: 'bool'}],
         argv: 'node foo.js --foo-bar-',
-        /* JSSTYLED */
-        expect: { foo_bar_: true, _args: [] }
+        expect: {foo_bar_: true, _args: []}
     },
 
     // issue #1: 'env' not taking precendence over 'default'
     {
-        options: [ {
-            names: ['file', 'f'],
-            env: 'FOO_FILE',
-            'default': 'default.file',
-            type: 'string'
-        } ],
+        options: [
+            {
+                names: ['file', 'f'],
+                env: 'FOO_FILE',
+                default: 'default.file',
+                type: 'string'
+            }
+        ],
         argv: 'node foo.js',
-        expect: { file: 'default.file', _args: [] }
+        expect: {file: 'default.file', _args: []}
     },
     {
-        options: [ {
-            names: ['file', 'f'],
-            env: 'FOO_FILE',
-            'default': 'default.file',
-            type: 'string'
-        } ],
+        options: [
+            {
+                names: ['file', 'f'],
+                env: 'FOO_FILE',
+                default: 'default.file',
+                type: 'string'
+            }
+        ],
         env: {FOO_FILE: 'env.file'},
         argv: 'node foo.js',
-        expect: { file: 'env.file', _args: [] }
+        expect: {file: 'env.file', _args: []}
     },
     {
-        options: [ {
-            names: ['file', 'f'],
-            env: 'FOO_FILE',
-            'default': 'default.file',
-            type: 'string'
-        } ],
+        options: [
+            {
+                names: ['file', 'f'],
+                env: 'FOO_FILE',
+                default: 'default.file',
+                type: 'string'
+            }
+        ],
         argv: 'node foo.js -f argv.file',
         env: {FOO_FILE: 'env.file'},
-        expect: { file: 'argv.file', _args: [] }
+        expect: {file: 'argv.file', _args: []}
     },
 
     {
-        options: [ {
-            names: ['verbose', 'v'],
-            env: 'FOO_VERBOSE',
-            'default': false,
-            type: 'bool'
-        } ],
+        options: [
+            {
+                names: ['verbose', 'v'],
+                env: 'FOO_VERBOSE',
+                default: false,
+                type: 'bool'
+            }
+        ],
         argv: 'node foo.js',
-        expect: { verbose: false, _args: [] }
+        expect: {verbose: false, _args: []}
     },
     {
-        options: [ {
-            names: ['verbose', 'v'],
-            env: 'FOO_VERBOSE',
-            'default': false,
-            type: 'bool'
-        } ],
+        options: [
+            {
+                names: ['verbose', 'v'],
+                env: 'FOO_VERBOSE',
+                default: false,
+                type: 'bool'
+            }
+        ],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: '1'},
-        expect: { verbose: true, _args: [] }
+        expect: {verbose: true, _args: []}
     },
     {
-        options: [ {
-            names: ['verbose', 'v'],
-            env: 'FOO_VERBOSE',
-            'default': false,
-            type: 'bool'
-        } ],
+        options: [
+            {
+                names: ['verbose', 'v'],
+                env: 'FOO_VERBOSE',
+                default: false,
+                type: 'bool'
+            }
+        ],
         argv: 'node foo.js',
         env: {FOO_VERBOSE: '0'},
-        expect: { verbose: false, _args: [] }
+        expect: {verbose: false, _args: []}
     },
     {
-        options: [ {
-            names: ['verbose', 'v'],
-            env: 'FOO_VERBOSE',
-            'default': false,
-            type: 'bool'
-        } ],
+        options: [
+            {
+                names: ['verbose', 'v'],
+                env: 'FOO_VERBOSE',
+                default: false,
+                type: 'bool'
+            }
+        ],
         argv: 'node foo.js -v',
         env: {FOO_VERBOSE: '0'},
-        expect: { verbose: true, _args: [] }
+        expect: {verbose: true, _args: []}
     },
 
     // unstrict
     {
-        options: [ {name: 'help', type: 'bool'} ],
+        options: [{name: 'help', type: 'bool'}],
         argv: 'node tool.js a --help -b --cheese',
         allowUnknown: true,
         expect: {
@@ -844,7 +855,10 @@ var cases = [
         }
     },
     {
-        options: [ {name: 'help', type: 'bool'}, {name: 'c', type: 'bool'} ],
+        options: [
+            {name: 'help', type: 'bool'},
+            {name: 'c', type: 'bool'}
+        ],
         argv: 'node tool.js a -bcd --cheese --help',
         allowUnknown: true,
         expect: {
@@ -855,70 +869,67 @@ var cases = [
 
     // date
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s',
-        /* JSSTYLED */
         expect: /do not have enough args for "-s" option/
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s notadate',
-        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "notadate"/
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 0',
-        expect: { start: new Date(0), _args: [] }
+        expect: {start: new Date(0), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 1',
-        expect: { start: new Date(1000), _args: [] }
+        expect: {start: new Date(1000), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 1396065084',
-        expect: { start: new Date(1396065084000), _args: [] }
+        expect: {start: new Date(1396065084000), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01',
-        expect: { start: new Date('2014-04-01'), _args: [] }
+        expect: {start: new Date('2014-04-01'), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T',
-        /* JSSTYLED */
         expect: /arg for "-s" is not a valid date format: "2014-04-01T"/
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T12:01:02',
-        expect: { start: new Date('2014-04-01T12:01:02Z'), _args: [] }
+        expect: {start: new Date('2014-04-01T12:01:02Z'), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T12:01:02Z',
-        expect: { start: new Date('2014-04-01T12:01:02Z'), _args: [] }
+        expect: {start: new Date('2014-04-01T12:01:02Z'), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T12:01:02.7',
-        expect: { start: new Date('2014-04-01T12:01:02.7Z'), _args: [] }
+        expect: {start: new Date('2014-04-01T12:01:02.7Z'), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01T12:01:02.456Z',
-        expect: { start: new Date('2014-04-01T12:01:02.456Z'), _args: [] }
+        expect: {start: new Date('2014-04-01T12:01:02.456Z'), _args: []}
     },
     {
-        options: [ {names: ['start', 's'], type: 'date'} ],
+        options: [{names: ['start', 's'], type: 'date'}],
         argv: 'node foo.js -s 2014-04-01t12:01:02.456z',
-        expect: { start: new Date('2014-04-01T12:01:02.456Z'), _args: [] }
+        expect: {start: new Date('2014-04-01T12:01:02.456Z'), _args: []}
     },
     {
-        options: [ {names: ['times', 't'], type: 'arrayOfDate'} ],
+        options: [{names: ['times', 't'], type: 'arrayOfDate'}],
         argv: 'node foo.js --times 1 -t 2 -t 2014-04-01',
         expect: {
             times: [
@@ -926,7 +937,8 @@ var cases = [
                 new Date(2000),
                 new Date('2014-04-01T00:00:00Z')
             ],
-            _args: [] }
+            _args: []
+        }
     },
 
     {
@@ -938,7 +950,7 @@ var cases = [
                 parseArg: parseYesNo
             }
         ],
-        options: [ {names: ['answer', 'a'], type: 'yesno'} ],
+        options: [{names: ['answer', 'a'], type: 'yesno'}],
         argv: 'node foo.js -a yes',
         expect: {
             answer: true,
@@ -954,7 +966,7 @@ var cases = [
                 parseArg: parseYesNo
             }
         ],
-        options: [ {names: ['answer', 'a'], type: 'yesno'} ],
+        options: [{names: ['answer', 'a'], type: 'yesno'}],
         argv: 'node foo.js -a no',
         expect: {
             answer: false,
@@ -966,30 +978,31 @@ var cases = [
     {
         options: [
             {
-              names: ['opt', 'o'],
-              type: 'string',
-              env: ['ENVVARIABLE'],
-              help: 'long help with\n  newlines' +
-                '\n  spaces\n  and such\nwill not render correctly'
+                names: ['opt', 'o'],
+                type: 'string',
+                env: ['ENVVARIABLE'],
+                help:
+                    'long help with\n  newlines' +
+                    '\n  spaces\n  and such\nwill not render correctly'
             },
             {
-              names: ['array', 'a'],
-              type: 'string',
-              helpWrap: false,
-              env: ['OTHERVARIABLE'],
-              help: 'long help with\n  newlines' +
-                '\n  spaces\n  and such\nwill render correctly'
+                names: ['array', 'a'],
+                type: 'string',
+                helpWrap: false,
+                env: ['OTHERVARIABLE'],
+                help:
+                    'long help with\n  newlines' +
+                    '\n  spaces\n  and such\nwill render correctly'
             },
             {
-              names: ['foo'],
-              type: 'string',
-              helpWrap: false,
-              env: ['FOOVAR']
+                names: ['foo'],
+                type: 'string',
+                helpWrap: false,
+                env: ['FOOVAR']
             }
         ],
         argv: 'node helpWrapTool.js --help',
-        helpOptions: { includeEnv: true },
-        /* BEGIN JSSTYLED */
+        helpOptions: {includeEnv: true},
         expectHelp: [
             /long help with newlines spaces and such will not render/,
             /\. Environment: ENVVARIABLE=ARG/,
@@ -1000,27 +1013,25 @@ var cases = [
             // Ensure FOOVAR env is on *first* line and not after a blank.
             /^ +--foo=ARG +Environment: FOOVAR=ARG$/m
         ]
-        /* END JSSTYLED */
     },
     {
         options: [
             {
-              names: ['array', 'a'],
-              type: 'string',
-              env: ['OTHERVARIABLE'],
-              help: 'long help with\n  newlines' +
-                '\n  spaces\n  and such\nwill render correctly'
+                names: ['array', 'a'],
+                type: 'string',
+                env: ['OTHERVARIABLE'],
+                help:
+                    'long help with\n  newlines' +
+                    '\n  spaces\n  and such\nwill render correctly'
             }
         ],
         argv: 'node helpWrapTool2.js --help',
-        helpOptions: { includeEnv: true, helpWrap: false },
-        /* BEGIN JSSTYLED */
+        helpOptions: {includeEnv: true, helpWrap: false},
         expectHelp: [
             /long help with$/m,
             /^ +newlines$/m,
-            /^ +Environment: OTHERVARIABLE=ARG/m,
+            /^ +Environment: OTHERVARIABLE=ARG/m
         ]
-        /* END JSSTYLED */
     },
 
     // hidden
@@ -1028,10 +1039,10 @@ var cases = [
         options: [
             {names: ['help', 'h'], type: 'bool'},
             {names: ['timeout', 't'], type: 'number', hidden: true},
-            {names: ['version'], type: 'bool'},
+            {names: ['version'], type: 'bool'}
         ],
         argv: 'node hidden-opts.js --help',
-        expectHelp: /-h, --help\n\s+--version/m,
+        expectHelp: /-h, --help\n\s+--version/m
     },
 
     // optionType.default
@@ -1045,7 +1056,7 @@ var cases = [
                 default: 'apple'
             }
         ],
-        options: [ {names: ['pie', 'p'], type: 'fruit'} ],
+        options: [{names: ['pie', 'p'], type: 'fruit'}],
         argv: 'node foo.js',
         expect: {
             pie: 'apple',
@@ -1075,12 +1086,10 @@ var cases = [
             includeEnv: true,
             includeDefault: true
         },
-        /* BEGIN JSSTYLED */
         expectHelp: [
-            /^  Filling:$/m,
-            / +Environment: FRUIT=<fruit>\. Default: "apple"/m,
+            /^ {2}Filling:$/m,
+            / +Environment: FRUIT=<fruit>\. Default: "apple"/m
         ]
-        /* END JSSTYLED */
     },
 
     // optionType.arrayFlatten
@@ -1095,23 +1104,23 @@ var cases = [
                 arrayFlatten: true
             }
         ],
-        options: [ {names: ['multi', 'm'], type: 'arrayOfCommaSepString'} ],
+        options: [{names: ['multi', 'm'], type: 'arrayOfCommaSepString'}],
         argv: 'node foo.js -m a,b -m c,d,,',
         expect: {
             multi: ['a', 'b', 'c', 'd'],
             _args: []
         }
-    },
+    }
 ];
 
-cases.forEach(function (c, num) {
+cases.forEach(function onTest(c, num) {
     var expect = c.expect;
     delete c.expect;
     var expectHelps = c.expectHelp;
     if (!Array.isArray(expectHelps)) {
         expectHelps = expectHelps ? [expectHelps] : [];
         for (var i = 0; i < expectHelps.length; i++) {
-            if (typeof (expectHelps[i]) === 'string') {
+            if (typeof expectHelps[i] === 'string') {
                 expectHelps[i] = new RegExp(expectHelps[i]);
             }
         }
@@ -1121,14 +1130,14 @@ cases.forEach(function (c, num) {
     delete c.helpOptions;
     var argv = c.argv;
     delete c.argv;
-    if (typeof (argv) === 'string') {
+    if (typeof argv === 'string') {
         argv = argv.split(/\s+/);
     }
     var env = c.env;
     delete c.env;
     var envStr = '';
     if (env) {
-        Object.keys(env).forEach(function (e) {
+        Object.keys(env).forEach(function onE(e) {
             envStr += format('%s=%s ', e, env[e]);
         });
     }
@@ -1137,7 +1146,7 @@ cases.forEach(function (c, num) {
     if (optionTypes) {
         // WARNING: These are not removed for subsequent tests. That *could*
         // theoretically cause conflicts.
-        optionTypes.forEach(function (ot) {
+        optionTypes.forEach(function onOT(ot) {
             dashdash.addOptionType(ot);
         });
     }
@@ -1145,9 +1154,9 @@ cases.forEach(function (c, num) {
     if (TEST_FILTER && !~testName.indexOf(TEST_FILTER)) {
         return;
     }
-    test(testName, function (t) {
-        debug('--', num)
-        debug('c: %j', c)
+    test(testName, function onTest(t) {
+        debug('--', num);
+        debug('c: %j', c);
         var parser = new dashdash.Parser(c);
         var opts;
         if (expect instanceof RegExp) {
@@ -1156,9 +1165,14 @@ cases.forEach(function (c, num) {
                 opts = parser.parse({argv: argv, env: env});
             } catch (e) {
                 error = e;
-                t.ok(expect.test(e.message), format(
-                    'error message did not match %s: "%s"',
-                    expect, e.message));
+                t.ok(
+                    expect.test(e.message),
+                    format(
+                        'error message did not match %s: "%s"',
+                        expect,
+                        e.message
+                    )
+                );
             }
             t.ok(error, 'expected an error');
         } else if (expect) {
@@ -1166,14 +1180,16 @@ cases.forEach(function (c, num) {
             if (!expect._order) {
                 delete opts._order; // don't test it, if not in case data
             }
-            debug('opts: %j', opts)
+            debug('opts: %j', opts);
             t.deepEqual(opts, expect);
         }
         if (expectHelps.length) {
             var help = parser.help(helpOptions);
-            expectHelps.forEach(function (eH) {
-                t.ok(eH.test(help), format(
-                    'help did not match %s: "%s"', eH, help));
+            expectHelps.forEach(function onEH(eH) {
+                t.ok(
+                    eH.test(help),
+                    format('help did not match %s: "%s"', eH, help)
+                );
             });
         }
         t.end();
