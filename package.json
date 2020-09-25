@@ -18,7 +18,10 @@
         "url": "git://github.com/trentm/node-dashdash.git"
     },
     "main": "./lib/dashdash.js",
-    "files": ["lib", "etc"],
+    "files": [
+        "lib",
+        "etc"
+    ],
     "dependencies": {
         "assert-plus": "^1.0.0"
     },
