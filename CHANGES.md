@@ -15,6 +15,8 @@
   Dev changes:
     - Switch from nodeunit to node-tap for testing.
     - Switch from jsstyle to eslint for linting, and prettier for formatting.
+    - Prefix release tags with a "v", e.g. "v2.0.0", as is I think more typical
+      with other projects.
 
 ## 1.14.1
 
