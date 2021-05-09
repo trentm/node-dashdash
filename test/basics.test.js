@@ -1181,7 +1181,7 @@ cases.forEach(function onTest(c, num) {
                 delete opts._order; // don't test it, if not in case data
             }
             debug('opts: %j', opts);
-            t.deepEqual(opts, expect);
+            t.same(opts, expect);
         }
         if (expectHelps.length) {
             var help = parser.help(helpOptions);
