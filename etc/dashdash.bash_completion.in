@@ -71,10 +71,16 @@
 
 
 # Debugging this completion:
-#   1. Uncomment the "_{{name}}_log_file=..." line.
+#   1. Uncomment the "_log_file=..." line.
 #   2. 'tail -f /var/tmp/dashdash-completion.log' in one terminal.
 #   3. Re-source this bash completion file.
-#_{{name}}_log=/var/tmp/dashdash-completion.log
+
+function _{{name}}_completion_logfile {
+    local _log_file=/dev/null
+    #_log_file=/var/tmp/dashdash-completion.log
+    echo $_log_file
+}
+
 
 function _{{name}}_completer {
 
@@ -335,24 +341,20 @@ function _{{name}}_completer {
 # adapted from 'npm completion'.
 if type complete &>/dev/null; then
     function _{{name}}_completion {
-        local _log_file=/dev/null
-        [[ -z "$_{{name}}_log" ]] || _log_file="$_{{name}}_log"
         COMPREPLY=($(COMP_CWORD="$COMP_CWORD" \
             COMP_LINE="$COMP_LINE" \
             COMP_POINT="$COMP_POINT" \
             _{{name}}_completer -- "${COMP_WORDS[@]}" \
-            2>$_log_file)) || return $?
+            2>$(_{{name}}_completion_logfile))) || return $?
     }
     complete -o default -F _{{name}}_completion {{name}}
 elif type compdef &>/dev/null; then
     function _{{name}}_completion {
-        local _log_file=/dev/null
-        [[ -z "$_{{name}}_log" ]] || _log_file="$_{{name}}_log"
         compadd -- $(COMP_CWORD=$((CURRENT-1)) \
             COMP_LINE=$BUFFER \
             COMP_POINT=0 \
             _{{name}}_completer -- "${words[@]}" \
-            2>$_log_file)
+            2>$(_{{name}}_completion_logfile))
     }
     compdef _{{name}}_completion {{name}}
 elif type compctl &>/dev/null; then
@@ -363,13 +365,11 @@ elif type compctl &>/dev/null; then
         let cword-=1
         read -l line
         read -ln point
-        local _log_file=/dev/null
-        [[ -z "$_{{name}}_log" ]] || _log_file="$_{{name}}_log"
         reply=($(COMP_CWORD="$cword" \
             COMP_LINE="$line" \
             COMP_POINT="$point" \
             _{{name}}_completer -- "${words[@]}" \
-            2>$_log_file)) || return $?
+            2>$(_{{name}}_completion_logfile))) || return $?
     }
     compctl -K _{{name}}_completion {{name}}
 fi
